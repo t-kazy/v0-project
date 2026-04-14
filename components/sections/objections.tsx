@@ -1,35 +1,32 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { ChevronDown, ChevronUp, Banknote, Brain, Clock, Target, Users, FileCheck } from "lucide-react"
 import { CopyButton } from "@/components/copy-button"
-import { cn } from "@/lib/utils"
 
-const objectionCategories = [
+const categories = [
   {
     id: "cost",
-    name: "コスト",
+    name: "コスト・費用対効果",
     icon: Banknote,
-    color: "text-chart-1",
-    bgColor: "bg-chart-1/20",
+    accent: "border-l-amber-400",
+    iconBg: "bg-amber-50",
+    iconColor: "text-amber-600",
+    tag: "bg-amber-100 text-amber-700",
     objections: [
       {
-        objection: "予算が厳しい",
-        rebuttal: `「ご予算のご懸念、よく分かります。
-実は、助成金を活用すると実質1/4の費用で導入できます。
-例えば、通常40万円のところ、助成金適用後は10万円でスタートできます。
-さらに、導入後3ヶ月で投資回収できているお客様が多いです。」`,
-        closing: "具体的な費用対効果シミュレーションをお見せしましょうか？",
-      },
-      {
-        objection: "費用対効果が見えない",
-        rebuttal: `「ROIについてのご質問、ありがとうございます。
-当社の顧客データでは、平均して導入後6ヶ月で200%のROIを達成しています。
-具体的には、営業効率の向上で月20時間の工数削減、成約率15%向上が平均値です。
-御社の数字で試算してみましょうか？」`,
-        closing: "御社の現状数字を教えていただければ、具体的なシミュレーションをお出しできます。",
+        q: "費用感が心配です / 高いんじゃないですか？",
+        script: `「具体的な数字はお伝えしますが、
+まず前提として、現状の"見えていないコスト"を確認させてください。
+
+例えば、事務作業に今月スタッフが何時間使っていますか？
+それを時給換算すると、月にいくらになりますか？
+
+事務作業90%削減のケースでは、
+残業代が月○万円削減されたお客様もいます。
+投資対効果でお話しすることはできますよ。」`,
+        next: "料金表を見ながら、御社のケースで計算してみましょうか？",
+        tip: "助成金トーク必須：「この助成金は申請した500社すべて通っています。実質10万円/人で始められると思って聞いていただけると話がしやすいです。」",
       },
     ],
   },
@@ -37,49 +34,50 @@ const objectionCategories = [
     id: "literacy",
     name: "リテラシー不安",
     icon: Brain,
-    color: "text-chart-2",
-    bgColor: "bg-chart-2/20",
+    accent: "border-l-blue-400",
+    iconBg: "bg-blue-50",
+    iconColor: "text-blue-600",
+    tag: "bg-blue-100 text-blue-700",
     objections: [
       {
-        objection: "うちのスタッフには難しそう",
-        rebuttal: `「スタッフの方のITスキルへのご心配、もっともです。
-当社のソリューションは、スマホが使える方なら誰でも使えるように設計しています。
-実際に、平均年齢55歳の企業様でも、2週間で全員が基本操作をマスターしています。
-導入時には、個別のレベル別研修もご用意しています。」`,
-        closing: "デモで実際の操作感をお試しいただけますが、いかがでしょうか？",
-      },
-      {
-        objection: "社内に詳しい人がいない",
-        rebuttal: `「社内にIT担当者がいらっしゃらないのですね。
-実は、当社の顧客の60%以上が同じ状況でスタートしています。
-24時間対応のサポートチャットと、専任のカスタマーサクセス担当がつきますので、
-困ったときはいつでもサポートを受けられます。」`,
-        closing: "サポート体制の詳細をご説明しましょうか？",
+        q: "AIはよくわからなくて… / 社員が使いこなせるか不安",
+        script: `「わからなくて当然です。
+実は『AIがわからない』という状態の会社ほど、
+カクヤクAIXで劇的に変わっているんです。
+
+Eラーニングが全15章あって、
+ITリテラシーがゼロの方でも基礎から学べる設計になっています。
+さらに週次コンサル＋チャットサポートで、
+迷ったときにすぐ聞ける環境があります。
+
+継続利用率95%というのは、この仕組みがあるからです。」`,
+        next: "実際にITが苦手なスタッフが多い○○業の事例、よかったら見てみますか？",
       },
     ],
   },
   {
     id: "time",
-    name: "時間がない",
+    name: "時間・余裕がない",
     icon: Clock,
-    color: "text-chart-3",
-    bgColor: "bg-chart-3/20",
+    accent: "border-l-orange-400",
+    iconBg: "bg-orange-50",
+    iconColor: "text-orange-600",
+    tag: "bg-orange-100 text-orange-700",
     objections: [
       {
-        objection: "導入に時間がかけられない",
-        rebuttal: `「お忙しい中、導入時間のご懸念は当然です。
-当社は最短1週間での導入実績があります。
-設定のほとんどを当社側で行い、御社のご負担を最小限に抑えます。
-初期設定後は、1日30分のトレーニングを5日間だけで使い始められます。」`,
-        closing: "御社のスケジュールに合わせた導入プランをご提案しましょうか？",
-      },
-      {
-        objection: "今は繁忙期で無理",
-        rebuttal: `「繁忙期中とのこと、承知しました。
-むしろ繁忙期こそ、業務効率化の効果が大きく出る時期です。
-導入準備を今から始めて、繁忙期明けにスタートする方法もあります。
-または、繁忙期中でも負担なく進められるミニマム導入プランもございます。」`,
-        closing: "繁忙期明けを目標にしたスケジュールを組んでみましょうか？",
+        q: "今忙しくて新しいことを入れる余裕がない",
+        script: `「おっしゃる通り、忙しいですよね。
+ただ一つ確認させてください。
+
+忙しい理由は、もしかして事務作業や書類仕事が
+圧迫しているからじゃないですか？
+
+それを削減するためのサービスなので、
+忙しい今だからこそ意味があります。
+
+逆に言うと、忙しい今を放置すると、
+半年後も同じ忙しさが続くことになります。」`,
+        next: "導入初月から効果が出たケース、紹介してもいいですか？",
       },
     ],
   },
@@ -87,24 +85,22 @@ const objectionCategories = [
     id: "adoption",
     name: "定着不安",
     icon: Target,
-    color: "text-chart-4",
-    bgColor: "bg-chart-4/20",
+    accent: "border-l-green-400",
+    iconBg: "bg-green-50",
+    iconColor: "text-green-600",
+    tag: "bg-green-100 text-green-700",
     objections: [
       {
-        objection: "以前も似たツールを入れたが定着しなかった",
-        rebuttal: `「過去のご経験から、定着への不安をお持ちなのですね。
-当社の継続率は95%以上で、定着に特化したプログラムを用意しています。
-定着しなかった原因を分析し、個別にカスタマイズしたオンボーディングを実施します。
-定着までの90日間は、週次でフォローアップミーティングを行います。」`,
-        closing: "過去の導入で何が問題だったか、詳しくお聞かせいただけますか？",
-      },
-      {
-        objection: "現場が使わなくなりそう",
-        rebuttal: `「現場への定着は、確かに重要なポイントですね。
-当社は「使わざるを得ない」設計ではなく「使いたくなる」設計を重視しています。
-ゲーミフィケーション要素や、使うことで仕事が楽になる体験設計で、
-自然と定着する仕組みを組み込んでいます。」`,
-        closing: "実際に定着に成功した企業の事例をご紹介しましょうか？",
+        q: "ツール入れても使わなくなりそう / 以前DXが失敗した",
+        script: `「そのご心配は正しいです。
+というより、失敗したDXのほとんどが
+『ツールを入れること』をゴールにしているからです。
+
+私たちは3ヶ月の定着プログラムで
+週1の進捗確認＋平日チャットサポートを提供しています。
+やって終わり、ではなく使える状態まで責任をもって伴走します。
+だから継続利用率が95%なんです。」`,
+        next: "3ヶ月後のゴールイメージ、一緒に描いてみましょうか？",
       },
     ],
   },
@@ -112,138 +108,139 @@ const objectionCategories = [
     id: "competitor",
     name: "競合比較",
     icon: Users,
-    color: "text-chart-5",
-    bgColor: "bg-chart-5/20",
+    accent: "border-l-purple-400",
+    iconBg: "bg-purple-50",
+    iconColor: "text-purple-600",
+    tag: "bg-purple-100 text-purple-700",
     objections: [
       {
-        objection: "他社と比較検討中",
-        rebuttal: `「比較検討されているのは、良いご判断だと思います。
-当社の強みは3つ：日本語に特化したAI、充実したサポート体制、助成金活用サポートです。
-特に、他社では対応していない助成金申請のサポートまで一貫して行っています。
-比較のポイントをお伝えしますので、ぜひフラットにご検討ください。」`,
-        closing: "他社様との比較表をお作りしましょうか？",
-      },
-      {
-        objection: "もっと安いサービスがある",
-        rebuttal: `「価格面でのご検討、ありがとうございます。
-確かに、単純な価格だけを見ると、より安いサービスもあります。
-ただ、トータルコストで見ると、サポート費用、カスタマイズ費用、定着までの時間コストを含めると、
-当社が最も費用対効果が高いとお選びいただくケースが多いです。」`,
-        closing: "5年間のトータルコスト比較をお見せしましょうか？",
+        q: "他社も検討しています",
+        script: `「ぜひ比較検討してください。
+ただ一点だけ確認させてください。
+
+他社の提案は『ツールの提供』ですか、
+それとも『定着まで伴走』するものですか？
+
+多くのAIツールはツールの提供で終わりです。
+私たちは3ヶ月の伴走支援で、
+実際に使える状態まで責任を持つところが違います。」`,
+        next: "比較のポイントを整理したシートがあるので、確認しますか？",
       },
     ],
   },
   {
     id: "approval",
-    name: "稟議",
+    name: "稟議・決裁",
     icon: FileCheck,
-    color: "text-primary",
-    bgColor: "bg-primary/20",
+    accent: "border-l-slate-400",
+    iconBg: "bg-slate-50",
+    iconColor: "text-slate-600",
+    tag: "bg-slate-100 text-slate-700",
     objections: [
       {
-        objection: "上に相談しないと決められない",
-        rebuttal: `「決裁者の方へのご相談が必要とのこと、承知しました。
-稟議を通しやすくするための資料一式をご用意しています。
-ROI試算、導入実績、FAQ集など、決裁者の方の疑問にお答えできる資料です。
-よろしければ、決裁者の方への説明にも同席させていただけますか？」`,
-        closing: "稟議用の資料を、御社向けにカスタマイズしてお送りしましょうか？",
-      },
-      {
-        objection: "社内の合意形成が難しい",
-        rebuttal: `「関係者の方々の合意形成、大切なポイントですね。
-当社では、キーパーソンの方々向けの個別説明会も対応しています。
-各部門の懸念点に合わせた説明ができますので、スムーズな合意形成をサポートします。
-また、スモールスタートで効果を実証してから全社展開する方法もあります。」`,
-        closing: "関係者の方々の一覧をいただければ、それぞれに合わせた資料を用意します。",
+        q: "社内稟議が必要で… / 私一人では決められない",
+        script: `「もちろんです。稟議が必要なのは当然のことです。
+一つお手伝いできることがあります。
+
+稟議を通すために必要な情報、一緒に整理しましょう。
+・導入の目的と期待効果
+・費用と投資回収期間の試算
+・他社事例・継続率などの根拠数字
+
+この3点が揃えば稟議は通りやすいです。
+次のアクションとして、資料の叩き台を作りましょうか？」`,
+        next: "決裁者の方も交えて、もう一度打ち合わせの機会をいただけますか？",
       },
     ],
   },
 ]
 
 export function ObjectionsSection() {
-  const [expandedCategory, setExpandedCategory] = useState<string | null>("cost")
-
-  const toggleCategory = (id: string) => {
-    setExpandedCategory(expandedCategory === id ? null : id)
-  }
+  const [expanded, setExpanded] = useState<string | null>("cost")
 
   return (
-    <div className="space-y-3">
-      {objectionCategories.map((category) => {
-        const isExpanded = expandedCategory === category.id
-        const Icon = category.icon
+    <div className="space-y-2">
+
+      {/* Header tip */}
+      <div className="bg-orange-50 border border-orange-100 rounded-xl px-4 py-2.5 flex items-center gap-2">
+        <span className="text-lg">💡</span>
+        <p className="text-[11px] text-orange-700 font-medium leading-snug">
+          反論が来たら「そうですよね」と一度受け止めてから切り返す。否定は禁止。
+        </p>
+      </div>
+
+      {/* Accordion */}
+      {categories.map((cat) => {
+        const isOpen = expanded === cat.id
+        const Icon = cat.icon
 
         return (
-          <Card
-            key={category.id}
-            className={cn(
-              "transition-all duration-200",
-              isExpanded && "ring-1 ring-primary/50"
-            )}
+          <div
+            key={cat.id}
+            className={`bg-white rounded-2xl border shadow-sm overflow-hidden transition-all duration-200 ${
+              isOpen ? "border-slate-300" : "border-slate-200"
+            }`}
           >
-            <CardHeader
-              className="pb-2 cursor-pointer"
-              onClick={() => toggleCategory(category.id)}
+            {/* Category header — min 44px touch target */}
+            <button
+              onClick={() => setExpanded(isOpen ? null : cat.id)}
+              className="w-full flex items-center justify-between px-4 py-3.5 min-h-[56px] text-left"
             >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center", category.bgColor)}>
-                    <Icon className={cn("w-5 h-5", category.color)} />
+              <div className="flex items-center gap-3">
+                <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${cat.iconBg}`}>
+                  <Icon className={`w-4.5 h-4.5 ${cat.iconColor}`} />
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-slate-800">{cat.name}</p>
+                  <p className="text-[10px] text-slate-400">{cat.objections.length}パターン収録</p>
+                </div>
+              </div>
+              <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${isOpen ? "bg-slate-800" : "bg-slate-100"}`}>
+                {isOpen
+                  ? <ChevronUp className="w-4 h-4 text-white" />
+                  : <ChevronDown className="w-4 h-4 text-slate-500" />
+                }
+              </div>
+            </button>
+
+            {/* Expanded content */}
+            {isOpen && cat.objections.map((obj, idx) => (
+              <div key={idx} className={`border-t border-slate-100 border-l-4 ${cat.accent}`}>
+                {/* Objection bubble */}
+                <div className="px-4 pt-4 pb-3">
+                  <div className={`inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-full mb-2 ${cat.tag}`}>
+                    <span>反論</span>
                   </div>
-                  <div>
-                    <CardTitle className="text-base">{category.name}</CardTitle>
-                    <span className="text-xs text-muted-foreground">
-                      {category.objections.length}件の反論パターン
-                    </span>
+                  <p className="text-sm font-bold text-slate-800">「{obj.q}」</p>
+                </div>
+
+                {/* Rebuttal script */}
+                <div className="px-4 pb-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">切り返しスクリプト</span>
+                    <CopyButton text={obj.script} />
+                  </div>
+                  <div className="bg-slate-50 border border-slate-100 rounded-xl p-3.5">
+                    <p className="text-xs text-slate-700 leading-relaxed whitespace-pre-wrap font-mono">{obj.script}</p>
                   </div>
                 </div>
-                {isExpanded ? (
-                  <ChevronUp className="w-5 h-5 text-muted-foreground" />
-                ) : (
-                  <ChevronDown className="w-5 h-5 text-muted-foreground" />
+
+                {/* Next one-liner */}
+                <div className="mx-4 mb-3 bg-blue-50 border border-blue-100 rounded-xl p-3 flex items-start gap-2">
+                  <span className="text-[10px] font-black text-blue-600 bg-blue-100 px-1.5 py-0.5 rounded flex-shrink-0 mt-0.5">次の一言</span>
+                  <p className="text-xs text-blue-800 leading-snug">{obj.next}</p>
+                </div>
+
+                {/* Tip (optional) */}
+                {"tip" in obj && obj.tip && (
+                  <div className="mx-4 mb-4 bg-amber-50 border border-amber-100 rounded-xl p-3 flex items-start gap-2">
+                    <span className="text-sm flex-shrink-0">⚡</span>
+                    <p className="text-[11px] text-amber-800 leading-snug">{obj.tip}</p>
+                  </div>
                 )}
               </div>
-            </CardHeader>
-
-            {isExpanded && (
-              <CardContent className="space-y-4">
-                {category.objections.map((obj, index) => (
-                  <div key={index} className="space-y-3">
-                    {index > 0 && <hr className="border-border" />}
-                    
-                    {/* Objection Header */}
-                    <div className="flex items-center gap-2">
-                      <Badge variant="outline" className="bg-destructive/10 text-destructive border-destructive/30">
-                        反論
-                      </Badge>
-                      <span className="font-medium">「{obj.objection}」</span>
-                    </div>
-
-                    {/* Rebuttal Script */}
-                    <div>
-                      <div className="flex items-center justify-between mb-2">
-                        <Badge variant="outline" className="bg-accent/10 text-accent border-accent/30">
-                          切り返し
-                        </Badge>
-                        <CopyButton text={obj.rebuttal} />
-                      </div>
-                      <div className="bg-secondary rounded-lg p-4 font-mono text-sm whitespace-pre-wrap">
-                        {obj.rebuttal}
-                      </div>
-                    </div>
-
-                    {/* Closing One-liner */}
-                    <div className="bg-primary/10 rounded-lg p-3 flex items-start gap-2">
-                      <Badge variant="outline" className="bg-primary/10 text-primary border-primary/30 shrink-0">
-                        クロージング
-                      </Badge>
-                      <span className="text-sm">{obj.closing}</span>
-                    </div>
-                  </div>
-                ))}
-              </CardContent>
-            )}
-          </Card>
+            ))}
+          </div>
         )
       })}
     </div>

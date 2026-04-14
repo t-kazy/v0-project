@@ -1,199 +1,203 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { RotateCcw, Calendar, Mail } from "lucide-react"
+import { RotateCcw, Calendar, Mail, ClipboardList, ArrowRight, Flame } from "lucide-react"
 import { CopyButton } from "@/components/copy-button"
 
 const checklistCategories = [
   {
-    title: "商談内容の記録",
+    title: "基本記録",
+    icon: ClipboardList,
+    iconBg: "bg-blue-50",
+    iconColor: "text-blue-600",
     items: [
-      { id: "customer-needs", label: "顧客のニーズを記録した", input: true },
-      { id: "objections", label: "出た反論と対応を記録した", input: true },
-      { id: "decision-maker", label: "決裁者情報を確認した", input: true },
-      { id: "budget", label: "予算感を確認した", input: true },
+      { id: "industry", label: "業種・従業員規模", input: true, placeholder: "例：建設業・30名" },
+      { id: "decision", label: "決裁者かどうか確認した", input: false },
+      { id: "issues", label: "主な課題（3つ以内）を記録した", input: true, placeholder: "例：属人化、事務作業過多" },
+      { id: "literacy", label: "ITリテラシー感（高/中/低）を把握した", input: false },
+      { id: "product", label: "提案サービスを記録した", input: false },
+      { id: "objections", label: "出た反論・懸念を記録した", input: true, placeholder: "例：費用感、稟議が必要" },
     ],
   },
   {
-    title: "次回アクション",
+    title: "温度感",
+    icon: Flame,
+    iconBg: "bg-orange-50",
+    iconColor: "text-orange-600",
     items: [
-      { id: "next-meeting", label: "次回商談日程を確認した", input: false },
-      { id: "proposal", label: "提案書の送付予定を伝えた", input: false },
-      { id: "trial", label: "トライアル/デモの予定を設定した", input: false },
-      { id: "contact-info", label: "担当者の連絡先を確認した", input: false },
+      { id: "heat-high", label: "◎ 即決 / 前向き", input: false },
+      { id: "heat-mid", label: "△ 検討中（フォロー必要）", input: false },
+      { id: "heat-low", label: "× 今回はなし", input: false },
     ],
   },
   {
-    title: "社内共有",
+    title: "次のアクション",
+    icon: ArrowRight,
+    iconBg: "bg-green-50",
+    iconColor: "text-green-600",
     items: [
-      { id: "crm-update", label: "CRM/SFAに情報を入力した", input: false },
-      { id: "manager-report", label: "上長に報告した", input: false },
-      { id: "team-share", label: "チームに共有した", input: false },
+      { id: "next-action", label: "合意した次のアクションを記録した", input: true, placeholder: "例：来週木曜 詳細プランを確認" },
+      { id: "thank-you", label: "お礼LINE/メール送信（30分以内）", input: false },
+      { id: "minutes", label: "議事録・提案要点まとめを送った", input: false },
     ],
   },
 ]
 
-const thankYouTemplate = `〇〇様
-
-本日は貴重なお時間をいただき、誠にありがとうございました。
-
-商談でお話しした内容を改めて整理いたしました。
-
-【本日のポイント】
-・御社の課題：〇〇
-・ご提案したソリューション：〇〇
-・期待される効果：〇〇
-
-【次のステップ】
-・〇〇（日程：〇月〇日）
-
-ご不明点がございましたら、お気軽にお問い合わせください。
-引き続きどうぞよろしくお願いいたします。
-
-〇〇株式会社
-〇〇`
+const thankYouTemplate = `本日はお時間をいただきありがとうございました。
+おっしゃっていた○○の課題について、
+参考になりそうな事例資料をお送りします。
+引き続きよろしくお願いいたします。`
 
 export function PostMeetingSection() {
-  const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({})
-  const [inputValues, setInputValues] = useState<Record<string, string>>({})
-  const [nextActionDate, setNextActionDate] = useState("")
-  const [nextActionNote, setNextActionNote] = useState("")
+  const [checked, setChecked] = useState<Record<string, boolean>>({})
+  const [inputs, setInputs] = useState<Record<string, string>>({})
+  const [nextDate, setNextDate] = useState("")
+  const [nextNote, setNextNote] = useState("")
 
-  const handleCheckChange = (id: string, checked: boolean) => {
-    setCheckedItems((prev) => ({ ...prev, [id]: checked }))
-  }
+  const toggleCheck = (id: string, val: boolean) =>
+    setChecked((p) => ({ ...p, [id]: val }))
 
-  const handleInputChange = (id: string, value: string) => {
-    setInputValues((prev) => ({ ...prev, [id]: value }))
-  }
+  const setInput = (id: string, val: string) =>
+    setInputs((p) => ({ ...p, [id]: val }))
 
   const resetAll = () => {
-    setCheckedItems({})
-    setInputValues({})
-    setNextActionDate("")
-    setNextActionNote("")
+    setChecked({})
+    setInputs({})
+    setNextDate("")
+    setNextNote("")
   }
 
-  const totalItems = checklistCategories.reduce(
-    (acc, category) => acc + category.items.length,
-    0
-  )
-  const completedItems = Object.values(checkedItems).filter(Boolean).length
+  const totalItems = checklistCategories.reduce((a, c) => a + c.items.length, 0)
+  const doneCount = Object.values(checked).filter(Boolean).length
+  const progress = (doneCount / totalItems) * 100
 
   return (
     <div className="space-y-4">
-      {/* Progress Overview */}
-      <Card className="bg-secondary/50">
-        <CardContent className="py-4">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-muted-foreground">チェックリスト進捗</span>
-            <span className="text-sm font-medium">{completedItems} / {totalItems}</span>
-          </div>
-          <div className="h-2 bg-border rounded-full overflow-hidden">
-            <div
-              className="h-full bg-accent transition-all duration-300"
-              style={{ width: `${(completedItems / totalItems) * 100}%` }}
-            />
-          </div>
-        </CardContent>
-      </Card>
 
-      {/* Checklist Sections */}
-      {checklistCategories.map((category, categoryIndex) => (
-        <Card key={categoryIndex}>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base">{category.title}</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {category.items.map((item) => (
-              <div key={item.id} className="space-y-2">
-                <label className="flex items-center gap-3 p-2 rounded-lg hover:bg-secondary/50 cursor-pointer transition-colors">
-                  <Checkbox
-                    checked={checkedItems[item.id] || false}
-                    onCheckedChange={(checked) => handleCheckChange(item.id, checked as boolean)}
-                  />
-                  <span className={checkedItems[item.id] ? "line-through text-muted-foreground" : ""}>
-                    {item.label}
-                  </span>
-                </label>
-                {item.input && checkedItems[item.id] && (
-                  <Input
-                    placeholder="メモを入力..."
-                    value={inputValues[item.id] || ""}
-                    onChange={(e) => handleInputChange(item.id, e.target.value)}
-                    className="ml-9"
-                  />
-                )}
+      {/* ===== PROGRESS ===== */}
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-4">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-xs font-bold text-slate-700">チェックリスト進捗</span>
+          <span className="text-xs font-black text-green-600">{doneCount} / {totalItems}</span>
+        </div>
+        <div className="h-2.5 bg-slate-100 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-gradient-to-r from-green-400 to-emerald-500 rounded-full transition-all duration-400"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+        {doneCount === totalItems && (
+          <p className="text-[10px] text-green-600 font-bold mt-2 text-center">
+            完了！次の商談の準備ができています 🎯
+          </p>
+        )}
+      </div>
+
+      {/* ===== CHECKLIST CATEGORIES ===== */}
+      {checklistCategories.map((cat, ci) => {
+        const Icon = cat.icon
+        return (
+          <div key={ci} className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div className={`flex items-center gap-2.5 px-4 py-3 border-b border-slate-100`}>
+              <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${cat.iconBg}`}>
+                <Icon className={`w-3.5 h-3.5 ${cat.iconColor}`} />
               </div>
-            ))}
-          </CardContent>
-        </Card>
-      ))}
-
-      {/* Next Action */}
-      <Card className="border-primary/30">
-        <CardHeader className="pb-2">
-          <div className="flex items-center gap-2">
-            <Calendar className="w-5 h-5 text-primary" />
-            <CardTitle className="text-base">次回アクション</CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="next-date">予定日</Label>
-            <Input
-              id="next-date"
-              type="date"
-              value={nextActionDate}
-              onChange={(e) => setNextActionDate(e.target.value)}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="next-note">アクション内容</Label>
-            <Textarea
-              id="next-note"
-              placeholder="次回のアクション内容を入力..."
-              value={nextActionNote}
-              onChange={(e) => setNextActionNote(e.target.value)}
-              rows={3}
-            />
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Thank You Template */}
-      <Card>
-        <CardHeader className="pb-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Mail className="w-5 h-5 text-primary" />
-              <CardTitle className="text-base">お礼メールテンプレート</CardTitle>
+              <h3 className="text-sm font-bold text-slate-800">{cat.title}</h3>
             </div>
-            <CopyButton text={thankYouTemplate} />
+            <div className="divide-y divide-slate-50">
+              {cat.items.map((item) => (
+                <div key={item.id}>
+                  <label className={`flex items-center gap-3 px-4 min-h-[48px] cursor-pointer transition-colors ${
+                    checked[item.id] ? "bg-green-50/50" : "hover:bg-slate-50"
+                  }`}>
+                    <Checkbox
+                      checked={checked[item.id] || false}
+                      onCheckedChange={(v) => toggleCheck(item.id, v as boolean)}
+                      className="border-slate-300 data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500 flex-shrink-0"
+                    />
+                    <span className={`text-sm py-3 flex-1 leading-snug ${
+                      checked[item.id] ? "line-through text-slate-400" : "text-slate-700"
+                    }`}>
+                      {item.label}
+                    </span>
+                  </label>
+                  {"input" in item && item.input && checked[item.id] && (
+                    <div className="px-4 pb-3">
+                      <Input
+                        placeholder={item.placeholder || "メモを入力..."}
+                        value={inputs[item.id] || ""}
+                        onChange={(e) => setInput(item.id, e.target.value)}
+                        className="h-9 text-xs border-slate-200 bg-slate-50 ml-7"
+                      />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
-        </CardHeader>
-        <CardContent>
-          <div className="bg-secondary rounded-lg p-4 font-mono text-sm whitespace-pre-wrap max-h-[300px] overflow-y-auto">
-            {thankYouTemplate}
-          </div>
-        </CardContent>
-      </Card>
+        )
+      })}
 
-      {/* Reset Button */}
-      <Button
-        variant="outline"
-        className="w-full gap-2 border-destructive/30 text-destructive hover:bg-destructive/10"
+      {/* ===== NEXT ACTION DATE ===== */}
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div className="flex items-center gap-2.5 px-4 py-3 border-b border-slate-100">
+          <div className="w-7 h-7 rounded-lg bg-blue-50 flex items-center justify-center">
+            <Calendar className="w-3.5 h-3.5 text-blue-600" />
+          </div>
+          <h3 className="text-sm font-bold text-slate-800">次のアクション詳細</h3>
+        </div>
+        <div className="p-4 space-y-3">
+          <div className="space-y-1.5">
+            <Label className="text-xs text-slate-600 font-bold">期日</Label>
+            <Input
+              type="date"
+              value={nextDate}
+              onChange={(e) => setNextDate(e.target.value)}
+              className="h-11 border-slate-200 bg-slate-50 text-sm"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label className="text-xs text-slate-600 font-bold">アクション内容</Label>
+            <Textarea
+              placeholder="次回のアクション内容を入力..."
+              value={nextNote}
+              onChange={(e) => setNextNote(e.target.value)}
+              rows={3}
+              className="border-slate-200 bg-slate-50 text-sm resize-none"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* ===== THANK YOU TEMPLATE ===== */}
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100">
+          <div className="flex items-center gap-2.5">
+            <div className="w-7 h-7 rounded-lg bg-slate-50 flex items-center justify-center">
+              <Mail className="w-3.5 h-3.5 text-slate-600" />
+            </div>
+            <h3 className="text-sm font-bold text-slate-800">お礼メッセージテンプレート</h3>
+          </div>
+          <CopyButton text={thankYouTemplate} />
+        </div>
+        <div className="m-4 border-l-4 border-slate-300 pl-4">
+          <p className="text-xs text-slate-600 leading-relaxed font-mono whitespace-pre-wrap">{thankYouTemplate}</p>
+        </div>
+      </div>
+
+      {/* ===== RESET BUTTON ===== */}
+      <button
         onClick={resetAll}
+        className="w-full flex items-center justify-center gap-2 min-h-[48px] rounded-xl border-2 border-dashed border-red-200 text-red-500 text-sm font-bold hover:bg-red-50 transition-colors"
       >
         <RotateCcw className="w-4 h-4" />
         次の商談のためにリセット
-      </Button>
+      </button>
+
     </div>
   )
 }

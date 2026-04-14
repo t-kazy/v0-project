@@ -1,204 +1,197 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { CopyButton } from "@/components/copy-button"
+import { Zap, Shield, Layers } from "lucide-react"
 
 const scripts = {
   uriage: {
     title: "ウリアゲAIX",
-    badge: "営業強化",
-    script: `【オープニング】
-「本日は貴重なお時間をいただきありがとうございます。
-ウリアゲAIXは、AIを活用して営業チームの生産性を飛躍的に向上させるソリューションです。」
+    sub: "営業・売上特化（攻）",
+    icon: Zap,
+    accentColor: "border-orange-400",
+    badgeBg: "bg-orange-50",
+    badgeText: "text-orange-700",
+    badgeBorder: "border-orange-200",
+    headerBg: "from-orange-500 to-red-500",
+    script: `先ほどおっしゃっていた
+"トップ営業がいないと数字が出ない"という課題、
+多くの会社で聞く話です。
 
-【価値提案】
-「御社の営業課題を解決するために、以下の3つの機能をご提供します：
+原因はシンプルで、『営業のノウハウが人の頭の中にある』からなんです。
 
-1. AIによる商談分析
-   - 商談の録音・文字起こしを自動化
-   - 成功パターンの抽出と共有
-   - 新人教育の効率化
+ウリアゲAIXは、その営業フロー全体を
+12種のAIエージェントに分業させるプログラムです。
 
-2. 見込み客スコアリング
-   - 過去データからの成約確度予測
-   - 優先順位の自動提案
-   - 追客タイミングの最適化
+例えば商談準備、今どのくらい時間かけていますか？（→ 回答を聞く）
 
-3. パーソナライズド提案書
-   - 顧客に合わせた提案書の自動生成
-   - 業界・規模別のテンプレート
-   - 競合比較資料の自動更新」
+それがAIで5分になります。
+日報・議事録も自動生成。提案書も顧客情報から自動作成。
 
-【クロージング】
-「導入企業の平均で、営業効率が40%向上、成約率が25%アップしています。
-まずは2週間の無料トライアルから始めてみませんか？」`,
+結果として、売上・利益が最大3倍。
+事務作業は最大90%削減されています。
+
+3ヶ月の定着プログラムで、週1の進捗確認＋平日チャットサポートで、
+実際に使える状態まで責任をもって伴走します。
+だから継続利用率が95%なんです。`,
   },
   kakuyaku: {
     title: "カクヤクAIX",
-    badge: "DX定着",
-    script: `【オープニング】
-「本日は貴重なお時間をいただきありがとうございます。
-カクヤクAIXは、社内のDX推進と定着を支援するAIプラットフォームです。」
+    sub: "組織変革・DX定着（守）",
+    icon: Shield,
+    accentColor: "border-blue-500",
+    badgeBg: "bg-blue-50",
+    badgeText: "text-blue-700",
+    badgeBorder: "border-blue-200",
+    headerBg: "from-blue-600 to-blue-800",
+    script: `以前DXを試みたけど定着しなかった、とおっしゃっていましたよね。
+本当に多いんです、そのパターン。
 
-【価値提案】
-「御社のDX課題を解決するために、以下の3つの機能をご提供します：
+なぜかというと、ほとんどの会社が
+"ツールを入れること"をゴールにしてしまうからです。
 
-1. パーソナライズド学習
-   - 個人のITスキルレベルに合わせた学習コンテンツ
-   - 業務に直結した実践的なカリキュラム
-   - 進捗の可視化とモチベーション管理
+カクヤクAIXは、AIを『習慣』に変えることにフォーカスしています。
+『思考・実行・改善』の3つの習慣を組織にインストールするイメージです。
 
-2. AIアシスタント
-   - 24時間対応のチャットサポート
-   - 操作方法の即座なガイド
-   - よくある質問への自動回答
+Eラーニングが全15章あって、ITリテラシーが低い方でも
+基礎から段階的にステップアップできる設計になっています。
+なので『うちの社員に使えるか不安』という心配は、
+まずそこで解消できます。
 
-3. 組織全体の定着支援
-   - 部署別の習熟度ダッシュボード
-   - つまずきポイントの早期発見
-   - マネージャー向けサポートツール」
+さらに週次のグループコンサル＋個別サポート＋チャットサポートで、
+学んで終わりにしない仕組みにしています。
 
-【クロージング】
-「導入企業では、DXツールの定着率が平均で3倍に向上しています。
-御社の状況に合わせたプランをご提案させてください。」`,
+ツールではなく、組織そのものが変わる。それがカクヤクAIXです。`,
   },
   both: {
     title: "両方の場合",
-    badge: "フルパッケージ",
-    script: `【オープニング】
-「本日は貴重なお時間をいただきありがとうございます。
-御社には、営業強化とDX定着の両面から支援できるソリューションをご提案します。」
+    sub: "攻×守 — 振り分けトーク",
+    icon: Layers,
+    accentColor: "border-slate-400",
+    badgeBg: "bg-slate-50",
+    badgeText: "text-slate-700",
+    badgeBorder: "border-slate-200",
+    headerBg: "from-slate-600 to-slate-800",
+    script: `お話を聞いていて、2つの方向性があると思っています。
 
-【統合提案】
-「ウリアゲAIXとカクヤクAIXを組み合わせることで、
-営業部門の強化と、全社的なDX定着を同時に実現できます。
+営業の数字をすぐ上げたいなら → ウリアゲAIX
+組織全体を長期的に変えたいなら → カクヤクAIX
 
-【相乗効果】
-1. 営業チームへの展開をスムーズに
-   - カクヤクAIXで営業ツールの使い方を全員がマスター
-   - ウリアゲAIXで営業活動の質を向上
+どちらが今の優先度が高いですか？（→ 相手に選ばせる）
 
-2. データの一元管理
-   - 両システムの連携で、学習データと営業データを統合
-   - より精度の高いAI分析が可能に
-
-3. コスト効率
-   - セット導入で20%のディスカウント
-   - サポート窓口の一本化で管理コスト削減」
-
-【クロージング】
-「まずはどちらから始めるか、御社の優先順位に合わせてご提案いたします。
-今の一番の課題は、営業力強化とDX定着、どちらでしょうか？」`,
+もちろん両方という選択肢もありますし、
+段階的に始めるやり方もあります。`,
   },
 }
 
-const literacyCheatsheet = [
+const literacyItems = [
   {
     level: "高",
-    description: "IT部門・エンジニア",
-    approach: "技術的な詳細、API連携、カスタマイズ性を強調",
-    keywords: "「拡張性」「インテグレーション」「セキュリティ」",
+    badge: "bg-blue-100 text-blue-700",
+    target: "IT部門・エンジニア・経営者",
+    approach: "機能・仕組み・ROIで語る",
+    keywords: "「拡張性」「API」「ROI」「セキュリティ」",
   },
   {
     level: "低",
-    description: "現場スタッフ・シニア層",
-    approach: "簡単さ、サポート体制、具体的な操作手順を説明",
+    badge: "bg-green-100 text-green-700",
+    target: "現場スタッフ・シニア層",
+    approach: "事例・Before/After・安心感で語る",
     keywords: "「かんたん」「サポート充実」「すぐ使える」",
   },
   {
     level: "混在",
-    description: "部署混合・全社導入",
-    approach: "段階的な導入、レベル別研修、管理者向け機能を紹介",
+    badge: "bg-orange-100 text-orange-700",
+    target: "全社員対象・部署混合",
+    approach: "「社員が使いこなせるか？」に正面から答える",
     keywords: "「段階的」「レベル別」「見える化」",
   },
 ]
 
 export function TalkScriptsSection() {
-  const [activeTab, setActiveTab] = useState("uriage")
+  const [activeTab, setActiveTab] = useState<keyof typeof scripts>("uriage")
+  const current = scripts[activeTab]
+  const Icon = current.icon
 
   return (
     <div className="space-y-4">
-      {/* Script Cards */}
-      <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="w-full grid grid-cols-3">
-          <TabsTrigger value="uriage" className="text-xs">ウリアゲ</TabsTrigger>
-          <TabsTrigger value="kakuyaku" className="text-xs">カクヤク</TabsTrigger>
-          <TabsTrigger value="both" className="text-xs">両方</TabsTrigger>
-        </TabsList>
 
-        {Object.entries(scripts).map(([key, data]) => (
-          <TabsContent key={key} value={key}>
-            <Card>
-              <CardHeader className="pb-2">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-base">{data.title}</CardTitle>
-                  <Badge variant="secondary" className="bg-primary/20 text-primary">
-                    {data.badge}
-                  </Badge>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="flex justify-end mb-2">
-                  <CopyButton text={data.script} />
-                </div>
-                <div className="bg-secondary rounded-lg p-4 font-mono text-sm whitespace-pre-wrap max-h-[400px] overflow-y-auto">
-                  {data.script}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        ))}
-      </Tabs>
+      {/* ===== TAB SWITCHER ===== */}
+      <div className="grid grid-cols-3 gap-1.5 bg-slate-100 p-1 rounded-xl">
+        {(Object.keys(scripts) as Array<keyof typeof scripts>).map((key) => {
+          const s = scripts[key]
+          const TabIcon = s.icon
+          const isActive = activeTab === key
+          return (
+            <button
+              key={key}
+              onClick={() => setActiveTab(key)}
+              className={`
+                flex items-center justify-center gap-1.5 py-2 px-1 rounded-lg
+                text-xs font-bold transition-all duration-200 min-h-[44px]
+                ${isActive
+                  ? "bg-white text-slate-800 shadow-sm"
+                  : "text-slate-500 hover:text-slate-700"
+                }
+              `}
+            >
+              <TabIcon className={`w-3.5 h-3.5 flex-shrink-0 ${isActive ? s.badgeText : ""}`} />
+              <span className="truncate">{key === "both" ? "両方" : key === "uriage" ? "ウリアゲ" : "カクヤク"}</span>
+            </button>
+          )
+        })}
+      </div>
 
-      {/* IT Literacy Cheatsheet */}
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-base">ITリテラシー別チートシート</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-border">
-                  <th className="text-left p-3 font-medium">レベル</th>
-                  <th className="text-left p-3 font-medium">対象</th>
-                  <th className="text-left p-3 font-medium">アプローチ</th>
-                </tr>
-              </thead>
-              <tbody>
-                {literacyCheatsheet.map((row, index) => (
-                  <tr key={index} className="border-b border-border last:border-0">
-                    <td className="p-3">
-                      <Badge
-                        variant="outline"
-                        className={
-                          row.level === "高"
-                            ? "border-primary text-primary"
-                            : row.level === "低"
-                            ? "border-accent text-accent"
-                            : "border-muted-foreground"
-                        }
-                      >
-                        {row.level}
-                      </Badge>
-                    </td>
-                    <td className="p-3">
-                      <div className="font-medium">{row.description}</div>
-                      <div className="text-muted-foreground text-xs mt-1">
-                        {row.keywords}
-                      </div>
-                    </td>
-                    <td className="p-3 text-muted-foreground">{row.approach}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+      {/* ===== SCRIPT CARD ===== */}
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        {/* Card header gradient */}
+        <div className={`bg-gradient-to-r ${current.headerBg} p-4`}>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                <Icon className="w-4 h-4 text-white" />
+              </div>
+              <div>
+                <h3 className="text-white font-bold text-sm">{current.title}</h3>
+                <p className="text-white/70 text-[10px]">{current.sub}</p>
+              </div>
+            </div>
+            <CopyButton text={current.script} />
           </div>
-        </CardContent>
-      </Card>
+        </div>
+
+        {/* Script content */}
+        <div className={`border-l-4 ${current.accentColor} m-4 pl-4`}>
+          <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap font-mono">
+            {current.script}
+          </p>
+        </div>
+      </div>
+
+      {/* ===== IT LITERACY CHEATSHEET ===== */}
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div className="px-4 pt-4 pb-2 border-b border-slate-100">
+          <h3 className="text-sm font-bold text-slate-800">ITリテラシー別チートシート</h3>
+          <p className="text-[10px] text-slate-400 mt-0.5">相手に合わせて話し方を切り替える</p>
+        </div>
+        <div className="divide-y divide-slate-100">
+          {literacyItems.map((row, i) => (
+            <div key={i} className="px-4 py-3">
+              <div className="flex items-start gap-3">
+                <span className={`text-xs font-black px-2 py-1 rounded-lg flex-shrink-0 ${row.badge}`}>
+                  {row.level}
+                </span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-bold text-slate-700">{row.target}</p>
+                  <p className="text-[11px] text-slate-500 mt-0.5">{row.approach}</p>
+                  <p className="text-[10px] text-slate-400 mt-1 font-mono">{row.keywords}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
     </div>
   )
 }
