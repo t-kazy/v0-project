@@ -12,6 +12,7 @@ import {
   CheckCircle2,
   Zap,
   Shield,
+  Home,
 } from "lucide-react"
 import { PreMeetingSection } from "@/components/sections/pre-meeting"
 import { ClosingFlowSection } from "@/components/sections/closing-flow"
@@ -20,7 +21,7 @@ import { IndustryCasesSection } from "@/components/sections/industry-cases"
 import { ObjectionsSection } from "@/components/sections/objections"
 import { PricingROISection } from "@/components/sections/pricing-roi"
 import { PostMeetingSection } from "@/components/sections/post-meeting"
-import { MascotIcon } from "@/components/mascot"
+import { HomeView } from "@/components/home-view"
 
 const tabs = [
   {
@@ -89,8 +90,9 @@ const tabs = [
 ]
 
 export default function SalesControlPanel() {
-  const [activeTab, setActiveTab] = useState(0)
-  const currentTab = tabs[activeTab]
+  const [activeTab, setActiveTab] = useState<number | null>(null) // null = home
+  const isHome = activeTab === null
+  const currentTab = activeTab !== null ? tabs[activeTab] : null
 
   const renderSection = () => {
     switch (activeTab) {
@@ -101,7 +103,7 @@ export default function SalesControlPanel() {
       case 4: return <ObjectionsSection />
       case 5: return <PricingROISection />
       case 6: return <PostMeetingSection />
-      default: return <PreMeetingSection />
+      default: return null
     }
   }
 
@@ -114,7 +116,6 @@ export default function SalesControlPanel() {
         {/* Brand bar */}
         <div className="bg-gradient-to-r from-blue-800 via-blue-700 to-blue-900 px-4 py-1.5 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <MascotIcon size={22} glow />
             <span className="text-white text-xs font-bold tracking-wide">
               ウリアゲAIX × カクヤクAIX
             </span>
@@ -132,17 +133,30 @@ export default function SalesControlPanel() {
           </div>
         </div>
 
-        {/* Section title */}
+        {/* Section title row */}
         <div className="px-4 py-2.5 flex items-center justify-between bg-white">
-          <div className="flex items-center gap-2">
-            <div className={`w-1 h-5 rounded-full ${currentTab.activeBg}`} />
-            <h1 className="text-sm font-bold text-slate-800">
-              {currentTab.fullLabel}
-            </h1>
-          </div>
-          <span className="text-[10px] text-slate-400 font-medium bg-slate-100 px-2 py-0.5 rounded-full">
-            {activeTab + 1} / {tabs.length}
-          </span>
+          {isHome ? (
+            <h1 className="text-sm font-bold text-slate-800">コンテンツ一覧</h1>
+          ) : (
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setActiveTab(null)}
+                className="w-7 h-7 rounded-lg bg-slate-100 flex items-center justify-center hover:bg-slate-200 transition-colors"
+                aria-label="ホームへ戻る"
+              >
+                <Home className="w-3.5 h-3.5 text-slate-500" />
+              </button>
+              <div className={`w-1 h-5 rounded-full ${currentTab?.activeBg}`} />
+              <h1 className="text-sm font-bold text-slate-800">
+                {currentTab?.fullLabel}
+              </h1>
+            </div>
+          )}
+          {!isHome && (
+            <span className="text-[10px] text-slate-400 font-medium bg-slate-100 px-2 py-0.5 rounded-full">
+              {(activeTab ?? 0) + 1} / {tabs.length}
+            </span>
+          )}
         </div>
 
       </header>
@@ -151,13 +165,16 @@ export default function SalesControlPanel() {
       <main className="pb-28 px-4 py-4 max-w-xl mx-auto">
         <AnimatePresence mode="wait">
           <motion.div
-            key={activeTab}
+            key={activeTab ?? "home"}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.18, ease: "easeOut" }}
           >
-            {renderSection()}
+            {isHome
+              ? <HomeView onNavigate={(id) => setActiveTab(id)} />
+              : renderSection()
+            }
           </motion.div>
         </AnimatePresence>
       </main>
@@ -165,6 +182,34 @@ export default function SalesControlPanel() {
       {/* ===== FIXED BOTTOM NAVIGATION ===== */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/98 backdrop-blur-md border-t border-slate-100 safe-area-bottom shadow-[0_-2px_16px_rgba(0,0,0,0.05)]">
         <div className="flex justify-around items-stretch py-1 px-0 max-w-xl mx-auto">
+
+          {/* Home tab */}
+          <button
+            onClick={() => setActiveTab(null)}
+            className={`
+              flex flex-col items-center justify-center py-2 px-1
+              rounded-xl mx-0.5 transition-all duration-200
+              min-w-0 flex-1 relative
+              ${isHome ? "bg-slate-100 text-slate-700" : "text-slate-400 hover:text-slate-600"}
+            `}
+          >
+            {isHome && (
+              <motion.div
+                layoutId="activeTabBg"
+                className="absolute inset-0 rounded-xl bg-slate-100"
+                transition={{ type: "spring", bounce: 0.18, duration: 0.32 }}
+              />
+            )}
+            {isHome && (
+              <div className="absolute -top-px left-1/2 -translate-x-1/2 w-5 h-0.5 rounded-full bg-slate-500" />
+            )}
+            <Home className="w-5 h-5 relative z-10" />
+            <span className={`text-[9px] mt-0.5 font-medium relative z-10 ${isHome ? "font-bold text-slate-700" : ""}`}>
+              ホーム
+            </span>
+          </button>
+
+          {/* Section tabs */}
           {tabs.map((tab) => {
             const Icon = tab.icon
             const isActive = activeTab === tab.id

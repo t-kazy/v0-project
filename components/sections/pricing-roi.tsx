@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Calculator, TrendingUp, CheckCircle, Award, ArrowRight, ChevronDown, ChevronUp } from "lucide-react"
-import { Mascot } from "@/components/mascot"
 
 const implementationSteps = [
   { step: 1, title: "お申し込み・ご契約", duration: "当日〜数日", desc: "受講者名・人数を確定し、契約書を締結" },
@@ -85,7 +84,6 @@ export function PricingROISection() {
                 </span>
               </div>
             </div>
-            <Mascot size="sm" variant="attack" className="flex-shrink-0 mt-2" />
           </div>
 
           <button
@@ -226,11 +224,8 @@ export function PricingROISection() {
             ))}
           </div>
 
-          <div className="mt-3 bg-slate-800 rounded-xl p-3.5 relative overflow-hidden">
-            <div className="absolute -right-2 -bottom-2 opacity-15">
-              <Mascot size="sm" variant="defense" />
-            </div>
-            <p className="text-[10px] text-slate-300 leading-relaxed relative z-10">
+          <div className="mt-3 bg-slate-800 rounded-xl p-3.5">
+            <p className="text-[10px] text-slate-300 leading-relaxed">
               「まず申込いただいたら助成金の手続きを一緒に進めます。500社すべて通っているので、そこは心配いりません。あとは<span className="text-white font-bold">3ヶ月、週1回30分</span>だけお時間いただければ、残りは現場で実践するだけです。」
             </p>
           </div>

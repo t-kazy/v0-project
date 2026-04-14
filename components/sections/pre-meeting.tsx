@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
 import { RotateCcw, Zap, Shield, Brain } from "lucide-react"
-import { Mascot } from "@/components/mascot"
 
 const checklistItems = [
   { text: "業種・会社規模を確認した", key: "industry" },
@@ -199,13 +198,7 @@ export function PreMeetingSection() {
           </CardTitle>
         </CardHeader>
         <CardContent className="pt-2">
-          <div className="flex gap-3">
-            {/* Mascot */}
-            <div className="flex-shrink-0 flex items-end">
-              <Mascot size="md" variant="default" />
-            </div>
-            {/* Quotes */}
-            <div className="flex-1 space-y-2">
+          <div className="space-y-2">
               {mindsetQuotes.map((quote, index) => (
                 <div
                   key={index}
@@ -215,7 +208,6 @@ export function PreMeetingSection() {
                   <p className="text-[9px] text-slate-400 mt-0.5">{quote.sub}</p>
                 </div>
               ))}
-            </div>
           </div>
         </CardContent>
       </Card>
