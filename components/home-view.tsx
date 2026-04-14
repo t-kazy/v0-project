@@ -157,7 +157,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             onClick={() => onNavigate(2)}
             whileTap={{ scale: 0.95 }}
             whileHover={{ scale: 1.02, y: -2 }}
-            className="relative overflow-hidden rounded-2xl min-h-[150px] flex flex-col justify-between p-4"
+            className="relative overflow-hidden rounded-2xl min-h-[170px] flex flex-col justify-between p-4"
             style={{ background: "linear-gradient(135deg, #dc2626 0%, #7f1d1d 100%)" }}
           >
             {/* Animated shimmer */}
@@ -169,19 +169,19 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             />
             {/* Glow ring */}
             <div className="absolute inset-0 rounded-2xl" style={{ boxShadow: "inset 0 1px 0 rgba(255,255,255,0.15), 0 0 30px rgba(220,38,38,0.3)" }} />
-            {/* Decorative kanji */}
-            <span className="absolute -right-2 -bottom-3 text-[88px] font-black text-white/10 select-none leading-none">攻</span>
 
-            <div>
-              <motion.div
-                className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mb-2 backdrop-blur-sm"
-                animate={{ boxShadow: ["0 0 0px rgba(255,255,255,0)", "0 0 12px rgba(255,255,255,0.25)", "0 0 0px rgba(255,255,255,0)"] }}
-                transition={{ duration: 3, repeat: Infinity }}
-              >
-                <span className="text-white font-black text-sm">攻</span>
-              </motion.div>
-              <p className="text-white font-black text-sm leading-tight">ウリアゲ<br />AIX</p>
-            </div>
+            {/* Logo image — screen blend removes black bg */}
+            <div
+              className="-mx-4 -mt-4 mb-2 overflow-hidden rounded-t-2xl"
+              style={{
+                height: 115,
+                backgroundImage: "url('/product-logos.png')",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "480px auto",
+                backgroundPosition: "right -57px",
+                mixBlendMode: "screen",
+              }}
+            />
 
             <div>
               <p className="text-red-200 text-[9px] font-medium leading-snug">営業強化・売上最大化</p>
@@ -198,7 +198,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             onClick={() => onNavigate(2)}
             whileTap={{ scale: 0.95 }}
             whileHover={{ scale: 1.02, y: -2 }}
-            className="relative overflow-hidden rounded-2xl min-h-[150px] flex flex-col justify-between p-4"
+            className="relative overflow-hidden rounded-2xl min-h-[170px] flex flex-col justify-between p-4"
             style={{ background: "linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%)" }}
           >
             {/* Animated shimmer */}
@@ -210,19 +210,19 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             />
             {/* Glow ring */}
             <div className="absolute inset-0 rounded-2xl" style={{ boxShadow: "inset 0 1px 0 rgba(255,255,255,0.15), 0 0 30px rgba(29,78,216,0.3)" }} />
-            {/* Decorative kanji */}
-            <span className="absolute -right-2 -bottom-3 text-[88px] font-black text-white/10 select-none leading-none">守</span>
 
-            <div>
-              <motion.div
-                className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mb-2 backdrop-blur-sm"
-                animate={{ boxShadow: ["0 0 0px rgba(255,255,255,0)", "0 0 12px rgba(255,255,255,0.25)", "0 0 0px rgba(255,255,255,0)"] }}
-                transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
-              >
-                <span className="text-white font-black text-sm">守</span>
-              </motion.div>
-              <p className="text-white font-black text-sm leading-tight">カクヤク<br />AIX</p>
-            </div>
+            {/* Logo image — screen blend removes black bg */}
+            <div
+              className="-mx-4 -mt-4 mb-2 overflow-hidden rounded-t-2xl"
+              style={{
+                height: 115,
+                backgroundImage: "url('/product-logos.png')",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "480px auto",
+                backgroundPosition: "left -57px",
+                mixBlendMode: "screen",
+              }}
+            />
 
             <div>
               <p className="text-blue-200 text-[9px] font-medium leading-snug">組織変革・DX定着</p>
