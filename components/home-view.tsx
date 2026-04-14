@@ -10,8 +10,6 @@ import {
   CheckCircle2,
   ChevronRight,
   Clock,
-  Zap,
-  Shield,
 } from "lucide-react"
 
 const sections = [
@@ -20,11 +18,6 @@ const sections = [
     icon: ClipboardCheck,
     label: "商談前チェック",
     timing: "商談10分前",
-    desc: "業種・担当者確認、提案軸（攻/守）の仮説立て、マインドセット確認",
-    color: "text-blue-600",
-    bg: "bg-blue-50",
-    border: "border-blue-100",
-    dot: "bg-blue-500",
     phase: "before",
   },
   {
@@ -32,11 +25,6 @@ const sections = [
     icon: GitBranch,
     label: "クロージングフロー",
     timing: "商談中・流れの確認",
-    desc: "SPIN営業法ベースの5ステップ。現状把握→課題深掘り→影響→理想→クロージング",
-    color: "text-blue-600",
-    bg: "bg-blue-50",
-    border: "border-blue-100",
-    dot: "bg-blue-500",
     phase: "during",
   },
   {
@@ -44,11 +32,6 @@ const sections = [
     icon: FileText,
     label: "トークスクリプト",
     timing: "言葉に詰まったとき",
-    desc: "ウリアゲAIX・カクヤクAIX・両方対応のコピペ可能なトークスクリプト集",
-    color: "text-blue-600",
-    bg: "bg-blue-50",
-    border: "border-blue-100",
-    dot: "bg-blue-500",
     phase: "during",
   },
   {
@@ -56,11 +39,6 @@ const sections = [
     icon: Building2,
     label: "業種別事例",
     timing: "事例を見せたいとき",
-    desc: "建設・医療・営業・IT・士業の5業種別 Before/After事例ライブラリ",
-    color: "text-blue-600",
-    bg: "bg-blue-50",
-    border: "border-blue-100",
-    dot: "bg-blue-500",
     phase: "during",
   },
   {
@@ -68,11 +46,6 @@ const sections = [
     icon: MessageSquareWarning,
     label: "反論QA集",
     timing: "懸念を出されたとき",
-    desc: "コスト・リテラシー不安・時間・定着・競合比較・稟議の6カテゴリ対応",
-    color: "text-orange-600",
-    bg: "bg-orange-50",
-    border: "border-orange-100",
-    dot: "bg-orange-500",
     phase: "during",
   },
   {
@@ -80,11 +53,6 @@ const sections = [
     icon: Calculator,
     label: "料金・ROI",
     timing: "お金の話になったとき",
-    desc: "助成金適用後¥100,000〜。インタラクティブROI計算機・導入フロー",
-    color: "text-blue-600",
-    bg: "bg-blue-50",
-    border: "border-blue-100",
-    dot: "bg-blue-500",
     phase: "during",
   },
   {
@@ -92,19 +60,8 @@ const sections = [
     icon: CheckCircle2,
     label: "商談後チェック",
     timing: "商談終了直後",
-    desc: "温度感・反論・次のアクションを記録。お礼メッセージテンプレート付き",
-    color: "text-green-600",
-    bg: "bg-green-50",
-    border: "border-green-100",
-    dot: "bg-green-500",
     phase: "after",
   },
-]
-
-const phases = [
-  { key: "before", label: "商談前", icon: Clock, color: "text-slate-600", lineColor: "bg-slate-300" },
-  { key: "during", label: "商談中", icon: Zap, color: "text-blue-600", lineColor: "bg-blue-300" },
-  { key: "after", label: "商談後", icon: CheckCircle2, color: "text-green-600", lineColor: "bg-green-300" },
 ]
 
 interface HomeViewProps {
@@ -113,142 +70,173 @@ interface HomeViewProps {
 
 export function HomeView({ onNavigate }: HomeViewProps) {
   return (
-    <div className="pb-8">
+    <div className="pb-8 -mx-4 -mt-4">
 
-      {/* ===== HERO ===== */}
-      <div className="bg-gradient-to-br from-blue-800 via-blue-700 to-blue-900 px-5 pt-6 pb-8 -mx-4 -mt-4 mb-5">
-        <div className="max-w-xl mx-auto">
-          {/* Product badges */}
-          <div className="flex gap-2 mb-3">
-            <span className="flex items-center gap-1 text-[10px] font-bold bg-orange-400/20 text-orange-200 border border-orange-400/30 px-2 py-0.5 rounded-full">
-              <Zap className="w-3 h-3" />
-              ウリアゲAIX（攻）
-            </span>
-            <span className="flex items-center gap-1 text-[10px] font-bold bg-blue-400/20 text-blue-200 border border-blue-300/30 px-2 py-0.5 rounded-full">
-              <Shield className="w-3 h-3" />
-              カクヤクAIX（守）
-            </span>
-          </div>
+      {/* ===== HERO: BLACK BASE ===== */}
+      <div className="relative bg-[#0d0d0d] overflow-hidden">
 
-          <h1 className="text-white text-xl font-black leading-tight mb-1">
+        {/* Background texture */}
+        <div className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(255,255,255,0.5) 40px, rgba(255,255,255,0.5) 41px), repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(255,255,255,0.5) 40px, rgba(255,255,255,0.5) 41px)"
+          }}
+        />
+
+        {/* Title */}
+        <div className="relative px-5 pt-7 pb-5 text-center">
+          <p className="text-white/40 text-[10px] font-bold tracking-[0.3em] uppercase mb-2">Closer Control Panel</p>
+          <h1 className="text-white text-2xl font-black leading-tight tracking-tight">
             クローザー専用<br />コントロールパネル
           </h1>
-          <p className="text-blue-200 text-xs leading-relaxed">
-            商談10分前に開いて、必要な情報をすぐ引く。<br />
-            全7セクションが商談の流れに沿って設計されています。
-          </p>
+          <p className="text-white/40 text-xs mt-2">商談10分前に開く。必要な情報をすぐ引く。</p>
+        </div>
 
-          {/* Stats row */}
-          <div className="flex gap-4 mt-4 pt-4 border-t border-white/10">
-            {[
-              { val: "7", label: "セクション" },
-              { val: "5", label: "業種別事例" },
-              { val: "6", label: "反論パターン" },
-            ].map((s, i) => (
-              <div key={i} className="text-center">
-                <div className="text-white text-lg font-black">{s.val}</div>
-                <div className="text-blue-300 text-[9px]">{s.label}</div>
+        {/* ===== PRODUCT SPLIT ===== */}
+        <div className="px-4 pb-6 grid grid-cols-2 gap-3">
+
+          {/* ウリアゲAIX — RED */}
+          <button
+            onClick={() => onNavigate(2)}
+            className="relative overflow-hidden rounded-2xl min-h-[140px] flex flex-col justify-between p-4 active:scale-[0.97] transition-transform"
+            style={{ background: "linear-gradient(135deg, #dc2626 0%, #991b1b 100%)" }}
+          >
+            {/* Decorative kanji */}
+            <span className="absolute -right-3 -bottom-4 text-[80px] font-black text-white/10 select-none leading-none">攻</span>
+
+            <div>
+              <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mb-2">
+                <span className="text-white font-black text-sm">攻</span>
               </div>
-            ))}
+              <p className="text-white font-black text-sm leading-tight">ウリアゲ<br />AIX</p>
+            </div>
+
+            <div>
+              <p className="text-red-200 text-[9px] font-medium leading-snug">営業強化・売上最大化</p>
+              <div className="flex items-center gap-1 mt-1.5">
+                <span className="text-white/60 text-[9px]">スクリプトを開く</span>
+                <ChevronRight className="w-3 h-3 text-white/60" />
+              </div>
+            </div>
+          </button>
+
+          {/* カクヤクAIX — BLUE */}
+          <button
+            onClick={() => onNavigate(2)}
+            className="relative overflow-hidden rounded-2xl min-h-[140px] flex flex-col justify-between p-4 active:scale-[0.97] transition-transform"
+            style={{ background: "linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%)" }}
+          >
+            {/* Decorative kanji */}
+            <span className="absolute -right-3 -bottom-4 text-[80px] font-black text-white/10 select-none leading-none">守</span>
+
+            <div>
+              <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mb-2">
+                <span className="text-white font-black text-sm">守</span>
+              </div>
+              <p className="text-white font-black text-sm leading-tight">カクヤク<br />AIX</p>
+            </div>
+
+            <div>
+              <p className="text-blue-200 text-[9px] font-medium leading-snug">組織変革・DX定着</p>
+              <div className="flex items-center gap-1 mt-1.5">
+                <span className="text-white/60 text-[9px]">スクリプトを開く</span>
+                <ChevronRight className="w-3 h-3 text-white/60" />
+              </div>
+            </div>
+          </button>
+        </div>
+
+        {/* ===== TAGLINE ===== */}
+        <div className="px-4 pb-7">
+          <div className="border border-white/10 rounded-2xl p-4 flex items-center gap-3">
+            <div className="flex-shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center">
+                <span className="text-white/60 text-lg">⚡</span>
+              </div>
+            </div>
+            <div>
+              <p className="text-white text-xs font-bold leading-snug">最短3ヶ月で超生産性の<br />筋肉質な組織へ</p>
+              <p className="text-white/40 text-[10px] mt-0.5">継続利用率 95% ・ 助成金承認率 100%</p>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* ===== HOW TO USE ===== */}
-      <div className="mb-5">
-        <h2 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 px-1">
-          商談フェーズ別ガイド
-        </h2>
-
-        <div className="space-y-4">
-          {phases.map((phase) => {
-            const phaseSections = sections.filter((s) => s.phase === phase.key)
-            const PhaseIcon = phase.icon
-
-            return (
-              <div key={phase.key}>
-                {/* Phase header */}
-                <div className="flex items-center gap-2 mb-2">
-                  <div className={`w-5 h-5 rounded-full flex items-center justify-center ${phase.lineColor.replace("bg-", "bg-").replace("-300", "-100")}`}>
-                    <PhaseIcon className={`w-3 h-3 ${phase.color}`} />
-                  </div>
-                  <span className={`text-xs font-bold ${phase.color}`}>{phase.label}</span>
-                  <div className={`flex-1 h-px ${phase.lineColor} opacity-50`} />
-                </div>
-
-                {/* Section cards */}
-                <div className="space-y-2 pl-1">
-                  {phaseSections.map((section) => {
-                    const Icon = section.icon
-                    return (
-                      <button
-                        key={section.id}
-                        onClick={() => onNavigate(section.id)}
-                        className={`w-full text-left bg-white border ${section.border} rounded-xl p-3.5 shadow-sm hover:shadow-md transition-all duration-150 active:scale-[0.98] group`}
-                      >
-                        <div className="flex items-start gap-3">
-                          {/* Icon */}
-                          <div className={`w-9 h-9 rounded-lg ${section.bg} flex items-center justify-center flex-shrink-0 mt-0.5`}>
-                            <Icon className={`w-4.5 h-4.5 ${section.color}`} />
-                          </div>
-
-                          {/* Text */}
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center justify-between gap-2">
-                              <span className="text-sm font-bold text-slate-800">{section.label}</span>
-                              <ChevronRight className="w-4 h-4 text-slate-300 flex-shrink-0 group-hover:text-slate-500 transition-colors" />
-                            </div>
-                            <div className="flex items-center gap-1 mt-0.5 mb-1">
-                              <Clock className="w-3 h-3 text-slate-400" />
-                              <span className="text-[10px] text-slate-400 font-medium">{section.timing}</span>
-                            </div>
-                            <p className="text-[11px] text-slate-500 leading-snug">{section.desc}</p>
-                          </div>
-                        </div>
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
-            )
-          })}
-        </div>
-      </div>
-
-      {/* ===== QUICK ACCESS ===== */}
-      <div>
-        <h2 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 px-1">
-          クイックアクセス
-        </h2>
-        <div className="grid grid-cols-4 gap-2">
-          {sections.map((section) => {
-            const Icon = section.icon
-            return (
-              <button
-                key={section.id}
-                onClick={() => onNavigate(section.id)}
-                className={`flex flex-col items-center gap-1.5 p-2.5 rounded-xl ${section.bg} border ${section.border} active:scale-95 transition-transform`}
-              >
-                <Icon className={`w-5 h-5 ${section.color}`} />
-                <span className={`text-[9px] font-bold ${section.color} text-center leading-tight`}>
-                  {section.label.length > 6 ? section.label.slice(0, 5) + "…" : section.label}
-                </span>
-              </button>
-            )
-          })}
-          {/* Spacer for 4-column grid alignment */}
-          <div />
-        </div>
-      </div>
-
-      {/* ===== FOOTER NOTE ===== */}
-      <div className="mt-6 p-3.5 bg-slate-50 border border-slate-100 rounded-xl text-center">
-        <p className="text-[10px] text-slate-500 leading-relaxed">
-          「次のアクションを決めずに終わらない」<br />
-          <span className="text-slate-400">— キーエンス流 クロージング鉄則</span>
+      {/* ===== SECTIONS ===== */}
+      <div className="px-4 pt-5">
+        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 px-1">
+          商談フェーズ別コンテンツ
         </p>
+
+        {/* Before */}
+        <div className="mb-2">
+          <div className="flex items-center gap-2 mb-2 px-1">
+            <div className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">商談前</span>
+          </div>
+          {sections.filter(s => s.phase === "before").map(s => (
+            <SectionRow key={s.id} section={s} onNavigate={onNavigate} />
+          ))}
+        </div>
+
+        {/* During */}
+        <div className="mb-2">
+          <div className="flex items-center gap-2 mb-2 px-1">
+            <div className="w-1.5 h-1.5 rounded-full bg-red-500" />
+            <span className="text-[10px] font-bold text-red-500 uppercase tracking-wider">商談中</span>
+          </div>
+          {sections.filter(s => s.phase === "during").map(s => (
+            <SectionRow key={s.id} section={s} onNavigate={onNavigate} />
+          ))}
+        </div>
+
+        {/* After */}
+        <div className="mb-2">
+          <div className="flex items-center gap-2 mb-2 px-1">
+            <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
+            <span className="text-[10px] font-bold text-green-500 uppercase tracking-wider">商談後</span>
+          </div>
+          {sections.filter(s => s.phase === "after").map(s => (
+            <SectionRow key={s.id} section={s} onNavigate={onNavigate} />
+          ))}
+        </div>
+      </div>
+
+      {/* ===== BOTTOM QUOTE ===== */}
+      <div className="mx-4 mt-5 rounded-2xl bg-[#0d0d0d] p-4 text-center">
+        <p className="text-white/70 text-xs font-bold leading-relaxed">
+          「売るな、課題を解決せよ」
+        </p>
+        <p className="text-white/30 text-[10px] mt-1">— キーエンス流 クロージング鉄則</p>
       </div>
 
     </div>
+  )
+}
+
+function SectionRow({
+  section,
+  onNavigate,
+}: {
+  section: (typeof sections)[number]
+  onNavigate: (id: number) => void
+}) {
+  const Icon = section.icon
+  return (
+    <button
+      onClick={() => onNavigate(section.id)}
+      className="w-full flex items-center gap-3 px-3 py-3 mb-1 bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-md active:scale-[0.98] transition-all duration-150 group"
+    >
+      <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center flex-shrink-0">
+        <Icon className="w-4 h-4 text-slate-600" />
+      </div>
+      <div className="flex-1 text-left min-w-0">
+        <p className="text-sm font-bold text-slate-800 leading-none">{section.label}</p>
+        <div className="flex items-center gap-1 mt-1">
+          <Clock className="w-2.5 h-2.5 text-slate-400" />
+          <p className="text-[10px] text-slate-400">{section.timing}</p>
+        </div>
+      </div>
+      <ChevronRight className="w-4 h-4 text-slate-300 flex-shrink-0 group-hover:text-slate-500 group-hover:translate-x-0.5 transition-all" />
+    </button>
   )
 }
