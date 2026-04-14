@@ -175,10 +175,9 @@ export function HomeView({ onNavigate }: HomeViewProps) {
               className="-mx-4 -mt-4 mb-2 overflow-hidden rounded-t-2xl"
               style={{
                 height: 115,
-                backgroundImage: "url('/product-logos.png')",
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "480px auto",
-                backgroundPosition: "right -57px",
+                backgroundImage: "url('/logo-uriage.png')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
                 mixBlendMode: "screen",
               }}
             />
@@ -216,10 +215,9 @@ export function HomeView({ onNavigate }: HomeViewProps) {
               className="-mx-4 -mt-4 mb-2 overflow-hidden rounded-t-2xl"
               style={{
                 height: 115,
-                backgroundImage: "url('/product-logos.png')",
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "480px auto",
-                backgroundPosition: "left -57px",
+                backgroundImage: "url('/logo-kakuyaku.png')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
                 mixBlendMode: "screen",
               }}
             />
