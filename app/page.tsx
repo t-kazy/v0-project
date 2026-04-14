@@ -162,7 +162,7 @@ export default function SalesControlPanel() {
       </header>
 
       {/* ===== MAIN CONTENT ===== */}
-      <main className="pb-28 px-4 py-4 max-w-xl mx-auto">
+      <main className="pb-28 px-4 py-4 max-w-xl lg:max-w-3xl mx-auto">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab ?? "home"}
@@ -181,7 +181,7 @@ export default function SalesControlPanel() {
 
       {/* ===== FIXED BOTTOM NAVIGATION ===== */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/98 backdrop-blur-md border-t border-slate-100 safe-area-bottom shadow-[0_-2px_16px_rgba(0,0,0,0.05)]">
-        <div className="flex justify-around items-stretch py-1 px-0 max-w-xl mx-auto">
+        <div className="flex justify-around items-stretch py-1 px-0 max-w-xl lg:max-w-3xl mx-auto">
 
           {/* Home tab */}
           <button
