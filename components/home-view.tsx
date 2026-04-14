@@ -246,17 +246,17 @@ export function HomeView({ onNavigate }: HomeViewProps) {
               style={{ boxShadow: "inset 0 0 24px rgba(251,191,36,0.12)" }}
             />
             {/* Top row: icon + main copy */}
-            <div className="flex items-center gap-3 mb-3">
+            <div className="flex flex-col items-center gap-2 mb-3">
               <motion.div
-                className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                className="w-9 h-9 rounded-xl flex items-center justify-center"
                 style={{ background: "rgba(251,191,36,0.18)" }}
                 animate={{ rotate: [0, 5, -5, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               >
                 <Zap className="w-5 h-5 text-yellow-400" />
               </motion.div>
-              <p className="text-white text-base font-black leading-snug tracking-tight">
-                最短3ヶ月で超生産性の<br />筋肉質な組織へ
+              <p className="text-white text-base font-black leading-snug tracking-tight text-center">
+                最短3ヶ月で超生産性の筋肉質な組織へ
               </p>
             </div>
             {/* Stats row */}
