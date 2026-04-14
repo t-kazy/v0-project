@@ -10,7 +10,9 @@ import {
   CheckCircle2,
   ChevronRight,
   Clock,
+  Zap,
 } from "lucide-react"
+import { motion } from "framer-motion"
 
 const sections = [
   {
@@ -68,45 +70,116 @@ interface HomeViewProps {
   onNavigate: (tabId: number) => void
 }
 
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.08 },
+  },
+}
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } },
+}
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 32, scale: 0.95 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
+}
+
 export function HomeView({ onNavigate }: HomeViewProps) {
   return (
-    <div className="pb-8 -mx-4 -mt-4">
+    <motion.div
+      className="pb-8 -mx-4 -mt-4"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
 
-      {/* ===== HERO: BLACK BASE ===== */}
-      <div className="relative bg-[#0d0d0d] overflow-hidden">
+      {/* ===== HERO ===== */}
+      <div className="relative overflow-hidden" style={{ background: "linear-gradient(135deg, #0f0c29 0%, #1a0533 30%, #24243e 60%, #0d1b2a 100%)" }}>
 
-        {/* Background texture */}
-        <div className="absolute inset-0 opacity-[0.03]"
+        {/* Animated mesh blobs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <motion.div
+            className="absolute rounded-full blur-[80px] opacity-30"
+            style={{ width: 280, height: 280, top: -60, left: -80, background: "radial-gradient(circle, #dc2626, transparent 70%)" }}
+            animate={{ x: [0, 20, 0], y: [0, 15, 0] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute rounded-full blur-[80px] opacity-25"
+            style={{ width: 260, height: 260, top: -40, right: -60, background: "radial-gradient(circle, #1d4ed8, transparent 70%)" }}
+            animate={{ x: [0, -18, 0], y: [0, 20, 0] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          />
+          <motion.div
+            className="absolute rounded-full blur-[100px] opacity-15"
+            style={{ width: 300, height: 200, bottom: 0, left: "30%", background: "radial-gradient(circle, #7c3aed, transparent 70%)" }}
+            animate={{ x: [0, 25, 0] }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 4 }}
+          />
+        </div>
+
+        {/* Subtle grid overlay */}
+        <div
+          className="absolute inset-0 opacity-[0.04] pointer-events-none"
           style={{
-            backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(255,255,255,0.5) 40px, rgba(255,255,255,0.5) 41px), repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(255,255,255,0.5) 40px, rgba(255,255,255,0.5) 41px)"
+            backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 32px, rgba(255,255,255,0.8) 32px, rgba(255,255,255,0.8) 33px), repeating-linear-gradient(90deg, transparent, transparent 32px, rgba(255,255,255,0.8) 32px, rgba(255,255,255,0.8) 33px)"
           }}
         />
 
         {/* Title */}
-        <div className="relative px-5 pt-7 pb-5 text-center">
-          <p className="text-white/40 text-[10px] font-bold tracking-[0.3em] uppercase mb-2">Closer Control Panel</p>
-          <h1 className="text-white text-2xl font-black leading-tight tracking-tight">
-            クローザー専用<br />コントロールパネル
+        <motion.div variants={fadeUp} className="relative px-5 pt-8 pb-5 text-center">
+          <div className="inline-flex items-center gap-1.5 bg-white/10 border border-white/15 rounded-full px-3 py-1 mb-3 backdrop-blur-sm">
+            <motion.div
+              className="w-1.5 h-1.5 rounded-full bg-emerald-400"
+              animate={{ opacity: [1, 0.3, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+            <span className="text-white/70 text-[10px] font-bold tracking-[0.2em] uppercase">Closer Control Panel</span>
+          </div>
+          <h1 className="text-white text-[26px] font-black leading-tight tracking-tight">
+            クローザー専用<br />
+            <span className="bg-gradient-to-r from-red-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
+              コントロールパネル
+            </span>
           </h1>
-          <p className="text-white/40 text-xs mt-2">商談10分前に開く。必要な情報をすぐ引く。</p>
-        </div>
+          <p className="text-white/40 text-xs mt-2 tracking-wide">商談10分前に開く。必要な情報をすぐ引く。</p>
+        </motion.div>
 
-        {/* ===== PRODUCT SPLIT ===== */}
+        {/* ===== PRODUCT CARDS ===== */}
         <div className="px-4 pb-6 grid grid-cols-2 gap-3">
 
           {/* ウリアゲAIX — RED */}
-          <button
+          <motion.button
+            variants={cardVariants}
             onClick={() => onNavigate(2)}
-            className="relative overflow-hidden rounded-2xl min-h-[140px] flex flex-col justify-between p-4 active:scale-[0.97] transition-transform"
-            style={{ background: "linear-gradient(135deg, #dc2626 0%, #991b1b 100%)" }}
+            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.02, y: -2 }}
+            className="relative overflow-hidden rounded-2xl min-h-[150px] flex flex-col justify-between p-4"
+            style={{ background: "linear-gradient(135deg, #dc2626 0%, #7f1d1d 100%)" }}
           >
+            {/* Animated shimmer */}
+            <motion.div
+              className="absolute inset-0 pointer-events-none"
+              style={{ background: "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.08) 50%, transparent 60%)" }}
+              animate={{ x: ["-100%", "200%"] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "linear", repeatDelay: 2 }}
+            />
+            {/* Glow ring */}
+            <div className="absolute inset-0 rounded-2xl" style={{ boxShadow: "inset 0 1px 0 rgba(255,255,255,0.15), 0 0 30px rgba(220,38,38,0.3)" }} />
             {/* Decorative kanji */}
-            <span className="absolute -right-3 -bottom-4 text-[80px] font-black text-white/10 select-none leading-none">攻</span>
+            <span className="absolute -right-2 -bottom-3 text-[88px] font-black text-white/10 select-none leading-none">攻</span>
 
             <div>
-              <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mb-2">
+              <motion.div
+                className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mb-2 backdrop-blur-sm"
+                animate={{ boxShadow: ["0 0 0px rgba(255,255,255,0)", "0 0 12px rgba(255,255,255,0.25)", "0 0 0px rgba(255,255,255,0)"] }}
+                transition={{ duration: 3, repeat: Infinity }}
+              >
                 <span className="text-white font-black text-sm">攻</span>
-              </div>
+              </motion.div>
               <p className="text-white font-black text-sm leading-tight">ウリアゲ<br />AIX</p>
             </div>
 
@@ -117,21 +190,37 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                 <ChevronRight className="w-3 h-3 text-white/60" />
               </div>
             </div>
-          </button>
+          </motion.button>
 
           {/* カクヤクAIX — BLUE */}
-          <button
+          <motion.button
+            variants={cardVariants}
             onClick={() => onNavigate(2)}
-            className="relative overflow-hidden rounded-2xl min-h-[140px] flex flex-col justify-between p-4 active:scale-[0.97] transition-transform"
+            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.02, y: -2 }}
+            className="relative overflow-hidden rounded-2xl min-h-[150px] flex flex-col justify-between p-4"
             style={{ background: "linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%)" }}
           >
+            {/* Animated shimmer */}
+            <motion.div
+              className="absolute inset-0 pointer-events-none"
+              style={{ background: "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.08) 50%, transparent 60%)" }}
+              animate={{ x: ["-100%", "200%"] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "linear", repeatDelay: 2, delay: 1.5 }}
+            />
+            {/* Glow ring */}
+            <div className="absolute inset-0 rounded-2xl" style={{ boxShadow: "inset 0 1px 0 rgba(255,255,255,0.15), 0 0 30px rgba(29,78,216,0.3)" }} />
             {/* Decorative kanji */}
-            <span className="absolute -right-3 -bottom-4 text-[80px] font-black text-white/10 select-none leading-none">守</span>
+            <span className="absolute -right-2 -bottom-3 text-[88px] font-black text-white/10 select-none leading-none">守</span>
 
             <div>
-              <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mb-2">
+              <motion.div
+                className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mb-2 backdrop-blur-sm"
+                animate={{ boxShadow: ["0 0 0px rgba(255,255,255,0)", "0 0 12px rgba(255,255,255,0.25)", "0 0 0px rgba(255,255,255,0)"] }}
+                transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
+              >
                 <span className="text-white font-black text-sm">守</span>
-              </div>
+              </motion.div>
               <p className="text-white font-black text-sm leading-tight">カクヤク<br />AIX</p>
             </div>
 
@@ -142,91 +231,134 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                 <ChevronRight className="w-3 h-3 text-white/60" />
               </div>
             </div>
-          </button>
+          </motion.button>
         </div>
 
         {/* ===== TAGLINE ===== */}
-        <div className="px-4 pb-7">
-          <div className="border border-white/10 rounded-2xl p-4 flex items-center gap-3">
+        <motion.div variants={fadeUp} className="px-4 pb-7">
+          <div className="relative border border-white/10 rounded-2xl p-4 flex items-center gap-3 backdrop-blur-sm overflow-hidden"
+            style={{ background: "rgba(255,255,255,0.04)" }}>
+            {/* Subtle animated border glow */}
+            <motion.div
+              className="absolute inset-0 rounded-2xl pointer-events-none"
+              animate={{ opacity: [0, 0.5, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              style={{ boxShadow: "inset 0 0 20px rgba(251,191,36,0.1)" }}
+            />
             <div className="flex-shrink-0">
-              <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center">
-                <span className="text-white/60 text-lg">⚡</span>
-              </div>
+              <motion.div
+                className="w-8 h-8 rounded-lg flex items-center justify-center"
+                style={{ background: "rgba(251,191,36,0.15)" }}
+                animate={{ rotate: [0, 5, -5, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <Zap className="w-4 h-4 text-yellow-400" />
+              </motion.div>
             </div>
             <div>
               <p className="text-white text-xs font-bold leading-snug">最短3ヶ月で超生産性の<br />筋肉質な組織へ</p>
               <p className="text-white/40 text-[10px] mt-0.5">継続利用率 95% ・ 助成金承認率 100%</p>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* ===== SECTIONS ===== */}
       <div className="px-4 pt-5">
-        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 px-1">
+        <motion.p variants={fadeUp} className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 px-1">
           商談フェーズ別コンテンツ
-        </p>
+        </motion.p>
 
         {/* Before */}
-        <div className="mb-2">
+        <motion.div variants={fadeUp} className="mb-2">
           <div className="flex items-center gap-2 mb-2 px-1">
-            <div className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+            <motion.div
+              className="w-1.5 h-1.5 rounded-full bg-slate-400"
+              animate={{ scale: [1, 1.4, 1] }}
+              transition={{ duration: 2.5, repeat: Infinity }}
+            />
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">商談前</span>
           </div>
-          {sections.filter(s => s.phase === "before").map(s => (
-            <SectionRow key={s.id} section={s} onNavigate={onNavigate} />
+          {sections.filter(s => s.phase === "before").map((s, i) => (
+            <SectionRow key={s.id} section={s} onNavigate={onNavigate} index={i} />
           ))}
-        </div>
+        </motion.div>
 
         {/* During */}
-        <div className="mb-2">
+        <motion.div variants={fadeUp} className="mb-2">
           <div className="flex items-center gap-2 mb-2 px-1">
-            <div className="w-1.5 h-1.5 rounded-full bg-red-500" />
+            <motion.div
+              className="w-1.5 h-1.5 rounded-full bg-red-500"
+              animate={{ scale: [1, 1.6, 1], opacity: [1, 0.6, 1] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            />
             <span className="text-[10px] font-bold text-red-500 uppercase tracking-wider">商談中</span>
+            <span className="text-[9px] text-red-400 font-medium ml-0.5">● LIVE</span>
           </div>
-          {sections.filter(s => s.phase === "during").map(s => (
-            <SectionRow key={s.id} section={s} onNavigate={onNavigate} />
+          {sections.filter(s => s.phase === "during").map((s, i) => (
+            <SectionRow key={s.id} section={s} onNavigate={onNavigate} index={i} />
           ))}
-        </div>
+        </motion.div>
 
         {/* After */}
-        <div className="mb-2">
+        <motion.div variants={fadeUp} className="mb-2">
           <div className="flex items-center gap-2 mb-2 px-1">
-            <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
-            <span className="text-[10px] font-bold text-green-500 uppercase tracking-wider">商談後</span>
+            <motion.div
+              className="w-1.5 h-1.5 rounded-full bg-emerald-500"
+              animate={{ scale: [1, 1.4, 1] }}
+              transition={{ duration: 2.5, repeat: Infinity, delay: 1 }}
+            />
+            <span className="text-[10px] font-bold text-emerald-500 uppercase tracking-wider">商談後</span>
           </div>
-          {sections.filter(s => s.phase === "after").map(s => (
-            <SectionRow key={s.id} section={s} onNavigate={onNavigate} />
+          {sections.filter(s => s.phase === "after").map((s, i) => (
+            <SectionRow key={s.id} section={s} onNavigate={onNavigate} index={i} />
           ))}
-        </div>
+        </motion.div>
       </div>
 
       {/* ===== BOTTOM QUOTE ===== */}
-      <div className="mx-4 mt-5 rounded-2xl bg-[#0d0d0d] p-4 text-center">
-        <p className="text-white/70 text-xs font-bold leading-relaxed">
+      <motion.div
+        variants={fadeUp}
+        className="mx-4 mt-5 rounded-2xl p-5 text-center relative overflow-hidden"
+        style={{ background: "linear-gradient(135deg, #0f0c29 0%, #24243e 100%)" }}
+      >
+        <motion.div
+          className="absolute inset-0 rounded-2xl pointer-events-none"
+          animate={{ opacity: [0, 0.4, 0] }}
+          transition={{ duration: 5, repeat: Infinity }}
+          style={{ background: "radial-gradient(ellipse at 50% 50%, rgba(124,58,237,0.15), transparent 70%)" }}
+        />
+        <p className="relative text-white/80 text-sm font-black leading-relaxed tracking-wide">
           「売るな、課題を解決せよ」
         </p>
-        <p className="text-white/30 text-[10px] mt-1">— キーエンス流 クロージング鉄則</p>
-      </div>
+        <p className="relative text-white/30 text-[10px] mt-1.5 tracking-wider">— キーエンス流 クロージング鉄則</p>
+      </motion.div>
 
-    </div>
+    </motion.div>
   )
 }
 
 function SectionRow({
   section,
   onNavigate,
+  index,
 }: {
   section: (typeof sections)[number]
   onNavigate: (id: number) => void
+  index: number
 }) {
   const Icon = section.icon
   return (
-    <button
+    <motion.button
       onClick={() => onNavigate(section.id)}
-      className="w-full flex items-center gap-3 px-3 py-3 mb-1 bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-md active:scale-[0.98] transition-all duration-150 group"
+      initial={{ opacity: 0, x: -16 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: index * 0.06 + 0.3, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      whileTap={{ scale: 0.97 }}
+      whileHover={{ x: 2 }}
+      className="w-full flex items-center gap-3 px-3 py-3 mb-1.5 bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-150 group"
     >
-      <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center flex-shrink-0">
+      <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-slate-200 transition-colors">
         <Icon className="w-4 h-4 text-slate-600" />
       </div>
       <div className="flex-1 text-left min-w-0">
@@ -236,7 +368,12 @@ function SectionRow({
           <p className="text-[10px] text-slate-400">{section.timing}</p>
         </div>
       </div>
-      <ChevronRight className="w-4 h-4 text-slate-300 flex-shrink-0 group-hover:text-slate-500 group-hover:translate-x-0.5 transition-all" />
-    </button>
+      <motion.div
+        animate={{ x: [0, 2, 0] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: index * 0.3 }}
+      >
+        <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-slate-500 transition-colors" />
+      </motion.div>
+    </motion.button>
   )
 }
