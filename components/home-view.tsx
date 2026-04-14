@@ -236,28 +236,39 @@ export function HomeView({ onNavigate }: HomeViewProps) {
 
         {/* ===== TAGLINE ===== */}
         <motion.div variants={fadeUp} className="px-4 pb-7">
-          <div className="relative border border-white/10 rounded-2xl p-4 flex items-center gap-3 backdrop-blur-sm overflow-hidden"
-            style={{ background: "rgba(255,255,255,0.04)" }}>
+          <div className="relative border border-white/15 rounded-2xl px-5 py-4 backdrop-blur-sm overflow-hidden"
+            style={{ background: "rgba(255,255,255,0.07)" }}>
             {/* Subtle animated border glow */}
             <motion.div
               className="absolute inset-0 rounded-2xl pointer-events-none"
-              animate={{ opacity: [0, 0.5, 0] }}
+              animate={{ opacity: [0, 0.6, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              style={{ boxShadow: "inset 0 0 20px rgba(251,191,36,0.1)" }}
+              style={{ boxShadow: "inset 0 0 24px rgba(251,191,36,0.12)" }}
             />
-            <div className="flex-shrink-0">
+            {/* Top row: icon + main copy */}
+            <div className="flex items-center gap-3 mb-3">
               <motion.div
-                className="w-8 h-8 rounded-lg flex items-center justify-center"
-                style={{ background: "rgba(251,191,36,0.15)" }}
+                className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                style={{ background: "rgba(251,191,36,0.18)" }}
                 animate={{ rotate: [0, 5, -5, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               >
-                <Zap className="w-4 h-4 text-yellow-400" />
+                <Zap className="w-5 h-5 text-yellow-400" />
               </motion.div>
+              <p className="text-white text-base font-black leading-snug tracking-tight">
+                最短3ヶ月で超生産性の<br />筋肉質な組織へ
+              </p>
             </div>
-            <div>
-              <p className="text-white text-xs font-bold leading-snug">最短3ヶ月で超生産性の<br />筋肉質な組織へ</p>
-              <p className="text-white/40 text-[10px] mt-0.5">継続利用率 95% ・ 助成金承認率 100%</p>
+            {/* Stats row */}
+            <div className="flex items-center gap-3">
+              <div className="flex-1 bg-white/10 rounded-xl px-3 py-2 text-center">
+                <p className="text-yellow-300 text-lg font-black leading-none">95%</p>
+                <p className="text-white/60 text-[10px] mt-0.5 font-medium">継続利用率</p>
+              </div>
+              <div className="flex-1 bg-white/10 rounded-xl px-3 py-2 text-center">
+                <p className="text-yellow-300 text-lg font-black leading-none">100%</p>
+                <p className="text-white/60 text-[10px] mt-0.5 font-medium">助成金承認率</p>
+              </div>
             </div>
           </div>
         </motion.div>
