@@ -53,15 +53,15 @@ export function PricingROISection() {
               <span className="text-sm text-muted-foreground block mb-1">通常価格</span>
               <span className="text-2xl font-bold line-through text-muted-foreground">¥400,000</span>
             </div>
-            <div className="bg-accent/20 rounded-lg p-4 text-center border border-accent/30">
-              <span className="text-sm text-accent block mb-1">助成金適用後</span>
-              <span className="text-2xl font-bold text-accent">¥100,000</span>
+            <div className="bg-green-50 rounded-lg p-4 text-center border border-green-200">
+              <span className="text-sm text-green-600 block mb-1">助成金適用後</span>
+              <span className="text-2xl font-bold text-green-600">¥100,000</span>
             </div>
           </div>
-          <div className="mt-4 p-3 bg-primary/10 rounded-lg">
+          <div className="mt-4 p-3 bg-orange-50 border border-orange-200 rounded-lg">
             <div className="flex items-center gap-2 mb-2">
-              <Award className="w-5 h-5 text-primary" />
-              <span className="font-medium text-primary">助成金で75%OFF!</span>
+              <Award className="w-5 h-5 text-orange-600" />
+              <span className="font-medium text-orange-700">助成金で75%OFF!</span>
             </div>
             <p className="text-sm text-muted-foreground">
               人材開発支援助成金（人への投資促進コース）を活用することで、
@@ -84,25 +84,25 @@ export function PricingROISection() {
             </div>
             <div className="flex justify-between items-center py-2 border-b border-border">
               <span className="text-muted-foreground">助成金（経費助成）</span>
-              <span className="font-medium text-accent">-¥240,000</span>
+              <span className="font-medium text-green-600">-¥240,000</span>
             </div>
             <div className="flex justify-between items-center py-2 border-b border-border">
               <span className="text-muted-foreground">助成金（賃金助成）</span>
-              <span className="font-medium text-accent">-¥60,000</span>
+              <span className="font-medium text-green-600">-¥60,000</span>
             </div>
             <div className="flex justify-between items-center py-2">
               <span className="font-medium">実質負担額</span>
-              <span className="text-xl font-bold text-primary">¥100,000</span>
+              <span className="text-xl font-bold text-orange-600">¥100,000</span>
             </div>
           </div>
         </CardContent>
       </Card>
 
       {/* ROI Calculator */}
-      <Card className="border-primary/30">
+      <Card className="border-orange-300">
         <CardHeader className="pb-2">
           <div className="flex items-center gap-2">
-            <Calculator className="w-5 h-5 text-primary" />
+            <Calculator className="w-5 h-5 text-orange-600" />
             <CardTitle className="text-base">ROI計算機</CardTitle>
           </div>
         </CardHeader>
@@ -147,17 +147,17 @@ export function PricingROISection() {
               <span className="font-medium">{formatCurrency(currentMonthlyCost)}</span>
             </div>
             <div className="flex items-center gap-2 py-2">
-              <ArrowRight className="w-4 h-4 text-primary" />
-              <span className="text-sm text-primary">50%削減を想定</span>
+              <ArrowRight className="w-4 h-4 text-orange-600" />
+              <span className="text-sm text-orange-600">50%削減を想定</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-muted-foreground">月間削減コスト</span>
-              <span className="font-medium text-accent">{formatCurrency(savedMonthlyCost)}</span>
+              <span className="font-medium text-green-600">{formatCurrency(savedMonthlyCost)}</span>
             </div>
             <hr className="border-border" />
             <div className="flex justify-between items-center">
               <span className="font-medium">年間削減コスト</span>
-              <span className="text-xl font-bold text-primary">{formatCurrency(annualSavings)}</span>
+              <span className="text-xl font-bold text-orange-600">{formatCurrency(annualSavings)}</span>
             </div>
           </div>
         </CardContent>
@@ -173,7 +173,7 @@ export function PricingROISection() {
             {implementationSteps.map((step, index) => (
               <div key={step.step} className="flex gap-3">
                 <div className="flex flex-col items-center">
-                  <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-medium text-sm">
+                  <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white font-medium text-sm">
                     {step.step}
                   </div>
                   {index < implementationSteps.length - 1 && (
@@ -191,10 +191,10 @@ export function PricingROISection() {
       </Card>
 
       {/* Key Metrics */}
-      <Card className="bg-primary/5 border-primary/30">
+      <Card className="bg-orange-50 border-orange-200">
         <CardHeader className="pb-2">
           <div className="flex items-center gap-2">
-            <TrendingUp className="w-5 h-5 text-primary" />
+            <TrendingUp className="w-5 h-5 text-orange-600" />
             <CardTitle className="text-base">導入効果</CardTitle>
           </div>
         </CardHeader>
@@ -202,7 +202,7 @@ export function PricingROISection() {
           <div className="grid grid-cols-2 gap-3">
             {keyMetrics.map((metric, index) => (
               <div key={index} className="bg-card rounded-lg p-3 text-center">
-                <div className="text-2xl font-bold text-primary">{metric.value}</div>
+                <div className="text-2xl font-bold text-orange-600">{metric.value}</div>
                 <div className="font-medium text-sm">{metric.label}</div>
                 <div className="text-xs text-muted-foreground mt-1">{metric.description}</div>
               </div>

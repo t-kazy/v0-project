@@ -178,7 +178,7 @@ export function ObjectionsSection() {
             key={category.id}
             className={cn(
               "transition-all duration-200",
-              isExpanded && "ring-1 ring-primary/50"
+              isExpanded && "ring-1 ring-orange-400"
             )}
           >
             <CardHeader
@@ -213,7 +213,7 @@ export function ObjectionsSection() {
                     
                     {/* Objection Header */}
                     <div className="flex items-center gap-2">
-                      <Badge variant="outline" className="bg-destructive/10 text-destructive border-destructive/30">
+                      <Badge variant="outline" className="bg-red-50 text-red-600 border-red-200">
                         反論
                       </Badge>
                       <span className="font-medium">「{obj.objection}」</span>
@@ -222,7 +222,7 @@ export function ObjectionsSection() {
                     {/* Rebuttal Script */}
                     <div>
                       <div className="flex items-center justify-between mb-2">
-                        <Badge variant="outline" className="bg-accent/10 text-accent border-accent/30">
+                        <Badge variant="outline" className="bg-blue-50 text-blue-600 border-blue-200">
                           切り返し
                         </Badge>
                         <CopyButton text={obj.rebuttal} />
@@ -233,8 +233,8 @@ export function ObjectionsSection() {
                     </div>
 
                     {/* Closing One-liner */}
-                    <div className="bg-primary/10 rounded-lg p-3 flex items-start gap-2">
-                      <Badge variant="outline" className="bg-primary/10 text-primary border-primary/30 shrink-0">
+                    <div className="bg-orange-50 border border-orange-200 rounded-lg p-3 flex items-start gap-2">
+                      <Badge variant="outline" className="bg-orange-100 text-orange-700 border-orange-300 shrink-0">
                         クロージング
                       </Badge>
                       <span className="text-sm">{obj.closing}</span>

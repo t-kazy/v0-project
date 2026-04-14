@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 import {
   ClipboardCheck,
@@ -55,10 +56,33 @@ export default function SalesControlPanel() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Sticky Header */}
-      <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border">
-        <div className="px-4 py-3">
-          <h1 className="text-lg font-bold text-foreground">{tabs[activeTab].fullLabel}</h1>
+      {/* Hero Header with Mascot */}
+      <header className="sticky top-0 z-50 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border-b border-border shadow-lg">
+        <div className="flex items-center justify-between px-3 py-2">
+          <div className="flex items-center gap-3">
+            <div className="relative w-12 h-12 flex-shrink-0">
+              <Image
+                src="/images/mascot-thumbsup.png"
+                alt="AIXマスコット"
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
+            <div>
+              <h1 className="text-base font-bold text-white leading-tight">{tabs[activeTab].fullLabel}</h1>
+              <p className="text-[10px] text-orange-400 font-medium">セールスクローザー コントロールパネル</p>
+            </div>
+          </div>
+          <div className="relative w-20 h-10 flex-shrink-0">
+            <Image
+              src="/images/logo.png"
+              alt="ウリアゲAIX カクヤク"
+              fill
+              className="object-contain"
+              priority
+            />
+          </div>
         </div>
       </header>
 
@@ -78,7 +102,7 @@ export default function SalesControlPanel() {
       </main>
 
       {/* Fixed Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-sm border-t border-border safe-area-bottom">
+      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-border shadow-[0_-2px_10px_rgba(0,0,0,0.1)] safe-area-bottom">
         <div className="flex justify-around items-center py-2 px-1">
           {tabs.map((tab) => {
             const Icon = tab.icon
@@ -89,12 +113,12 @@ export default function SalesControlPanel() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex flex-col items-center justify-center py-2 px-2 rounded-lg transition-all duration-200 min-w-0 flex-1 ${
                   isActive
-                    ? "bg-primary/20 text-primary"
-                    : "text-muted-foreground hover:text-foreground"
+                    ? "bg-orange-50 text-orange-600"
+                    : "text-slate-500 hover:text-slate-700"
                 }`}
               >
-                <Icon className={`w-5 h-5 ${isActive ? "text-primary" : ""}`} />
-                <span className={`text-[10px] mt-1 truncate ${isActive ? "font-medium" : ""}`}>
+                <Icon className={`w-5 h-5 ${isActive ? "text-orange-600" : ""}`} />
+                <span className={`text-[10px] mt-1 truncate ${isActive ? "font-semibold text-orange-600" : ""}`}>
                   {tab.label}
                 </span>
               </button>

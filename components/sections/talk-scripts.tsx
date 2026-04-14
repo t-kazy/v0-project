@@ -135,7 +135,7 @@ export function TalkScriptsSection() {
               <CardHeader className="pb-2">
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-base">{data.title}</CardTitle>
-                  <Badge variant="secondary" className="bg-primary/20 text-primary">
+                  <Badge variant="secondary" className="bg-orange-100 text-orange-700">
                     {data.badge}
                   </Badge>
                 </div>
@@ -176,10 +176,10 @@ export function TalkScriptsSection() {
                         variant="outline"
                         className={
                           row.level === "高"
-                            ? "border-primary text-primary"
+                            ? "border-orange-500 text-orange-600"
                             : row.level === "低"
-                            ? "border-accent text-accent"
-                            : "border-muted-foreground"
+                            ? "border-blue-500 text-blue-600"
+                            : "border-slate-400 text-slate-600"
                         }
                       >
                         {row.level}

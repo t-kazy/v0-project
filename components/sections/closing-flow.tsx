@@ -100,7 +100,7 @@ export function ClosingFlowSection() {
   return (
     <div className="space-y-4">
       {/* Progress Overview */}
-      <Card className="bg-secondary/50">
+      <Card className="bg-slate-50 border-slate-200">
         <CardContent className="py-4">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm text-muted-foreground">クロージング進捗</span>
@@ -112,7 +112,7 @@ export function ClosingFlowSection() {
                 key={step.id}
                 className={cn(
                   "h-2 flex-1 rounded-full transition-colors",
-                  completedSteps.includes(step.id) ? "bg-accent" : "bg-border"
+                  completedSteps.includes(step.id) ? "bg-orange-500" : "bg-slate-200"
                 )}
               />
             ))}
@@ -131,7 +131,7 @@ export function ClosingFlowSection() {
               key={step.id}
               className={cn(
                 "transition-all duration-200",
-                isCompleted && "border-accent/50 bg-accent/5"
+                isCompleted && "border-orange-300 bg-orange-50"
               )}
             >
               <CardHeader
@@ -144,7 +144,7 @@ export function ClosingFlowSection() {
                       variant={isCompleted ? "default" : "outline"}
                       className={cn(
                         "w-8 h-8 rounded-full flex items-center justify-center p-0",
-                        isCompleted && "bg-accent text-accent-foreground"
+                        isCompleted && "bg-orange-500 text-white"
                       )}
                     >
                       {step.id}
@@ -207,8 +207,8 @@ export function ClosingFlowSection() {
                     className={cn(
                       "w-full py-3 rounded-lg flex items-center justify-center gap-2 transition-colors",
                       isCompleted
-                        ? "bg-accent/20 text-accent"
-                        : "bg-secondary hover:bg-secondary/80 text-foreground"
+                        ? "bg-orange-100 text-orange-700"
+                        : "bg-slate-100 hover:bg-slate-200 text-slate-700"
                     )}
                   >
                     <CheckCircle2 className="w-5 h-5" />

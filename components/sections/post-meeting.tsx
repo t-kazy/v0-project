@@ -89,15 +89,15 @@ export function PostMeetingSection() {
   return (
     <div className="space-y-4">
       {/* Progress Overview */}
-      <Card className="bg-secondary/50">
+      <Card className="bg-slate-50 border-slate-200">
         <CardContent className="py-4">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm text-muted-foreground">チェックリスト進捗</span>
             <span className="text-sm font-medium">{completedItems} / {totalItems}</span>
           </div>
-          <div className="h-2 bg-border rounded-full overflow-hidden">
+          <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
             <div
-              className="h-full bg-accent transition-all duration-300"
+              className="h-full bg-orange-500 transition-all duration-300"
               style={{ width: `${(completedItems / totalItems) * 100}%` }}
             />
           </div>
@@ -137,10 +137,10 @@ export function PostMeetingSection() {
       ))}
 
       {/* Next Action */}
-      <Card className="border-primary/30">
+      <Card className="border-orange-300">
         <CardHeader className="pb-2">
           <div className="flex items-center gap-2">
-            <Calendar className="w-5 h-5 text-primary" />
+            <Calendar className="w-5 h-5 text-orange-600" />
             <CardTitle className="text-base">次回アクション</CardTitle>
           </div>
         </CardHeader>
@@ -172,7 +172,7 @@ export function PostMeetingSection() {
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Mail className="w-5 h-5 text-primary" />
+              <Mail className="w-5 h-5 text-orange-600" />
               <CardTitle className="text-base">お礼メールテンプレート</CardTitle>
             </div>
             <CopyButton text={thankYouTemplate} />
@@ -188,7 +188,7 @@ export function PostMeetingSection() {
       {/* Reset Button */}
       <Button
         variant="outline"
-        className="w-full gap-2 border-destructive/30 text-destructive hover:bg-destructive/10"
+        className="w-full gap-2 border-red-300 text-red-600 hover:bg-red-50"
         onClick={resetAll}
       >
         <RotateCcw className="w-4 h-4" />

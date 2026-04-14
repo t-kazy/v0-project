@@ -112,7 +112,7 @@ export function IndustryCasesSection() {
             key={industry.id}
             className={cn(
               "transition-all duration-200",
-              isExpanded && "ring-1 ring-primary/50"
+              isExpanded && "ring-1 ring-orange-400"
             )}
           >
             <CardHeader
@@ -121,8 +121,8 @@ export function IndustryCasesSection() {
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
-                    <Icon className="w-5 h-5 text-primary" />
+                  <div className="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center">
+                    <Icon className="w-5 h-5 text-orange-600" />
                   </div>
                   <div>
                     <CardTitle className="text-base">{industry.name}</CardTitle>
@@ -131,10 +131,10 @@ export function IndustryCasesSection() {
                       className={cn(
                         "mt-1 text-xs",
                         industry.recommendedProduct === "ウリアゲAIX"
-                          ? "bg-primary/20 text-primary"
+                          ? "bg-orange-100 text-orange-700"
                           : industry.recommendedProduct === "カクヤクAIX"
-                          ? "bg-accent/20 text-accent"
-                          : "bg-muted text-muted-foreground"
+                          ? "bg-blue-100 text-blue-700"
+                          : "bg-slate-100 text-slate-600"
                       )}
                     >
                       {industry.recommendedProduct}
@@ -153,23 +153,23 @@ export function IndustryCasesSection() {
               <CardContent className="space-y-4">
                 {/* Before/After Table */}
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="bg-destructive/10 rounded-lg p-3">
-                    <div className="text-sm font-medium text-destructive mb-2">Before</div>
+                  <div className="bg-red-50 rounded-lg p-3">
+                    <div className="text-sm font-medium text-red-600 mb-2">Before</div>
                     <ul className="space-y-2">
                       {industry.before.map((item, index) => (
                         <li key={index} className="text-sm text-muted-foreground flex items-start gap-2">
-                          <span className="text-destructive mt-0.5">×</span>
+                          <span className="text-red-500 mt-0.5">×</span>
                           {item}
                         </li>
                       ))}
                     </ul>
                   </div>
-                  <div className="bg-accent/10 rounded-lg p-3">
-                    <div className="text-sm font-medium text-accent mb-2">After</div>
+                  <div className="bg-green-50 rounded-lg p-3">
+                    <div className="text-sm font-medium text-green-600 mb-2">After</div>
                     <ul className="space-y-2">
                       {industry.after.map((item, index) => (
                         <li key={index} className="text-sm text-muted-foreground flex items-start gap-2">
-                          <span className="text-accent mt-0.5">✓</span>
+                          <span className="text-green-500 mt-0.5">✓</span>
                           {item}
                         </li>
                       ))}
@@ -178,14 +178,14 @@ export function IndustryCasesSection() {
                 </div>
 
                 {/* Metrics */}
-                <div className="bg-primary/10 rounded-lg p-3 text-center">
-                  <span className="text-sm font-medium text-primary">{industry.metrics}</span>
+                <div className="bg-orange-50 border border-orange-200 rounded-lg p-3 text-center">
+                  <span className="text-sm font-medium text-orange-700">{industry.metrics}</span>
                 </div>
 
                 {/* Video Placeholder */}
-                <div className="bg-secondary rounded-lg p-8 flex flex-col items-center justify-center">
-                  <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center mb-2">
-                    <Play className="w-6 h-6 text-primary" />
+                <div className="bg-slate-100 rounded-lg p-8 flex flex-col items-center justify-center">
+                  <div className="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center mb-2">
+                    <Play className="w-6 h-6 text-orange-600" />
                   </div>
                   <span className="text-sm text-muted-foreground">事例動画</span>
                   <span className="text-xs text-muted-foreground mt-1">Coming Soon</span>

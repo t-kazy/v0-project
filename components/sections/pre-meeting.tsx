@@ -129,7 +129,7 @@ export function PreMeetingSection() {
         <CardContent className="space-y-4">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <Badge variant="secondary" className="bg-primary/20 text-primary">
+              <Badge variant="secondary" className="bg-orange-100 text-orange-700">
                 ウリアゲAIX
               </Badge>
             </div>
@@ -143,7 +143,7 @@ export function PreMeetingSection() {
           </div>
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <Badge variant="secondary" className="bg-accent/20 text-accent">
+              <Badge variant="secondary" className="bg-blue-100 text-blue-700">
                 カクヤクAIX
               </Badge>
             </div>
@@ -159,10 +159,10 @@ export function PreMeetingSection() {
       </Card>
 
       {/* Mindset Quotes */}
-      <Card className="bg-primary/10 border-primary/30">
+      <Card className="bg-orange-50 border-orange-200">
         <CardHeader className="pb-2">
           <CardTitle className="text-base flex items-center gap-2">
-            <Quote className="w-4 h-4 text-primary" />
+            <Quote className="w-4 h-4 text-orange-600" />
             マインドセット
           </CardTitle>
         </CardHeader>
