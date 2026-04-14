@@ -97,18 +97,18 @@ export function HomeView({ onNavigate }: HomeViewProps) {
     >
 
       {/* ===== HERO ===== */}
-      <div className="relative overflow-hidden" style={{ background: "linear-gradient(135deg, #0f0c29 0%, #1a0533 30%, #24243e 60%, #0d1b2a 100%)" }}>
+      <div className="relative overflow-hidden" style={{ background: "linear-gradient(135deg, #1e1a3a 0%, #2d1b4e 30%, #1e2a4a 60%, #162238 100%)" }}>
 
         {/* Animated mesh blobs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <motion.div
-            className="absolute rounded-full blur-[80px] opacity-30"
+            className="absolute rounded-full blur-[80px] opacity-20"
             style={{ width: 280, height: 280, top: -60, left: -80, background: "radial-gradient(circle, #dc2626, transparent 70%)" }}
             animate={{ x: [0, 20, 0], y: [0, 15, 0] }}
             transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
-            className="absolute rounded-full blur-[80px] opacity-25"
+            className="absolute rounded-full blur-[80px] opacity-15"
             style={{ width: 260, height: 260, top: -40, right: -60, background: "radial-gradient(circle, #1d4ed8, transparent 70%)" }}
             animate={{ x: [0, -18, 0], y: [0, 20, 0] }}
             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
@@ -320,7 +320,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
       <motion.div
         variants={fadeUp}
         className="mx-4 mt-5 rounded-2xl p-5 text-center relative overflow-hidden"
-        style={{ background: "linear-gradient(135deg, #0f0c29 0%, #24243e 100%)" }}
+        style={{ background: "linear-gradient(135deg, #1e1a3a 0%, #1e2a4a 100%)" }}
       >
         <motion.div
           className="absolute inset-0 rounded-2xl pointer-events-none"
