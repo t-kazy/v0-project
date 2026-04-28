@@ -84,6 +84,32 @@ export function PreMeetingSection({ onNavigate }: PreMeetingSectionProps = {}) {
         </CardContent>
       </Card>
 
+      {/* ===== CUSTOMER-FACING PRE-MEETING VIDEO CARD ===== */}
+      <Card className="border-slate-200 shadow-sm bg-white overflow-hidden">
+        <div className="h-1 bg-gradient-to-r from-cyan-500 to-teal-500" />
+        <CardHeader className="pb-2 pt-4">
+          <CardTitle className="text-sm font-bold text-slate-800 flex items-center gap-2">
+            <PlayCircle className="w-4 h-4 text-cyan-600" />
+            顧客向け事前共有動画
+          </CardTitle>
+          <p className="text-[10px] text-slate-500 mt-1">
+            商談前に顧客へお送りしている動画です。顧客が何を見て商談に来るかの確認用に
+          </p>
+        </CardHeader>
+        <CardContent className="pt-0 pb-4">
+          <div className="relative w-full overflow-hidden rounded-lg bg-slate-900" style={{ paddingTop: "56.25%" }}>
+            <iframe
+              src="https://player.vimeo.com/video/1186712259?h=7a1699fb0f&badge=0&autopause=0&player_id=0&app_id=58479"
+              className="absolute inset-0 w-full h-full"
+              frameBorder="0"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+              allowFullScreen
+              title="顧客向け事前共有動画"
+            />
+          </div>
+        </CardContent>
+      </Card>
+
       {/* ===== SERVICE DECK CARD (Canva) ===== */}
       <Card className="border-slate-200 shadow-sm bg-white overflow-hidden">
         <div className="h-1 bg-gradient-to-r from-blue-500 to-indigo-500" />
