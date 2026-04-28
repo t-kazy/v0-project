@@ -112,7 +112,7 @@ export default function SalesControlPanel() {
       <div className="flex flex-1 min-h-0">
 
         {/* ===== LEFT SIDEBAR — PC only ===== */}
-        <aside className="hidden lg:flex flex-shrink-0 w-56 bg-white border-r border-slate-200 flex-col overflow-y-auto shadow-sm">
+        <aside className="hidden lg:flex flex-shrink-0 w-72 bg-white border-r border-slate-200 flex-col overflow-y-auto shadow-sm">
 
           {/* Home */}
           <div className="p-3 border-b border-slate-100">
