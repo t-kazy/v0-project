@@ -84,6 +84,41 @@ export function PreMeetingSection({ onNavigate }: PreMeetingSectionProps = {}) {
         </CardContent>
       </Card>
 
+      {/* ===== SERVICE DECK CARD (Canva) ===== */}
+      <Card className="border-slate-200 shadow-sm bg-white overflow-hidden">
+        <div className="h-1 bg-gradient-to-r from-blue-500 to-indigo-500" />
+        <CardHeader className="pb-2 pt-4">
+          <CardTitle className="text-sm font-bold text-slate-800 flex items-center gap-2">
+            <FileText className="w-4 h-4 text-blue-600" />
+            サービス資料スライド
+          </CardTitle>
+          <p className="text-[10px] text-slate-500 mt-1">
+            商談で使うサービス資料を確認・共有できます
+          </p>
+        </CardHeader>
+        <CardContent className="pt-0 pb-4 space-y-2">
+          <div className="relative w-full overflow-hidden rounded-lg border border-slate-200 bg-slate-50" style={{ paddingTop: "56.25%" }}>
+            <iframe
+              src="https://www.canva.com/design/DAHGleykgAI/tLJ62RaU_EcPcxH8UdJw8w/view?embed"
+              className="absolute inset-0 w-full h-full"
+              frameBorder="0"
+              allow="fullscreen"
+              allowFullScreen
+              title="サービス資料スライド"
+            />
+          </div>
+          <a
+            href="https://www.canva.com/design/DAHGleykgAI/tLJ62RaU_EcPcxH8UdJw8w/view?utm_content=DAHGleykgAI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hbd65b86cea"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 w-full py-2 px-3 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] font-bold transition-colors"
+          >
+            <ExternalLink className="w-3 h-3" />
+            Canvaで開く（フルスクリーン表示）
+          </a>
+        </CardContent>
+      </Card>
+
       {/* ===== GENSPARK AGENT CARD ===== */}
       <Card className="border-slate-200 shadow-sm bg-white overflow-hidden">
         <div className="h-1 bg-gradient-to-r from-emerald-500 to-teal-500" />
