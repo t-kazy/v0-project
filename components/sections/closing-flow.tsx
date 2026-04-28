@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ChevronDown, ChevronUp, CheckCircle2, RotateCcw, Cpu, FileText as PaperIcon, AlertTriangle, Sparkles, X, ArrowUpRight, Building2, MessageSquareQuote, ExternalLink, Link2 } from "lucide-react"
+import { ChevronDown, ChevronUp, CheckCircle2, RotateCcw, Cpu, FileText as PaperIcon, AlertTriangle, Sparkles, X, ArrowUpRight, Building2, MessageSquareQuote, ExternalLink } from "lucide-react"
 import { CopyButton } from "@/components/copy-button"
 import { cn } from "@/lib/utils"
 import { useLocalStorage } from "@/hooks/use-local-storage"
@@ -240,15 +240,6 @@ export function ClosingFlowSection() {
             AI危機診断を開く
             <ExternalLink className="w-3.5 h-3.5 opacity-80" />
           </a>
-
-          {/* URL copy for sharing */}
-          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-50 border border-slate-200">
-            <Link2 className="w-3 h-3 text-slate-500 flex-shrink-0" />
-            <code className="text-[10px] text-slate-600 truncate flex-1 font-mono">
-              https://aidiagnosis-wxpz59bh.manus.space/
-            </code>
-            <CopyButton text="https://aidiagnosis-wxpz59bh.manus.space/" />
-          </div>
         </div>
       </div>
 
