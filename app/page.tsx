@@ -226,7 +226,7 @@ export default function SalesControlPanel() {
               >
                 {isHome
                   ? <HomeView onNavigate={(id) => setActiveTab(id)} />
-                  : <div className="max-w-3xl">{renderSection()}</div>
+                  : <div className="max-w-4xl mx-auto">{renderSection()}</div>
                 }
               </motion.div>
             </AnimatePresence>
