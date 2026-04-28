@@ -40,7 +40,7 @@ const tabs = [
   { id: 4, icon: MessageSquareWarning, label: "反論QA集",         shortLabel: "反論", phase: "during", activeText: "text-orange-600", activeBorder: "border-orange-500", activeBg: "bg-orange-500", mobileBg: "bg-orange-50" },
   { id: 5, icon: Calculator,           label: "料金・ROI",        shortLabel: "料金", phase: "during", activeText: "text-blue-600",   activeBorder: "border-blue-500",   activeBg: "bg-blue-600",   mobileBg: "bg-blue-50"   },
   { id: 6, icon: CheckCircle2,         label: "商談後チェック",   shortLabel: "事後", phase: "after",  activeText: "text-green-600",  activeBorder: "border-green-500",  activeBg: "bg-green-600",  mobileBg: "bg-green-50"  },
-  { id: 7, icon: Dumbbell,             label: "ロープレ(テスト/練習)", shortLabel: "ロープレ", phase: "before", activeText: "text-purple-600", activeBorder: "border-purple-500", activeBg: "bg-purple-600", mobileBg: "bg-purple-50" },
+  { id: 7, icon: Dumbbell,             label: "ロープレ(テスト/練習/参考)", shortLabel: "ロープレ", phase: "before", activeText: "text-purple-600", activeBorder: "border-purple-500", activeBg: "bg-purple-600", mobileBg: "bg-purple-50" },
   { id: 8, icon: Banknote,             label: "助成金申請フォーム", shortLabel: "助成金", phase: "during", activeText: "text-emerald-600", activeBorder: "border-emerald-500", activeBg: "bg-emerald-600", mobileBg: "bg-emerald-50" },
   { id: 9, icon: CalendarDays,         label: "稼働カレンダー",   shortLabel: "稼働", phase: "before", activeText: "text-indigo-600", activeBorder: "border-indigo-500", activeBg: "bg-indigo-600", mobileBg: "bg-indigo-50" },
 ]

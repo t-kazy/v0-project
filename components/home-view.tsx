@@ -34,7 +34,7 @@ const CLOSING_TOTAL = 5
 
 const sections = [
   { id: 0, icon: ClipboardCheck, label: "商談前チェック", timing: "商談10分前", phase: "before" as const },
-  { id: 7, icon: Dumbbell, label: "ロープレ(テスト/練習)", timing: "商談前の実力確認", phase: "before" as const },
+  { id: 7, icon: Dumbbell, label: "ロープレ(テスト/練習/参考)", timing: "商談前の実力確認＋実商談ログ", phase: "before" as const },
   { id: 9, icon: CalendarDays, label: "稼働カレンダー", timing: "テスト合格後・稼働枠登録", phase: "before" as const },
   { id: 1, icon: GitBranch, label: "クロージングフロー", timing: "商談中・流れの確認", phase: "during" as const },
   { id: 2, icon: FileText, label: "トークスクリプト", timing: "言葉に詰まったとき", phase: "during" as const },
