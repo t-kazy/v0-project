@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
-import { RotateCcw, Zap, Shield, Brain, PlayCircle, Sparkles, ExternalLink, FileText, Link2, Layers, Banknote, ArrowRight } from "lucide-react"
+import { RotateCcw, Zap, Shield, Brain, PlayCircle, Sparkles, ExternalLink, FileText, Link2, Layers, Banknote, ArrowRight, AlertTriangle } from "lucide-react"
 import { CopyButton } from "@/components/copy-button"
 
 const SUBSIDY_FORM_SHORT_URL = "https://forms.gle/ozXzF9WmQjigiGa57"
@@ -116,6 +116,55 @@ export function PreMeetingSection({ onNavigate }: PreMeetingSectionProps = {}) {
             <ExternalLink className="w-3 h-3" />
             Canvaで開く（フルスクリーン表示）
           </a>
+        </CardContent>
+      </Card>
+
+      {/* ===== AI CRISIS DIAGNOSIS CARD ===== */}
+      <Card className="border-slate-200 shadow-sm bg-white overflow-hidden">
+        <div className="h-1 bg-gradient-to-r from-orange-500 to-red-500" />
+        <CardHeader className="pb-2 pt-4">
+          <CardTitle className="text-sm font-bold text-slate-800 flex items-center gap-2">
+            <AlertTriangle className="w-4 h-4 text-orange-600" />
+            AI危機診断（ニーズ喚起ツール）
+          </CardTitle>
+          <p className="text-[10px] text-slate-500 mt-1">
+            理想は商談前に顧客側で実施。未診断の場合は商談中にこの画面を共有して一緒に進めてください
+          </p>
+        </CardHeader>
+        <CardContent className="pt-0 pb-4 space-y-2">
+          {/* Primary CTA — open in new tab for screen-share / send to customer */}
+          <a
+            href="https://aidiagnosis-wxpz59bh.manus.space/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-lg bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-bold shadow-sm hover:shadow-md transition-all"
+          >
+            <AlertTriangle className="w-4 h-4" />
+            AI危機診断を開く
+            <ExternalLink className="w-3.5 h-3.5 opacity-80" />
+          </a>
+
+          {/* URL copy for sharing in chat */}
+          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-50 border border-slate-200">
+            <Link2 className="w-3 h-3 text-slate-500 flex-shrink-0" />
+            <code className="text-[10px] text-slate-600 truncate flex-1 font-mono">
+              https://aidiagnosis-wxpz59bh.manus.space/
+            </code>
+            <CopyButton text="https://aidiagnosis-wxpz59bh.manus.space/" />
+          </div>
+
+          {/* Inline preview (iframe) */}
+          <div className="relative w-full overflow-hidden rounded-lg border border-slate-200 bg-slate-50" style={{ paddingTop: "75%" }}>
+            <iframe
+              src="https://aidiagnosis-wxpz59bh.manus.space/"
+              className="absolute inset-0 w-full h-full"
+              frameBorder="0"
+              title="AI危機診断"
+            />
+          </div>
+          <p className="text-[10px] text-slate-400 text-center">
+            ※ 埋め込みプレビュー。顧客に実施してもらう際は上の「開く」ボタン or URLコピーで共有してください
+          </p>
         </CardContent>
       </Card>
 
