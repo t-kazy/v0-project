@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import {
   ClipboardCheck,
@@ -55,6 +55,13 @@ export default function SalesControlPanel() {
   const [activeTab, setActiveTab] = useState<number | null>(null)
   const isHome = activeTab === null
   const currentTab = activeTab !== null ? tabs[activeTab] : null
+
+  // Reset main content scroll position to top whenever a different tab is opened
+  const mainRef = useRef<HTMLElement>(null)
+  useEffect(() => {
+    if (mainRef.current) mainRef.current.scrollTop = 0
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "auto" })
+  }, [activeTab])
 
   const renderSection = () => {
     switch (activeTab) {
@@ -188,7 +195,7 @@ export default function SalesControlPanel() {
         </aside>
 
         {/* ===== MAIN CONTENT ===== */}
-        <main className="flex-1 min-w-0 overflow-y-auto pb-20 lg:pb-0">
+        <main ref={mainRef} className="flex-1 min-w-0 overflow-y-auto pb-20 lg:pb-0">
 
           {/* Page title bar */}
           <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 lg:px-8 py-2.5 lg:py-3 flex items-center justify-between shadow-sm">
