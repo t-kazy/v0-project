@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ChevronDown, ChevronUp, CheckCircle2, RotateCcw, Cpu, FileText as PaperIcon, AlertTriangle, Sparkles, X, ArrowUpRight, Building2, MessageSquareQuote } from "lucide-react"
+import { ChevronDown, ChevronUp, CheckCircle2, RotateCcw, Cpu, FileText as PaperIcon, AlertTriangle, Sparkles, X, ArrowUpRight, Building2, MessageSquareQuote, ExternalLink, Link2 } from "lucide-react"
 import { CopyButton } from "@/components/copy-button"
 import { cn } from "@/lib/utils"
 import { useLocalStorage } from "@/hooks/use-local-storage"
@@ -213,6 +213,44 @@ export function ClosingFlowSection() {
 
   return (
     <div className="space-y-4">
+
+      {/* ===== AI CRISIS DIAGNOSIS CARD (ニーズ喚起ツール) ===== */}
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div className="h-1 bg-gradient-to-r from-orange-500 to-red-500" />
+        <div className="p-4 space-y-2.5">
+          <div>
+            <div className="flex items-center gap-1.5 mb-0.5">
+              <AlertTriangle className="w-3.5 h-3.5 text-orange-500" />
+              <span className="text-[9px] font-bold text-orange-600 uppercase tracking-widest">ニーズ喚起ツール</span>
+            </div>
+            <p className="text-sm font-bold text-slate-800 leading-tight">AI危機診断</p>
+            <p className="text-[10px] text-slate-500 mt-0.5 leading-relaxed">
+              理想は商談前に顧客側で実施。未診断の場合は商談中にこの画面を共有 / URLを送って一緒に進めてください
+            </p>
+          </div>
+
+          {/* Primary CTA */}
+          <a
+            href="https://aidiagnosis-wxpz59bh.manus.space/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-lg bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-bold shadow-sm hover:shadow-md transition-all"
+          >
+            <AlertTriangle className="w-4 h-4" />
+            AI危機診断を開く
+            <ExternalLink className="w-3.5 h-3.5 opacity-80" />
+          </a>
+
+          {/* URL copy for sharing */}
+          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-50 border border-slate-200">
+            <Link2 className="w-3 h-3 text-slate-500 flex-shrink-0" />
+            <code className="text-[10px] text-slate-600 truncate flex-1 font-mono">
+              https://aidiagnosis-wxpz59bh.manus.space/
+            </code>
+            <CopyButton text="https://aidiagnosis-wxpz59bh.manus.space/" />
+          </div>
+        </div>
+      </div>
 
       {/* ===== LITERACY BRANCH CARD ===== */}
       <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
