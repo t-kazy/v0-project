@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
-import { RotateCcw, Zap, Shield, Brain, PlayCircle, Sparkles, ExternalLink, FileText, Link2, Layers, Banknote, ArrowRight } from "lucide-react"
+import { RotateCcw, Zap, Shield, Brain, PlayCircle, Sparkles, ExternalLink, FileText, Link2, Layers, Banknote, ArrowRight, Search } from "lucide-react"
 import { CopyButton } from "@/components/copy-button"
 
 const SUBSIDY_FORM_SHORT_URL = "https://forms.gle/ozXzF9WmQjigiGa57"
@@ -236,6 +236,41 @@ export function PreMeetingSection({ onNavigate }: PreMeetingSectionProps = {}) {
           >
             <Sparkles className="w-4 h-4" />
             提案書を作成する
+            <ExternalLink className="w-3.5 h-3.5 opacity-80" />
+          </a>
+          <p className="text-[10px] text-slate-400 text-center">
+            ボタンをタップで Genspark エージェントが別タブで開きます
+          </p>
+        </CardContent>
+      </Card>
+
+      {/* ===== GENSPARK RESEARCH AGENT CARD ===== */}
+      <Card className="border-slate-200 shadow-sm bg-white overflow-hidden">
+        <div className="h-1 bg-gradient-to-r from-sky-500 to-indigo-500" />
+        <CardHeader className="pb-2 pt-4">
+          <CardTitle className="text-sm font-bold text-slate-800 flex items-center gap-2">
+            <Search className="w-4 h-4 text-sky-600" />
+            事前調査カスタムエージェント (Genspark)
+          </CardTitle>
+          <p className="text-[10px] text-slate-500 mt-1">
+            商談前に顧客企業の情報をAIで自動リサーチします
+          </p>
+        </CardHeader>
+        <CardContent className="pt-0 pb-4 space-y-3">
+          <div className="p-2.5 bg-sky-50 border border-sky-100 rounded-lg">
+            <p className="text-[11px] text-slate-700 leading-relaxed">
+              <span className="font-bold text-sky-700">企業名・URL</span> を入力すると、業種・事業内容・直近トピックなどを調査してくれます。商談前のヒアリング仮説づくりにご活用ください。
+            </p>
+          </div>
+
+          <a
+            href="https://www.genspark.ai/agents?type=custom_super_agent&agent_id=b7221168-f7e9-467a-a215-c8aaca52367f"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-lg bg-gradient-to-r from-sky-500 to-indigo-500 text-white text-sm font-bold shadow-sm hover:shadow-md transition-all"
+          >
+            <Search className="w-4 h-4" />
+            事前調査を開始する
             <ExternalLink className="w-3.5 h-3.5 opacity-80" />
           </a>
           <p className="text-[10px] text-slate-400 text-center">
