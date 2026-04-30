@@ -10,6 +10,7 @@ const FORM_SHORT_URL = "https://forms.gle/ozXzF9WmQjigiGa57"
 
 const LINE_KANAYA_URL = "https://line.me/ti/p/4tkj6J8AUe"
 const LINE_HADA_URL = "https://line.me/ti/p/CVFCgU7gF8"
+const LINE_OHNO_URL = "https://line.me/ti/p/LgTkPmbUxu"
 
 const GROUP_NAME_TEMPLATE = "【AIX研修】株式会社〇〇様"
 
@@ -206,7 +207,7 @@ export function SubsidyApplicationSection() {
               <p className="text-[11px] text-slate-600 mt-0.5 leading-relaxed">
                 下記メンバーを追加してください
               </p>
-              <div className="grid grid-cols-2 gap-2 mt-2">
+              <div className="grid grid-cols-3 gap-2 mt-2">
                 <a
                   href={LINE_KANAYA_URL}
                   target="_blank"
@@ -224,6 +225,15 @@ export function SubsidyApplicationSection() {
                 >
                   <MessageCircle className="w-3 h-3" />
                   波田 を追加
+                </a>
+                <a
+                  href={LINE_OHNO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg bg-gradient-to-r from-green-500 to-emerald-500 text-white text-[11px] font-bold shadow-sm hover:shadow-md transition-all"
+                >
+                  <MessageCircle className="w-3 h-3" />
+                  大野 を追加
                 </a>
               </div>
             </div>
