@@ -39,14 +39,14 @@ const sections = [
   { id: 1, icon: GitBranch, label: "クロージングフロー", timing: "商談中・流れの確認", phase: "during" as const },
   { id: 2, icon: FileText, label: "トークスクリプト", timing: "言葉に詰まったとき", phase: "during" as const },
   { id: 3, icon: Building2, label: "業種別事例", timing: "事例を見せたいとき", phase: "during" as const },
-  { id: 4, icon: MessageSquareWarning, label: "反論QA集", timing: "懸念を出されたとき", phase: "during" as const },
+  { id: 4, icon: MessageSquareWarning, label: "切り返しトーク集", timing: "懸念を出されたとき", phase: "during" as const },
   { id: 5, icon: Calculator, label: "料金・ROI", timing: "お金の話になったとき", phase: "during" as const },
   { id: 8, icon: Banknote, label: "助成金申請フォーム", timing: "クロージング→契約に進むとき", phase: "during" as const },
   { id: 6, icon: CheckCircle2, label: "商談後チェック", timing: "商談終了直後", phase: "after" as const },
 ]
 
 const quickActions = [
-  { id: 4, icon: MessageSquareWarning, label: "反論対応", desc: "即座に切り返し", color: "from-orange-500 to-red-600", iconBg: "bg-orange-500/20" },
+  { id: 4, icon: MessageSquareWarning, label: "切り返し", desc: "トーク集を確認", color: "from-orange-500 to-red-600", iconBg: "bg-orange-500/20" },
   { id: 2, icon: FileText, label: "スクリプト", desc: "トーク確認", color: "from-blue-500 to-blue-700", iconBg: "bg-blue-500/20" },
   { id: 5, icon: Calculator, label: "料金提示", desc: "ROI計算", color: "from-emerald-500 to-teal-700", iconBg: "bg-emerald-500/20" },
 ]

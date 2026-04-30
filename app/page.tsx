@@ -37,7 +37,7 @@ const tabs = [
   { id: 1, icon: GitBranch,            label: "クロージングフロー", shortLabel: "フロー", phase: "during", activeText: "text-blue-600",   activeBorder: "border-blue-500",   activeBg: "bg-blue-600",   mobileBg: "bg-blue-50"   },
   { id: 2, icon: FileText,             label: "トークスクリプト", shortLabel: "スクリプト", phase: "during", activeText: "text-blue-600",   activeBorder: "border-blue-500",   activeBg: "bg-blue-600",   mobileBg: "bg-blue-50"   },
   { id: 3, icon: Building2,            label: "業種別事例",       shortLabel: "事例", phase: "during", activeText: "text-blue-600",   activeBorder: "border-blue-500",   activeBg: "bg-blue-600",   mobileBg: "bg-blue-50"   },
-  { id: 4, icon: MessageSquareWarning, label: "反論QA集",         shortLabel: "反論", phase: "during", activeText: "text-orange-600", activeBorder: "border-orange-500", activeBg: "bg-orange-500", mobileBg: "bg-orange-50" },
+  { id: 4, icon: MessageSquareWarning, label: "切り返しトーク集", shortLabel: "切り返し", phase: "during", activeText: "text-orange-600", activeBorder: "border-orange-500", activeBg: "bg-orange-500", mobileBg: "bg-orange-50" },
   { id: 5, icon: Calculator,           label: "料金・ROI",        shortLabel: "料金", phase: "during", activeText: "text-blue-600",   activeBorder: "border-blue-500",   activeBg: "bg-blue-600",   mobileBg: "bg-blue-50"   },
   { id: 6, icon: CheckCircle2,         label: "商談後チェック",   shortLabel: "事後", phase: "after",  activeText: "text-green-600",  activeBorder: "border-green-500",  activeBg: "bg-green-600",  mobileBg: "bg-green-50"  },
   { id: 7, icon: Dumbbell,             label: "ロープレ(テスト/練習/参考)", shortLabel: "ロープレ", phase: "before", activeText: "text-purple-600", activeBorder: "border-purple-500", activeBg: "bg-purple-600", mobileBg: "bg-purple-50" },
