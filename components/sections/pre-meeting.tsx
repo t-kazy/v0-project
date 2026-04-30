@@ -313,9 +313,9 @@ export function PreMeetingSection({ onNavigate }: PreMeetingSectionProps = {}) {
       <section id="step-2" className="space-y-3 scroll-mt-4">
         <SectionHeader step={stepMeta[1]} />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {/* 2-1 RESEARCH AGENT */}
-          <Card className="border-slate-200 shadow-sm bg-white overflow-hidden">
+          <Card className="border-slate-200 shadow-sm bg-white overflow-hidden h-full flex flex-col">
             <div className="h-1 bg-gradient-to-r from-sky-500 to-indigo-500" />
             <CardHeader className="pb-2 pt-4">
               <CardTitle className="text-sm font-bold text-slate-800 flex items-center gap-2 flex-wrap">
@@ -327,31 +327,60 @@ export function PreMeetingSection({ onNavigate }: PreMeetingSectionProps = {}) {
                 商談前に顧客企業の情報をAIで自動リサーチします
               </p>
             </CardHeader>
-            <CardContent className="pt-0 pb-4 space-y-3">
-              <div className="p-2.5 bg-sky-50 border border-sky-100 rounded-lg">
-                <p className="text-[11px] text-slate-700 leading-relaxed">
-                  <span className="font-bold text-sky-700">企業名・URL</span> を入力すると、業種・事業内容・直近トピックなどを調査してくれます。商談前のヒアリング仮説づくりにご活用ください。
-                </p>
+            <CardContent className="pt-0 pb-4 flex-1 flex flex-col">
+              <div className="flex-1 space-y-3">
+                <div className="p-2.5 bg-sky-50 border border-sky-100 rounded-lg">
+                  <p className="text-[11px] text-slate-700 leading-relaxed">
+                    <span className="font-bold text-sky-700">企業名・URL</span> を入力すると、業種・事業内容・直近トピックなどを調査してくれます。商談前のヒアリング仮説づくりにご活用ください。
+                  </p>
+                </div>
+
+                <div className="p-2.5 bg-slate-50 border border-slate-200 rounded-lg">
+                  <p className="text-[10px] font-bold text-slate-600 mb-1.5 flex items-center gap-1">
+                    <Lightbulb className="w-3 h-3 text-amber-500" />
+                    こんな使い方も
+                  </p>
+                  <ul className="space-y-1 text-[10px] text-slate-600 leading-relaxed">
+                    <li className="flex gap-1.5">
+                      <span className="text-sky-500 flex-shrink-0">▸</span>
+                      <span>社長・担当者のインタビュー記事から<span className="font-bold text-slate-700">アイスブレイクのネタ</span>を仕込む</span>
+                    </li>
+                    <li className="flex gap-1.5">
+                      <span className="text-sky-500 flex-shrink-0">▸</span>
+                      <span>採用ページの募集要項から<span className="font-bold text-slate-700">"今困っていること"</span>を逆算する</span>
+                    </li>
+                    <li className="flex gap-1.5">
+                      <span className="text-sky-500 flex-shrink-0">▸</span>
+                      <span>ミッション・ビジョンを把握して<span className="font-bold text-slate-700">提案トーン</span>を合わせる</span>
+                    </li>
+                    <li className="flex gap-1.5">
+                      <span className="text-sky-500 flex-shrink-0">▸</span>
+                      <span>直近のプレスリリースから<span className="font-bold text-slate-700">最新の動き</span>をキャッチ</span>
+                    </li>
+                  </ul>
+                </div>
               </div>
 
-              <a
-                href="https://www.genspark.ai/agents?type=custom_super_agent&agent_id=b7221168-f7e9-467a-a215-c8aaca52367f"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-lg bg-gradient-to-r from-sky-500 to-indigo-500 text-white text-sm font-bold shadow-sm hover:shadow-md transition-all"
-              >
-                <Search className="w-4 h-4" />
-                事前調査を開始する
-                <ExternalLink className="w-3.5 h-3.5 opacity-80" />
-              </a>
-              <p className="text-[10px] text-slate-400 text-center">
-                ボタンをタップで Genspark エージェントが別タブで開きます
-              </p>
+              <div className="space-y-1 mt-3">
+                <a
+                  href="https://www.genspark.ai/agents?type=custom_super_agent&agent_id=b7221168-f7e9-467a-a215-c8aaca52367f"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-lg bg-gradient-to-r from-sky-500 to-indigo-500 text-white text-sm font-bold shadow-sm hover:shadow-md transition-all"
+                >
+                  <Search className="w-4 h-4" />
+                  事前調査を開始する
+                  <ExternalLink className="w-3.5 h-3.5 opacity-80" />
+                </a>
+                <p className="text-[10px] text-slate-400 text-center">
+                  ボタンをタップで Genspark エージェントが別タブで開きます
+                </p>
+              </div>
             </CardContent>
           </Card>
 
           {/* 2-2 PROPOSAL AGENT */}
-          <Card className="border-slate-200 shadow-sm bg-white overflow-hidden">
+          <Card className="border-slate-200 shadow-sm bg-white overflow-hidden h-full flex flex-col">
             <div className="h-1 bg-gradient-to-r from-emerald-500 to-teal-500" />
             <CardHeader className="pb-2 pt-4">
               <CardTitle className="text-sm font-bold text-slate-800 flex items-center gap-2 flex-wrap">
@@ -363,11 +392,12 @@ export function PreMeetingSection({ onNavigate }: PreMeetingSectionProps = {}) {
                 商談内容をもとに提案書をAIで自動生成します
               </p>
             </CardHeader>
-            <CardContent className="pt-0 pb-4 space-y-3">
-              {/* Mode selector */}
-              <div>
-                <p className="text-[10px] font-bold text-slate-600 mb-1.5">入力する情報を選択</p>
-                <div className="grid grid-cols-3 gap-2">
+            <CardContent className="pt-0 pb-4 flex-1 flex flex-col">
+              <div className="flex-1 space-y-3">
+                {/* Mode selector */}
+                <div>
+                  <p className="text-[10px] font-bold text-slate-600 mb-1.5">入力する情報を選択</p>
+                  <div className="grid grid-cols-3 gap-2">
                   <button
                     onClick={() => setProposalMode(proposalMode === "log" ? null : "log")}
                     className={`relative p-2 rounded-lg border-2 transition-all duration-200 text-center ${
@@ -426,26 +456,54 @@ export function PreMeetingSection({ onNavigate }: PreMeetingSectionProps = {}) {
                   </p>
                 </div>
               )}
-              {!proposalMode && (
-                <p className="text-[10px] text-slate-400 text-center py-2">
-                  上のボタンから入力パターンを確認できます
-                </p>
-              )}
+                {!proposalMode && (
+                  <p className="text-[10px] text-slate-400 text-center py-2">
+                    上のボタンから入力パターンを確認できます
+                  </p>
+                )}
+
+                <div className="p-2.5 bg-slate-50 border border-slate-200 rounded-lg">
+                  <p className="text-[10px] font-bold text-slate-600 mb-1.5 flex items-center gap-1">
+                    <Lightbulb className="w-3 h-3 text-amber-500" />
+                    精度を上げるコツ
+                  </p>
+                  <ul className="space-y-1 text-[10px] text-slate-600 leading-relaxed">
+                    <li className="flex gap-1.5">
+                      <span className="text-emerald-500 flex-shrink-0">▸</span>
+                      <span>仮説ノート (3-1) の<span className="font-bold text-slate-700">商談前ブリーフ</span>をそのまま貼り付けて素案化</span>
+                    </li>
+                    <li className="flex gap-1.5">
+                      <span className="text-emerald-500 flex-shrink-0">▸</span>
+                      <span>商談ログは<span className="font-bold text-slate-700">時系列・発言ベース</span>で書くと精度UP</span>
+                    </li>
+                    <li className="flex gap-1.5">
+                      <span className="text-emerald-500 flex-shrink-0">▸</span>
+                      <span>「両方」モードで<span className="font-bold text-slate-700">企業背景 × 商談内容</span>を掛け合わせると刺さる</span>
+                    </li>
+                    <li className="flex gap-1.5">
+                      <span className="text-emerald-500 flex-shrink-0">▸</span>
+                      <span>生成後は<span className="font-bold text-slate-700">自分の言葉でリライト</span>して納品クオリティに</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
 
               {/* Action */}
-              <a
-                href="https://www.genspark.ai/agents?type=custom_super_agent&agent_id=303b15c2-c01a-4bac-8da7-37ae7be0dcd1"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-bold shadow-sm hover:shadow-md transition-all"
-              >
-                <Sparkles className="w-4 h-4" />
-                提案書を作成する
-                <ExternalLink className="w-3.5 h-3.5 opacity-80" />
-              </a>
-              <p className="text-[10px] text-slate-400 text-center">
-                ボタンをタップで Genspark エージェントが別タブで開きます
-              </p>
+              <div className="space-y-1 mt-3">
+                <a
+                  href="https://www.genspark.ai/agents?type=custom_super_agent&agent_id=303b15c2-c01a-4bac-8da7-37ae7be0dcd1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-bold shadow-sm hover:shadow-md transition-all"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  提案書を作成する
+                  <ExternalLink className="w-3.5 h-3.5 opacity-80" />
+                </a>
+                <p className="text-[10px] text-slate-400 text-center">
+                  ボタンをタップで Genspark エージェントが別タブで開きます
+                </p>
+              </div>
             </CardContent>
           </Card>
         </div>
