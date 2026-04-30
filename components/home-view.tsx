@@ -498,7 +498,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-bold text-slate-700">{s.title}</p>
-                    <p className="text-[10px] text-slate-400 truncate mt-0.5">{s.script.slice(0, 36)}…</p>
+                    <p className="text-[10px] text-slate-400 truncate mt-0.5">{s.phases[0].variants.default.slice(0, 36)}…</p>
                   </div>
                   <ChevronRight className="w-4 h-4 text-amber-300 group-hover:text-amber-500 transition-colors" />
                 </motion.button>
