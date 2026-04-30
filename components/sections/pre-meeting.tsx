@@ -146,138 +146,142 @@ export function PreMeetingSection({ onNavigate }: PreMeetingSectionProps = {}) {
       </Card>
 
 
-      {/* ===== GENSPARK AGENT CARD ===== */}
-      <Card className="border-slate-200 shadow-sm bg-white overflow-hidden">
-        <div className="h-1 bg-gradient-to-r from-emerald-500 to-teal-500" />
-        <CardHeader className="pb-2 pt-4">
-          <CardTitle className="text-sm font-bold text-slate-800 flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-emerald-600" />
-            提案書作成カスタムエージェント (Genspark)
-          </CardTitle>
-          <p className="text-[10px] text-slate-500 mt-1">
-            商談内容をもとに提案書をAIで自動生成します
-          </p>
-        </CardHeader>
-        <CardContent className="pt-0 pb-4 space-y-3">
-          {/* Mode selector */}
-          <div>
-            <p className="text-[10px] font-bold text-slate-600 mb-1.5">入力する情報を選択</p>
-            <div className="grid grid-cols-3 gap-2">
-              <button
-                onClick={() => setProposalMode(proposalMode === "log" ? null : "log")}
-                className={`relative p-2 rounded-lg border-2 transition-all duration-200 text-center ${
-                  proposalMode === "log"
-                    ? "border-emerald-500 bg-emerald-50"
-                    : "border-slate-200 bg-white hover:border-emerald-200 hover:bg-emerald-50/30"
-                }`}
-              >
-                <FileText className="w-4 h-4 text-emerald-600 mx-auto mb-1" />
-                <div className="text-[10px] font-bold text-slate-700 leading-tight">商談ログ</div>
-              </button>
-              <button
-                onClick={() => setProposalMode(proposalMode === "url" ? null : "url")}
-                className={`relative p-2 rounded-lg border-2 transition-all duration-200 text-center ${
-                  proposalMode === "url"
-                    ? "border-emerald-500 bg-emerald-50"
-                    : "border-slate-200 bg-white hover:border-emerald-200 hover:bg-emerald-50/30"
-                }`}
-              >
-                <Link2 className="w-4 h-4 text-emerald-600 mx-auto mb-1" />
-                <div className="text-[10px] font-bold text-slate-700 leading-tight">URL/資料</div>
-              </button>
-              <button
-                onClick={() => setProposalMode(proposalMode === "both" ? null : "both")}
-                className={`relative p-2 rounded-lg border-2 transition-all duration-200 text-center ${
-                  proposalMode === "both"
-                    ? "border-emerald-500 bg-emerald-50"
-                    : "border-slate-200 bg-white hover:border-emerald-200 hover:bg-emerald-50/30"
-                }`}
-              >
-                <Layers className="w-4 h-4 text-emerald-600 mx-auto mb-1" />
-                <div className="text-[10px] font-bold text-slate-700 leading-tight">両方</div>
-              </button>
-            </div>
-          </div>
+      {/* ===== GENSPARK AGENTS (RESEARCH ↔ PROPOSAL) ===== */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 items-start">
 
-          {/* Mode description */}
-          {proposalMode === "log" && (
-            <div className="p-2.5 bg-emerald-50 border border-emerald-100 rounded-lg">
-              <p className="text-[11px] text-slate-700 leading-relaxed">
-                <span className="font-bold text-emerald-700">商談ログ</span> を貼り付けて提案書を生成します。商談中のメモ・録音文字起こし・ヒアリング内容を準備しておきましょう。
-              </p>
-            </div>
-          )}
-          {proposalMode === "url" && (
-            <div className="p-2.5 bg-emerald-50 border border-emerald-100 rounded-lg">
-              <p className="text-[11px] text-slate-700 leading-relaxed">
-                <span className="font-bold text-emerald-700">企業URL・資料</span> から情報を取得して提案書を生成します。会社HP / 会社概要PDF / パンフレットを準備しておきましょう。
-              </p>
-            </div>
-          )}
-          {proposalMode === "both" && (
-            <div className="p-2.5 bg-emerald-50 border border-emerald-100 rounded-lg">
-              <p className="text-[11px] text-slate-700 leading-relaxed">
-                <span className="font-bold text-emerald-700">商談ログ + 企業URL</span> の両方を組み合わせて、より精度の高い提案書を生成します。
-              </p>
-            </div>
-          )}
-          {!proposalMode && (
-            <p className="text-[10px] text-slate-400 text-center py-2">
-              上のボタンから入力パターンを確認できます
+        {/* RESEARCH AGENT */}
+        <Card className="border-slate-200 shadow-sm bg-white overflow-hidden">
+          <div className="h-1 bg-gradient-to-r from-sky-500 to-indigo-500" />
+          <CardHeader className="pb-2 pt-4">
+            <CardTitle className="text-sm font-bold text-slate-800 flex items-center gap-2">
+              <Search className="w-4 h-4 text-sky-600" />
+              事前調査カスタムエージェント (Genspark)
+            </CardTitle>
+            <p className="text-[10px] text-slate-500 mt-1">
+              商談前に顧客企業の情報をAIで自動リサーチします
             </p>
-          )}
+          </CardHeader>
+          <CardContent className="pt-0 pb-4 space-y-3">
+            <div className="p-2.5 bg-sky-50 border border-sky-100 rounded-lg">
+              <p className="text-[11px] text-slate-700 leading-relaxed">
+                <span className="font-bold text-sky-700">企業名・URL</span> を入力すると、業種・事業内容・直近トピックなどを調査してくれます。商談前のヒアリング仮説づくりにご活用ください。
+              </p>
+            </div>
 
-          {/* Action */}
-          <a
-            href="https://www.genspark.ai/agents?type=custom_super_agent&agent_id=303b15c2-c01a-4bac-8da7-37ae7be0dcd1"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-bold shadow-sm hover:shadow-md transition-all"
-          >
-            <Sparkles className="w-4 h-4" />
-            提案書を作成する
-            <ExternalLink className="w-3.5 h-3.5 opacity-80" />
-          </a>
-          <p className="text-[10px] text-slate-400 text-center">
-            ボタンをタップで Genspark エージェントが別タブで開きます
-          </p>
-        </CardContent>
-      </Card>
-
-      {/* ===== GENSPARK RESEARCH AGENT CARD ===== */}
-      <Card className="border-slate-200 shadow-sm bg-white overflow-hidden">
-        <div className="h-1 bg-gradient-to-r from-sky-500 to-indigo-500" />
-        <CardHeader className="pb-2 pt-4">
-          <CardTitle className="text-sm font-bold text-slate-800 flex items-center gap-2">
-            <Search className="w-4 h-4 text-sky-600" />
-            事前調査カスタムエージェント (Genspark)
-          </CardTitle>
-          <p className="text-[10px] text-slate-500 mt-1">
-            商談前に顧客企業の情報をAIで自動リサーチします
-          </p>
-        </CardHeader>
-        <CardContent className="pt-0 pb-4 space-y-3">
-          <div className="p-2.5 bg-sky-50 border border-sky-100 rounded-lg">
-            <p className="text-[11px] text-slate-700 leading-relaxed">
-              <span className="font-bold text-sky-700">企業名・URL</span> を入力すると、業種・事業内容・直近トピックなどを調査してくれます。商談前のヒアリング仮説づくりにご活用ください。
+            <a
+              href="https://www.genspark.ai/agents?type=custom_super_agent&agent_id=b7221168-f7e9-467a-a215-c8aaca52367f"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-lg bg-gradient-to-r from-sky-500 to-indigo-500 text-white text-sm font-bold shadow-sm hover:shadow-md transition-all"
+            >
+              <Search className="w-4 h-4" />
+              事前調査を開始する
+              <ExternalLink className="w-3.5 h-3.5 opacity-80" />
+            </a>
+            <p className="text-[10px] text-slate-400 text-center">
+              ボタンをタップで Genspark エージェントが別タブで開きます
             </p>
-          </div>
+          </CardContent>
+        </Card>
 
-          <a
-            href="https://www.genspark.ai/agents?type=custom_super_agent&agent_id=b7221168-f7e9-467a-a215-c8aaca52367f"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-lg bg-gradient-to-r from-sky-500 to-indigo-500 text-white text-sm font-bold shadow-sm hover:shadow-md transition-all"
-          >
-            <Search className="w-4 h-4" />
-            事前調査を開始する
-            <ExternalLink className="w-3.5 h-3.5 opacity-80" />
-          </a>
-          <p className="text-[10px] text-slate-400 text-center">
-            ボタンをタップで Genspark エージェントが別タブで開きます
-          </p>
-        </CardContent>
-      </Card>
+        {/* PROPOSAL AGENT */}
+        <Card className="border-slate-200 shadow-sm bg-white overflow-hidden">
+          <div className="h-1 bg-gradient-to-r from-emerald-500 to-teal-500" />
+          <CardHeader className="pb-2 pt-4">
+            <CardTitle className="text-sm font-bold text-slate-800 flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-emerald-600" />
+              提案書作成カスタムエージェント (Genspark)
+            </CardTitle>
+            <p className="text-[10px] text-slate-500 mt-1">
+              商談内容をもとに提案書をAIで自動生成します
+            </p>
+          </CardHeader>
+          <CardContent className="pt-0 pb-4 space-y-3">
+            {/* Mode selector */}
+            <div>
+              <p className="text-[10px] font-bold text-slate-600 mb-1.5">入力する情報を選択</p>
+              <div className="grid grid-cols-3 gap-2">
+                <button
+                  onClick={() => setProposalMode(proposalMode === "log" ? null : "log")}
+                  className={`relative p-2 rounded-lg border-2 transition-all duration-200 text-center ${
+                    proposalMode === "log"
+                      ? "border-emerald-500 bg-emerald-50"
+                      : "border-slate-200 bg-white hover:border-emerald-200 hover:bg-emerald-50/30"
+                  }`}
+                >
+                  <FileText className="w-4 h-4 text-emerald-600 mx-auto mb-1" />
+                  <div className="text-[10px] font-bold text-slate-700 leading-tight">商談ログ</div>
+                </button>
+                <button
+                  onClick={() => setProposalMode(proposalMode === "url" ? null : "url")}
+                  className={`relative p-2 rounded-lg border-2 transition-all duration-200 text-center ${
+                    proposalMode === "url"
+                      ? "border-emerald-500 bg-emerald-50"
+                      : "border-slate-200 bg-white hover:border-emerald-200 hover:bg-emerald-50/30"
+                  }`}
+                >
+                  <Link2 className="w-4 h-4 text-emerald-600 mx-auto mb-1" />
+                  <div className="text-[10px] font-bold text-slate-700 leading-tight">URL/資料</div>
+                </button>
+                <button
+                  onClick={() => setProposalMode(proposalMode === "both" ? null : "both")}
+                  className={`relative p-2 rounded-lg border-2 transition-all duration-200 text-center ${
+                    proposalMode === "both"
+                      ? "border-emerald-500 bg-emerald-50"
+                      : "border-slate-200 bg-white hover:border-emerald-200 hover:bg-emerald-50/30"
+                  }`}
+                >
+                  <Layers className="w-4 h-4 text-emerald-600 mx-auto mb-1" />
+                  <div className="text-[10px] font-bold text-slate-700 leading-tight">両方</div>
+                </button>
+              </div>
+            </div>
+
+            {/* Mode description */}
+            {proposalMode === "log" && (
+              <div className="p-2.5 bg-emerald-50 border border-emerald-100 rounded-lg">
+                <p className="text-[11px] text-slate-700 leading-relaxed">
+                  <span className="font-bold text-emerald-700">商談ログ</span> を貼り付けて提案書を生成します。商談中のメモ・録音文字起こし・ヒアリング内容を準備しておきましょう。
+                </p>
+              </div>
+            )}
+            {proposalMode === "url" && (
+              <div className="p-2.5 bg-emerald-50 border border-emerald-100 rounded-lg">
+                <p className="text-[11px] text-slate-700 leading-relaxed">
+                  <span className="font-bold text-emerald-700">企業URL・資料</span> から情報を取得して提案書を生成します。会社HP / 会社概要PDF / パンフレットを準備しておきましょう。
+                </p>
+              </div>
+            )}
+            {proposalMode === "both" && (
+              <div className="p-2.5 bg-emerald-50 border border-emerald-100 rounded-lg">
+                <p className="text-[11px] text-slate-700 leading-relaxed">
+                  <span className="font-bold text-emerald-700">商談ログ + 企業URL</span> の両方を組み合わせて、より精度の高い提案書を生成します。
+                </p>
+              </div>
+            )}
+            {!proposalMode && (
+              <p className="text-[10px] text-slate-400 text-center py-2">
+                上のボタンから入力パターンを確認できます
+              </p>
+            )}
+
+            {/* Action */}
+            <a
+              href="https://www.genspark.ai/agents?type=custom_super_agent&agent_id=303b15c2-c01a-4bac-8da7-37ae7be0dcd1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-bold shadow-sm hover:shadow-md transition-all"
+            >
+              <Sparkles className="w-4 h-4" />
+              提案書を作成する
+              <ExternalLink className="w-3.5 h-3.5 opacity-80" />
+            </a>
+            <p className="text-[10px] text-slate-400 text-center">
+              ボタンをタップで Genspark エージェントが別タブで開きます
+            </p>
+          </CardContent>
+        </Card>
+      </div>
 
       {/* ===== SUBSIDY PRE-PREP CARD (conditional) ===== */}
       <Card className="border-amber-200 shadow-sm bg-amber-50/40 overflow-hidden">
