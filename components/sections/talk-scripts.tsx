@@ -9,6 +9,7 @@ import {
   Clock, BookOpen, Crown, Users, Sparkles,
   MessageCircle, Calculator, Quote, BookMarked, XCircle, Check, Search,
   Lightbulb, Building2, User as UserIcon,
+  Wand2, RotateCcw, ArrowRight, Compass,
 } from "lucide-react"
 import { useLocalStorage } from "@/hooks/use-local-storage"
 import { cn } from "@/lib/utils"
@@ -36,6 +37,192 @@ const variantConfig: Record<VariantKey, { label: string; desc: string; icon: typ
   defensive: { label: "警戒モード", desc: "腕組み・疑い時", icon: Shield },
   exec:    { label: "経営者向け", desc: "意思決定者用", icon: Crown },
   staff:   { label: "現場向け", desc: "担当者用", icon: Users },
+}
+
+/* ------------------------------------------------------------------ */
+/*  Customer profile matching                                          */
+/* ------------------------------------------------------------------ */
+
+type Role = "exec" | "manager" | "rep"
+type Personality = "decisive" | "careful" | "data" | "intuitive"
+type Temperature = "warm" | "neutral" | "cold"
+type Focus = "sales" | "org" | "cost" | "trust"
+type Literacy = "high" | "mid" | "low"
+type Size = "xs" | "s" | "m" | "l"
+
+type CustomerProfile = {
+  role: Role | null
+  personality: Personality | null
+  temperature: Temperature | null
+  focus: Focus | null
+  literacy: Literacy | null
+  size: Size | null
+}
+
+const emptyProfile: CustomerProfile = {
+  role: null, personality: null, temperature: null,
+  focus: null, literacy: null, size: null,
+}
+
+type Axis<V extends string> = {
+  key: keyof CustomerProfile
+  label: string
+  icon: typeof Crown
+  options: { value: V; label: string }[]
+}
+
+const profileAxes: Axis<string>[] = [
+  {
+    key: "role", label: "役職", icon: Crown,
+    options: [
+      { value: "exec", label: "代表" },
+      { value: "manager", label: "責任者" },
+      { value: "rep", label: "担当者" },
+    ],
+  },
+  {
+    key: "personality", label: "性格タイプ", icon: Sparkles,
+    options: [
+      { value: "decisive", label: "即断派" },
+      { value: "careful", label: "慎重派" },
+      { value: "data", label: "データ重視" },
+      { value: "intuitive", label: "感覚重視" },
+    ],
+  },
+  {
+    key: "temperature", label: "商談温度", icon: Mic,
+    options: [
+      { value: "warm", label: "前のめり" },
+      { value: "neutral", label: "様子見" },
+      { value: "cold", label: "警戒気味" },
+    ],
+  },
+  {
+    key: "focus", label: "関心軸", icon: Target,
+    options: [
+      { value: "sales", label: "数字・売上" },
+      { value: "org", label: "組織・人材" },
+      { value: "cost", label: "コスト重視" },
+      { value: "trust", label: "安心・実績" },
+    ],
+  },
+  {
+    key: "literacy", label: "ITリテラシー", icon: BookOpen,
+    options: [
+      { value: "high", label: "高" },
+      { value: "mid", label: "中" },
+      { value: "low", label: "低" },
+    ],
+  },
+  {
+    key: "size", label: "会社規模", icon: Building2,
+    options: [
+      { value: "xs", label: "〜10名" },
+      { value: "s", label: "11-50名" },
+      { value: "m", label: "51-200名" },
+      { value: "l", label: "201名+" },
+    ],
+  },
+]
+
+type Recommendation = {
+  product: keyof typeof scripts
+  phaseIdx: number
+  variant: VariantKey
+  matchScore: number
+  reasons: string[]
+  effectiveWords: string[]
+  ngWords: string[]
+  metaphorIdx: number | null
+  storyIdx: number | null
+}
+
+function recommend(p: CustomerProfile): Recommendation | null {
+  const filledCount = (Object.values(p) as Array<string | null>).filter(Boolean).length
+  if (filledCount < 3) return null
+
+  // === Product ===
+  let product: keyof typeof scripts = "both"
+  if (p.focus === "sales" || p.focus === "cost") product = "uriage"
+  else if (p.focus === "org" || p.focus === "trust") product = "kakuyaku"
+  else if (p.size === "xs" || p.size === "s") product = "uriage"
+  else if (p.size === "l") product = "kakuyaku"
+
+  const phases = scripts[product].phases
+
+  // === Phase ===
+  let phaseIdx = phases.findIndex((ph) => ph.id === "main")
+  if (phaseIdx < 0) phaseIdx = 0
+
+  if (p.temperature === "warm") {
+    const closingIdx = phases.findIndex((ph) => ph.id === "closing" || ph.id === "decision")
+    if (closingIdx >= 0) phaseIdx = closingIdx
+  } else if (p.temperature === "cold") {
+    const openingIdx = phases.findIndex((ph) => ph.id === "opening" || ph.id === "branching")
+    if (openingIdx >= 0) phaseIdx = openingIdx
+  }
+
+  // === Variant ===
+  const phase = phases[phaseIdx]
+  const available = (Object.keys(phase.variants) as VariantKey[]).filter((k) => phase.variants[k])
+
+  let variant: VariantKey = "default"
+  if (p.role === "exec" && available.includes("exec")) variant = "exec"
+  else if (p.temperature === "cold" && available.includes("defensive")) variant = "defensive"
+  else if (p.personality === "decisive" && available.includes("short")) variant = "short"
+  else if (p.personality === "careful" && available.includes("long")) variant = "long"
+  else if (p.role === "rep" && available.includes("staff")) variant = "staff"
+
+  // === Match score (out of 100) ===
+  const matchScore = Math.min(100, Math.round((filledCount / 6) * 100) + (variant !== "default" ? 5 : 0))
+
+  // === Reasons (humanized) ===
+  const reasons: string[] = []
+  if (p.role) reasons.push(`役職: ${labelOf("role", p.role)}`)
+  if (p.personality) reasons.push(`性格: ${labelOf("personality", p.personality)}`)
+  if (p.temperature) reasons.push(`温度: ${labelOf("temperature", p.temperature)}`)
+  if (p.focus) reasons.push(`関心: ${labelOf("focus", p.focus)}`)
+
+  // === Effective words ===
+  const effectiveWords: string[] = []
+  if (p.literacy === "high") effectiveWords.push("ROI", "工数削減%", "実装スピード")
+  if (p.literacy === "low") effectiveWords.push("「ボタン1つで」", "「電話サポート付き」", "「丁寧にお教えします」")
+  if (p.focus === "sales") effectiveWords.push("売上3倍", "成約率UP")
+  if (p.focus === "org") effectiveWords.push("習慣化", "組織変革")
+  if (p.focus === "cost") effectiveWords.push("助成金で実質負担減")
+  if (p.focus === "trust") effectiveWords.push("500社実績", "継続率95%")
+  if (p.role === "exec") effectiveWords.push("意思決定", "回収期間")
+
+  // === NG words ===
+  const ngWords: string[] = []
+  if (p.literacy === "low") ngWords.push("DX/API/ROI などカタカナ羅列")
+  if (p.temperature === "cold") ngWords.push("「絶対」「みんな使ってる」", "押し売り感のある提案")
+  if (p.role === "exec") ngWords.push("「便利になります」(曖昧)", "現場向け詳細機能の話")
+  if (p.personality === "careful") ngWords.push("「簡単です」(根拠なし)")
+
+  // === Metaphor pick ===
+  let metaphorIdx: number | null = null
+  if (p.temperature === "cold") metaphorIdx = metaphors.findIndex((m) => m.situation === "AI導入の不安")
+  else if (p.personality === "careful") metaphorIdx = metaphors.findIndex((m) => m.situation === "DX定着のコツ")
+  else if (p.focus === "sales") metaphorIdx = metaphors.findIndex((m) => m.situation === "営業の属人化")
+  else if (p.focus === "org" && p.literacy === "low") metaphorIdx = metaphors.findIndex((m) => m.situation === "リテラシー差")
+  else if (p.focus === "cost") metaphorIdx = metaphors.findIndex((m) => m.situation === "助成金活用")
+  else metaphorIdx = metaphors.findIndex((m) => m.situation === "ツール vs 習慣")
+  if (metaphorIdx === -1) metaphorIdx = null
+
+  // === Story pick ===
+  let storyIdx: number | null = null
+  if (product === "uriage") storyIdx = stories.findIndex((s) => s.industry.includes("製造業"))
+  else if (product === "kakuyaku") storyIdx = stories.findIndex((s) => s.industry.includes("飲食業"))
+  else storyIdx = stories.findIndex((s) => s.product === "両方セット")
+  if (storyIdx === -1) storyIdx = null
+
+  return { product, phaseIdx, variant, matchScore, reasons, effectiveWords, ngWords, metaphorIdx, storyIdx }
+}
+
+function labelOf<K extends keyof CustomerProfile>(key: K, value: NonNullable<CustomerProfile[K]>): string {
+  const axis = profileAxes.find((a) => a.key === key)
+  return axis?.options.find((o) => o.value === value)?.label ?? String(value)
 }
 
 /* ------------------------------------------------------------------ */
@@ -822,6 +1009,26 @@ export function TalkScriptsSection() {
   const [activeVariant, setActiveVariant] = useState<VariantKey>("default")
   const [pinnedKeys, setPinnedKeys] = useLocalStorage<string[]>("pinned-scripts", [])
   const [openAux, setOpenAux] = useState<Set<string>>(new Set())
+  const [profile, setProfile] = useState<CustomerProfile>(emptyProfile)
+
+  const recommendation = recommend(profile)
+  const filledProfileCount = (Object.values(profile) as Array<string | null>).filter(Boolean).length
+
+  const setProfileField = <K extends keyof CustomerProfile>(key: K, value: CustomerProfile[K]) => {
+    setProfile((prev) => ({ ...prev, [key]: prev[key] === value ? null : value }))
+  }
+
+  const resetProfile = () => setProfile(emptyProfile)
+
+  const applyRecommendation = () => {
+    if (!recommendation) return
+    setActiveTab(recommendation.product)
+    setActivePhase(recommendation.phaseIdx)
+    setActiveVariant(recommendation.variant)
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" })
+    }
+  }
 
   const current = scripts[activeTab]
   const Icon = current.icon
@@ -851,6 +1058,16 @@ export function TalkScriptsSection() {
 
   return (
     <div className="space-y-4">
+
+      {/* ===== CUSTOMER PROFILE COACH ===== */}
+      <ProfileCoach
+        profile={profile}
+        filledCount={filledProfileCount}
+        recommendation={recommendation}
+        onSet={setProfileField}
+        onReset={resetProfile}
+        onApply={applyRecommendation}
+      />
 
       {/* ===== PINNED FAVORITES ===== */}
       <AnimatePresence>
@@ -1406,6 +1623,235 @@ function StoryRow({ label, text, barColor }: { label: string; text: string; barC
         <span className="text-[9px] font-black text-slate-400 uppercase tracking-wider">{label}</span>
         <p className="text-[11px] text-slate-700 leading-snug">{text}</p>
       </div>
+    </div>
+  )
+}
+
+function ProfileCoach({
+  profile,
+  filledCount,
+  recommendation,
+  onSet,
+  onReset,
+  onApply,
+}: {
+  profile: CustomerProfile
+  filledCount: number
+  recommendation: Recommendation | null
+  onSet: <K extends keyof CustomerProfile>(key: K, value: CustomerProfile[K]) => void
+  onReset: () => void
+  onApply: () => void
+}) {
+  const totalAxes = profileAxes.length
+  const progress = (filledCount / totalAxes) * 100
+
+  const productLabel = recommendation
+    ? scripts[recommendation.product].title
+    : ""
+  const phaseLabel = recommendation
+    ? scripts[recommendation.product].phases[recommendation.phaseIdx]?.label ?? ""
+    : ""
+  const variantLabel = recommendation
+    ? variantConfig[recommendation.variant].label
+    : ""
+
+  const recommendedMetaphor = recommendation && recommendation.metaphorIdx !== null
+    ? metaphors[recommendation.metaphorIdx]
+    : null
+  const recommendedStory = recommendation && recommendation.storyIdx !== null
+    ? stories[recommendation.storyIdx]
+    : null
+
+  return (
+    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+      <div className="h-1 bg-gradient-to-r from-fuchsia-500 via-pink-500 to-orange-500" />
+
+      <div className="p-4 space-y-3">
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-fuchsia-500 to-pink-500 flex items-center justify-center shadow-sm">
+              <Wand2 className="w-4 h-4 text-white" />
+            </div>
+            <div>
+              <h3 className="text-sm font-bold text-slate-800">顧客プロファイル → ベストマッチ</h3>
+              <p className="text-[10px] text-slate-500 mt-0.5">
+                6つの属性を選ぶと、最適スクリプトを提案します
+              </p>
+            </div>
+          </div>
+          {filledCount > 0 && (
+            <button
+              onClick={onReset}
+              className="flex-shrink-0 inline-flex items-center gap-1 text-[10px] text-slate-500 hover:text-slate-700 px-2 py-1 rounded-md hover:bg-slate-50"
+            >
+              <RotateCcw className="w-3 h-3" />
+              リセット
+            </button>
+          )}
+        </div>
+
+        {/* Progress */}
+        <div>
+          <div className="flex items-center justify-between text-[10px] text-slate-500 mb-1">
+            <span>選択進捗</span>
+            <span className="font-bold text-fuchsia-600">{filledCount} / {totalAxes}</span>
+          </div>
+          <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-fuchsia-500 to-pink-500 transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Axes */}
+        <div className="space-y-2.5 pt-1">
+          {profileAxes.map((axis) => {
+            const AxisIcon = axis.icon
+            return (
+              <div key={axis.key} className="space-y-1">
+                <div className="flex items-center gap-1.5">
+                  <AxisIcon className="w-3 h-3 text-fuchsia-500" />
+                  <span className="text-[10px] font-bold text-slate-600">{axis.label}</span>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {axis.options.map((opt) => {
+                    const isActive = profile[axis.key] === opt.value
+                    return (
+                      <button
+                        key={opt.value}
+                        onClick={() => onSet(axis.key, opt.value as CustomerProfile[typeof axis.key])}
+                        className={cn(
+                          "text-[10px] px-2.5 py-1 rounded-full border transition-all",
+                          isActive
+                            ? "bg-fuchsia-500 border-fuchsia-500 text-white shadow-sm"
+                            : "bg-white border-slate-200 text-slate-600 hover:border-fuchsia-300"
+                        )}
+                      >
+                        {opt.label}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* Recommendation result */}
+      <AnimatePresence>
+        {recommendation ? (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="overflow-hidden border-t border-slate-100 bg-gradient-to-br from-fuchsia-50/50 to-pink-50/30"
+          >
+            <div className="p-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5">
+                  <Compass className="w-4 h-4 text-fuchsia-600" />
+                  <span className="text-xs font-bold text-fuchsia-700">マッチング結果</span>
+                </div>
+                <span className="text-[11px] font-black text-fuchsia-600 bg-white border border-fuchsia-200 px-2 py-0.5 rounded-full">
+                  信頼度 {recommendation.matchScore}%
+                </span>
+              </div>
+
+              {/* Recommended path */}
+              <div className="bg-white border border-fuchsia-100 rounded-lg p-3 space-y-1.5">
+                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">推奨パス</p>
+                <div className="flex items-center gap-1.5 flex-wrap text-xs">
+                  <span className="font-bold text-slate-800">{productLabel}</span>
+                  <ArrowRight className="w-3 h-3 text-slate-300" />
+                  <span className="font-bold text-slate-800">{phaseLabel}</span>
+                  <ArrowRight className="w-3 h-3 text-slate-300" />
+                  <span className="font-bold text-fuchsia-700 bg-fuchsia-50 border border-fuchsia-200 px-2 py-0.5 rounded-full text-[11px]">
+                    {variantLabel}
+                  </span>
+                </div>
+                {recommendation.reasons.length > 0 && (
+                  <p className="text-[10px] text-slate-500 mt-1">
+                    根拠: {recommendation.reasons.join(" / ")}
+                  </p>
+                )}
+              </div>
+
+              {/* Apply button */}
+              <button
+                onClick={onApply}
+                className="w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg bg-gradient-to-r from-fuchsia-500 to-pink-500 text-white text-sm font-bold shadow-sm hover:shadow-md transition-all"
+              >
+                <Wand2 className="w-4 h-4" />
+                このスクリプトに切り替える
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+
+              {/* Effective + NG words */}
+              {(recommendation.effectiveWords.length > 0 || recommendation.ngWords.length > 0) && (
+                <div className="grid grid-cols-1 gap-2">
+                  {recommendation.effectiveWords.length > 0 && (
+                    <div className="bg-white border border-emerald-100 rounded-lg p-2.5">
+                      <p className="text-[9px] font-black text-emerald-700 uppercase tracking-wider mb-1.5">✓ 効果的キーワード</p>
+                      <div className="flex flex-wrap gap-1">
+                        {recommendation.effectiveWords.map((w, i) => (
+                          <span key={i} className="text-[10px] bg-emerald-50 border border-emerald-200 text-emerald-800 px-2 py-0.5 rounded-full">
+                            {w}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {recommendation.ngWords.length > 0 && (
+                    <div className="bg-white border border-red-100 rounded-lg p-2.5">
+                      <p className="text-[9px] font-black text-red-700 uppercase tracking-wider mb-1.5">✗ 避ける表現</p>
+                      <div className="flex flex-wrap gap-1">
+                        {recommendation.ngWords.map((w, i) => (
+                          <span key={i} className="text-[10px] bg-red-50 border border-red-200 text-red-700 px-2 py-0.5 rounded-full">
+                            {w}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Recommended metaphor */}
+              {recommendedMetaphor && (
+                <div className="bg-white border border-purple-100 rounded-lg p-2.5">
+                  <p className="text-[9px] font-black text-purple-700 uppercase tracking-wider mb-1">🎨 響くたとえ話</p>
+                  <p className="text-[11px] text-slate-700 italic leading-relaxed">「{recommendedMetaphor.phrase}」</p>
+                  <p className="text-[9px] text-slate-400 mt-1">使う場面: {recommendedMetaphor.when}</p>
+                </div>
+              )}
+
+              {/* Recommended story */}
+              {recommendedStory && (
+                <div className="bg-white border border-orange-100 rounded-lg p-2.5">
+                  <p className="text-[9px] font-black text-orange-700 uppercase tracking-wider mb-1">📖 響く事例</p>
+                  <p className="text-[11px] font-bold text-slate-800">{recommendedStory.industry} ({recommendedStory.product})</p>
+                  <p className="text-[10px] text-slate-600 mt-0.5 leading-relaxed">{recommendedStory.point}</p>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        ) : filledCount > 0 ? (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="overflow-hidden border-t border-slate-100"
+          >
+            <div className="p-3 bg-slate-50">
+              <p className="text-[11px] text-slate-500 text-center">
+                あと <span className="font-bold text-fuchsia-600">{3 - filledCount}</span> つ選ぶとマッチング結果が表示されます
+              </p>
+            </div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </div>
   )
 }
