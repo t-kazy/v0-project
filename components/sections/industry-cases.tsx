@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ChevronDown, ChevronUp, Play, Building, Stethoscope, Briefcase, Monitor, Scale, Clock, Zap, Shield } from "lucide-react"
+import { ChevronDown, ChevronUp, Play, Building, Stethoscope, Briefcase, Monitor, Scale, Clock, Zap, Shield, Sparkles, ExternalLink } from "lucide-react"
 
 type VideoItem = {
   title: string
@@ -9,6 +9,7 @@ type VideoItem = {
   duration: string
   tag: string
   tagColor: string
+  url?: string
 }
 
 type Industry = {
@@ -29,6 +30,82 @@ type Industry = {
 
 const industries: Industry[] = [
   {
+    id: "common",
+    name: "全業種共通（横断デモ）",
+    icon: Sparkles,
+    product: "両方",
+    productColor: "text-purple-600",
+    productBg: "bg-purple-50 border-purple-200",
+    accentColor: "border-l-purple-400",
+    iconBg: "bg-purple-50",
+    iconColor: "text-purple-600",
+    before: [
+      "業種を問わず、事務作業・教育・採用・議事録に時間が取られる",
+      "新人育成が属人化、ノウハウが組織に広がらない",
+      "リード・案件管理が手動で抜け漏れ発生",
+    ],
+    after: [
+      "全業種で使える共通AIテンプレで業務削減",
+      "教育資料・議事録・提案書をAIで自動化",
+      "リード・案件管理をAIで自動化、抜け漏れゼロ",
+    ],
+    metrics: [
+      { label: "対応業種", value: "全業種" },
+      { label: "事務削減", value: "最大90%" },
+      { label: "継続利用率", value: "95%" },
+    ],
+    videos: [
+      {
+        title: "共-1 新人育成・教育資料をAIで効率化",
+        desc: "OJT・研修資料・マニュアル作成をAIで自動化。新人立ち上がり速度を大幅短縮するフローを実演。",
+        duration: "デモ動画",
+        tag: "両方",
+        tagColor: "bg-purple-100 text-purple-700",
+        url: "https://www.loom.com/share/0c2fe05fd13e46bd896662379f65e67a",
+      },
+      {
+        title: "共-3 事務作業・報告業務をAIで時間削減",
+        desc: "ルーティン事務・各種報告書作成をAIで自動化するデモ。業種問わず使える事務効率化の実演。",
+        duration: "デモ動画",
+        tag: "両方",
+        tagColor: "bg-purple-100 text-purple-700",
+        url: "https://www.loom.com/share/4e78b06e2e79446895833ce0c3b395b3",
+      },
+      {
+        title: "共-4 採用・求人票・人事評価をAIで効率化",
+        desc: "求人票作成・候補者対応・人事評価をAIで自動化するデモ。採用工数の大幅削減を実演。",
+        duration: "デモ動画",
+        tag: "両方",
+        tagColor: "bg-purple-100 text-purple-700",
+        url: "https://www.loom.com/share/a2349c0f6ad9485c98d12b04dab4e1ae",
+      },
+      {
+        title: "共-5 会議・商談の議事録・提案書をAIで自動作成",
+        desc: "会議録音から議事録・次アクション・提案書まで一気通貫でAI生成するデモ。",
+        duration: "デモ動画",
+        tag: "両方",
+        tagColor: "bg-purple-100 text-purple-700",
+        url: "https://www.loom.com/share/3f2c60b2e8804428ad8937316c526a69",
+      },
+      {
+        title: "共-6 リード・案件管理をAIで自動化",
+        desc: "リード獲得から案件追跡までAIで自動化するデモ。営業案件の抜け漏れゼロを実現するフロー。",
+        duration: "デモ動画",
+        tag: "両方",
+        tagColor: "bg-purple-100 text-purple-700",
+        url: "https://www.loom.com/share/531b4efa88cf4708b4e57a867bc50a2a",
+      },
+      {
+        title: "手書き日報をデータ化するAI",
+        desc: "現場で書かれた手書き日報をAIで読み取り、構造化データに変換するデモ。OCR＋構造化処理を実演。",
+        duration: "デモ動画",
+        tag: "両方",
+        tagColor: "bg-purple-100 text-purple-700",
+        url: "https://www.loom.com/share/61457f531dc5427e91a85a7b4953bf16",
+      },
+    ],
+  },
+  {
     id: "construction",
     name: "建築・建設",
     icon: Building,
@@ -47,39 +124,20 @@ const industries: Industry[] = [
     ],
     videos: [
       {
-        title: "見積書・提案書 AI自動生成フロー",
-        desc: "顧客情報を入力するだけで、現場仕様に合わせた見積書を5分で生成。2〜3時間かかっていた作業がどう変わるかを実演。",
-        duration: "約3分",
+        title: "現場系：見積もり作成をAIで効率化",
+        desc: "現場での見積もり作成プロセスをAIで自動化するデモ。建築・建設業向けの実用例を収録。",
+        duration: "デモ動画",
         tag: "ウリアゲAIX",
         tagColor: "bg-orange-100 text-orange-700",
+        url: "https://www.loom.com/share/1cffe42b65c64e448c21ed468f0302a9",
       },
       {
-        title: "音声入力 → 日報・報告書 自動作成",
-        desc: "現場で音声録音するだけで議事録・日報が自動生成されるフローを実演。手入力ゼロで報告書が完成する様子を収録。",
-        duration: "約2分",
+        title: "現場データ・見積もり・図面管理をAIで効率化",
+        desc: "建築士・設計士向け、現場データ収集・見積もり・図面管理をAIで効率化するデモ。",
+        duration: "デモ動画",
         tag: "ウリアゲAIX",
         tagColor: "bg-orange-100 text-orange-700",
-      },
-      {
-        title: "商談前準備 AIエージェント（5分で仮説生成）",
-        desc: "会社名・業種を入れるだけで、SPIN質問・課題仮説・提案軸が自動生成されるデモ。ベテランの思考プロセスをAIが再現。",
-        duration: "約4分",
-        tag: "ウリアゲAIX",
-        tagColor: "bg-orange-100 text-orange-700",
-      },
-      {
-        title: "フォローアップ文章 自動生成",
-        desc: "商談メモを入力すると、相手の課題に合わせたお礼・フォローメール文章をAIが生成するフロー。送信前の確認まで実演。",
-        duration: "約2分",
-        tag: "ウリアゲAIX",
-        tagColor: "bg-orange-100 text-orange-700",
-      },
-      {
-        title: "若手への技術・営業ノウハウ継承",
-        desc: "ベテランの商談録音→AIがパターン抽出→若手向けナレッジベース化の流れ。属人化ゼロの仕組みをデモ。",
-        duration: "約5分",
-        tag: "ウリアゲAIX",
-        tagColor: "bg-orange-100 text-orange-700",
+        url: "https://www.loom.com/share/f03e3404e10c425c987bfea5ad029743",
       },
     ],
   },
@@ -102,32 +160,28 @@ const industries: Industry[] = [
     ],
     videos: [
       {
-        title: "診察記録 音声入力 → AI自動要約フロー",
-        desc: "診療中・診療後の音声をAIがリアルタイムで要約・構造化するデモ。カルテ入力時間を大幅削減する様子を収録。",
-        duration: "約3分",
+        title: "医-1 カルテ入力・患者情報管理をAIで効率化",
+        desc: "カルテ入力・患者情報の構造化管理をAIで自動化するデモ。診療後の事務負荷を大幅削減。",
+        duration: "デモ動画",
         tag: "カクヤクAIX",
         tagColor: "bg-blue-100 text-blue-700",
+        url: "https://www.loom.com/share/0485209dc2a547ceb186c653f1dfde43",
       },
       {
-        title: "Eラーニング15章 学習画面デモ",
-        desc: "ITリテラシーが低いスタッフでも使えるEラーニングの画面構成を紹介。Chapter1から段階的にAIを習慣化するプロセス。",
-        duration: "約4分",
+        title: "医-2 受付業務・空き時間管理をAIで効率化",
+        desc: "受付対応・予約管理・空き時間の最適化をAIで自動化するデモ。受付スタッフの工数削減を実演。",
+        duration: "デモ動画",
         tag: "カクヤクAIX",
         tagColor: "bg-blue-100 text-blue-700",
+        url: "https://www.loom.com/share/b3343f41ef894bc595c9f26d28bf33f1",
       },
       {
-        title: "スタッフ向け AIアシスタント 操作デモ",
-        desc: "AIチャットで業務マニュアルを即検索・患者対応文章を生成するフロー。受付スタッフが実際に操作する様子を収録。",
-        duration: "約3分",
+        title: "医-3 患者様への説明をAIで効率化",
+        desc: "患者向け説明資料・案内文章をAIで自動生成するデモ。説明品質の均質化と時間短縮を両立。",
+        duration: "デモ動画",
         tag: "カクヤクAIX",
         tagColor: "bg-blue-100 text-blue-700",
-      },
-      {
-        title: "週次グループコンサル・伴走サポートの様子",
-        desc: "定着プログラムの週次ミーティングの進め方と、平日チャットサポートで課題が解消されるプロセスを紹介。",
-        duration: "約5分",
-        tag: "カクヤクAIX",
-        tagColor: "bg-blue-100 text-blue-700",
+        url: "https://www.loom.com/share/b67d8362a0704f1dae51664c35f638dc",
       },
     ],
   },
@@ -150,39 +204,20 @@ const industries: Industry[] = [
     ],
     videos: [
       {
-        title: "商談前準備 5分完了デモ（AI仮説生成）",
-        desc: "会社名・業種だけでSPIN質問・課題仮説・提案軸が5分で揃う様子。ベテランの商談準備プロセスをAIが完全再現。",
-        duration: "約3分",
+        title: "ファイナンシャルプランナー：商談準備の時間圧縮",
+        desc: "FPの商談準備プロセスをAIで自動化するデモ。顧客分析・提案準備に時間がかかる課題への解決策を実演。",
+        duration: "デモ動画",
         tag: "ウリアゲAIX",
         tagColor: "bg-orange-100 text-orange-700",
+        url: "https://www.loom.com/share/75378854297c40aca5a4dea4a87f43e7",
       },
       {
-        title: "提案書 AI自動生成フロー",
-        desc: "顧客の課題・規模・予算をインプットするだけで、個別最適化された提案書がAI生成されるフロー。品質均質化も実演。",
-        duration: "約4分",
+        title: "営-1 勝てる商談設計をAIで構築",
+        desc: "商談前の戦略設計をAIで構築するデモ。SPIN質問・課題仮説・提案軸を一気通貫で生成するフロー。",
+        duration: "デモ動画",
         tag: "ウリアゲAIX",
         tagColor: "bg-orange-100 text-orange-700",
-      },
-      {
-        title: "商談録音 → 議事録・次アクション自動生成",
-        desc: "録音データをAIがテキスト化→課題・合意事項・次のアクションを自動抽出するフロー。CRM連携まで実演。",
-        duration: "約3分",
-        tag: "ウリアゲAIX",
-        tagColor: "bg-orange-100 text-orange-700",
-      },
-      {
-        title: "フォローアップ文章 AIパーソナライズ生成",
-        desc: "商談メモから顧客別にカスタマイズされたフォロー文章を生成するデモ。送信後の反応率改善事例も紹介。",
-        duration: "約2分",
-        tag: "ウリアゲAIX",
-        tagColor: "bg-orange-100 text-orange-700",
-      },
-      {
-        title: "トップ営業のノウハウ → 組織展開フロー",
-        desc: "ベストプレイヤーの商談パターンをAIが抽出→チーム全員のスクリプトに反映するプロセスを実演。",
-        duration: "約5分",
-        tag: "ウリアゲAIX",
-        tagColor: "bg-orange-100 text-orange-700",
+        url: "https://www.loom.com/share/1cb73145e7c3469fa232cfb53cdc8f6d",
       },
     ],
   },
@@ -205,32 +240,12 @@ const industries: Industry[] = [
     ],
     videos: [
       {
-        title: "議事録 AI自動生成フロー（録音→即時出力）",
-        desc: "会議録音をアップロードするだけで、担当者・アクションアイテム・決定事項を自動整理するデモ。Notion/Slack連携も実演。",
-        duration: "約3分",
+        title: "IT-1 課題整理・リサーチ・提案資料作成をAIで完結",
+        desc: "ITコンサル業務における課題整理→リサーチ→提案資料作成までを一気通貫でAI化するデモ。",
+        duration: "デモ動画",
         tag: "ウリアゲAIX",
         tagColor: "bg-orange-100 text-orange-700",
-      },
-      {
-        title: "提案書 AI自動生成（顧客情報→資料完成）",
-        desc: "顧客の業種・課題・予算をインプットするだけで提案書が生成されるフロー。テンプレートからの品質均質化も紹介。",
-        duration: "約4分",
-        tag: "ウリアゲAIX",
-        tagColor: "bg-orange-100 text-orange-700",
-      },
-      {
-        title: "Eラーニング15章 全社員AI習慣化デモ",
-        desc: "エンジニア以外の非IT職員がAIを使いこなすまでのEラーニング学習フローを実演。3ヶ月定着プログラムの全体像も紹介。",
-        duration: "約5分",
-        tag: "カクヤクAIX",
-        tagColor: "bg-blue-100 text-blue-700",
-      },
-      {
-        title: "ROI試算資料 AI自動生成",
-        desc: "顧客データを入れるだけで、投資対効果を可視化した稟議用ROI資料をAIが生成するフロー。決裁通過率の改善事例も紹介。",
-        duration: "約3分",
-        tag: "ウリアゲAIX",
-        tagColor: "bg-orange-100 text-orange-700",
+        url: "https://www.loom.com/share/f3d12c6b4e5c4e7e83165c3011a35186",
       },
     ],
   },
@@ -253,75 +268,167 @@ const industries: Industry[] = [
     ],
     videos: [
       {
-        title: "契約書・文書ドラフト AI生成フロー",
-        desc: "案件情報を入力するだけで契約書・覚書の初稿がAI生成されるデモ。数時間かかっていた作業が5分で完了する様子を収録。",
-        duration: "約4分",
+        title: "士-1 法的文書・申請書類の作成をAIで時間削減",
+        desc: "弁護士・司法書士向け、法的文書・申請書類の作成プロセスをAIで自動化するデモ。",
+        duration: "デモ動画",
         tag: "カクヤクAIX",
         tagColor: "bg-blue-100 text-blue-700",
+        url: "https://www.loom.com/share/8357220192944e73adb6b6f5e6b70cfa",
       },
       {
-        title: "顧客対応メール AI文章生成",
-        desc: "案件内容を入れるだけで、丁寧でミスのないメール文章をAIが生成するフロー。1件10〜20分かかっていた作業がどう変わるか実演。",
-        duration: "約2分",
+        title: "士-2 記帳・仕訳・書類集計をAIで自動化",
+        desc: "税理士向け、記帳代行・仕訳・書類集計をAIで自動化するデモ。月次処理の負荷を大幅削減。",
+        duration: "デモ動画",
         tag: "カクヤクAIX",
         tagColor: "bg-blue-100 text-blue-700",
+        url: "https://www.loom.com/share/898cabb3041b4e19b4d83ccc91b4844a",
       },
       {
-        title: "Eラーニング業務標準化デモ",
-        desc: "ITリテラシー差があるスタッフ全員が同じレベルになるEラーニングの構成を紹介。15章の学習ロードマップと習熟度追跡機能も実演。",
-        duration: "約5分",
+        title: "士-3 勤怠・経営分析・提案書作成をAIで効率化",
+        desc: "社労士・経営コンサル向け、勤怠管理・経営分析・提案書作成までAIで効率化するデモ。",
+        duration: "デモ動画",
         tag: "カクヤクAIX",
         tagColor: "bg-blue-100 text-blue-700",
-      },
-      {
-        title: "AIアシスタントで法令・マニュアル即検索",
-        desc: "「この条項の意味は？」「この手続きの流れは？」をAIに即聞きして、業務をスムーズに進めるデモ。スタッフの自走力向上も紹介。",
-        duration: "約3分",
-        tag: "カクヤクAIX",
-        tagColor: "bg-blue-100 text-blue-700",
+        url: "https://www.loom.com/share/c78a729fb21549d5a99c538d9f90508a",
       },
     ],
   },
 ]
 
-function VideoPlaceholder({ video, index }: { video: VideoItem; index: number }) {
-  return (
-    <div className="bg-slate-50 border border-slate-200 rounded-xl overflow-hidden">
-      {/* Thumbnail placeholder */}
-      <div className="relative bg-gradient-to-br from-slate-700 to-slate-900 aspect-video flex items-center justify-center">
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
-          <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/30">
-            <Play className="w-5 h-5 text-white ml-0.5" fill="white" />
-          </div>
-          <span className="text-white/60 text-[10px] font-medium">動画準備中</span>
-        </div>
-        {/* Video number badge */}
-        <div className="absolute top-2 left-2 w-5 h-5 bg-white/20 rounded-full flex items-center justify-center">
-          <span className="text-white text-[9px] font-bold">{index + 1}</span>
-        </div>
-        {/* Duration badge */}
-        <div className="absolute bottom-2 right-2 flex items-center gap-1 bg-black/60 rounded px-1.5 py-0.5">
-          <Clock className="w-2.5 h-2.5 text-white" />
-          <span className="text-white text-[9px]">{video.duration}</span>
-        </div>
-      </div>
+function VideoPlaceholder({
+  video,
+  index,
+  indId,
+  expanded,
+  onToggle,
+}: {
+  video: VideoItem
+  index: number
+  indId: string
+  expanded: boolean
+  onToggle: () => void
+}) {
+  const embedUrl = video.url?.replace("/share/", "/embed/")
+  const hasVideo = !!embedUrl
 
-      {/* Info */}
-      <div className="p-3">
-        <div className="flex items-start justify-between gap-2 mb-1">
-          <h4 className="text-xs font-bold text-slate-800 leading-snug flex-1">{video.title}</h4>
-          <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full flex-shrink-0 ${video.tagColor}`}>
-            {video.tag}
-          </span>
+  return (
+    <div
+      id={`video-${indId}-${index}`}
+      className={`bg-white border rounded-xl overflow-hidden transition-all scroll-mt-20 ${
+        expanded ? "border-orange-300 ring-2 ring-orange-200/60 shadow-sm" : "border-slate-200"
+      }`}
+    >
+      {/* Header (always visible, click to toggle) */}
+      <button
+        onClick={onToggle}
+        aria-expanded={expanded}
+        className="w-full flex items-start gap-3 p-3 text-left hover:bg-slate-50 transition-colors"
+      >
+        <span className="flex-shrink-0 w-7 h-7 rounded-lg bg-slate-800 text-white text-[11px] font-black flex items-center justify-center mt-0.5">
+          {index + 1}
+        </span>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-start justify-between gap-2 mb-1">
+            <h4 className="text-xs font-bold text-slate-800 leading-snug flex-1">{video.title}</h4>
+            <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full flex-shrink-0 ${video.tagColor}`}>
+              {video.tag}
+            </span>
+          </div>
+          <p className="text-[10px] text-slate-500 leading-relaxed">{video.desc}</p>
         </div>
-        <p className="text-[10px] text-slate-500 leading-relaxed">{video.desc}</p>
-      </div>
+        <span
+          className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center mt-0.5 transition-colors ${
+            hasVideo
+              ? expanded
+                ? "bg-orange-500 text-white"
+                : "bg-orange-100 text-orange-600"
+              : "bg-slate-200 text-slate-400"
+          }`}
+        >
+          {expanded
+            ? <ChevronUp className="w-4 h-4" />
+            : <Play className="w-3.5 h-3.5 ml-0.5" fill={hasVideo ? "currentColor" : "none"} />
+          }
+        </span>
+      </button>
+
+      {/* Expanded: iframe */}
+      {expanded && hasVideo && (
+        <div className="border-t border-slate-200">
+          <div className="relative aspect-video bg-black">
+            <iframe
+              src={embedUrl}
+              className="absolute inset-0 w-full h-full"
+              frameBorder={0}
+              allowFullScreen
+              allow="autoplay; fullscreen"
+            />
+            <div className="absolute top-2 right-2 z-10 flex items-center gap-1 bg-emerald-500/90 rounded px-1.5 py-0.5 pointer-events-none">
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+              <span className="text-white text-[9px] font-bold">実デモ</span>
+            </div>
+          </div>
+          <div className="px-3 py-2 flex items-center justify-end bg-slate-50">
+            <a
+              href={video.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-[10px] font-bold text-purple-600 hover:text-purple-700 transition-colors"
+            >
+              Loomで開く
+              <ExternalLink className="w-2.5 h-2.5" />
+            </a>
+          </div>
+        </div>
+      )}
+
+      {/* Expanded: placeholder for videos without URL */}
+      {expanded && !hasVideo && (
+        <div className="relative aspect-video bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center border-t border-slate-200">
+          <div className="flex flex-col items-center justify-center gap-2">
+            <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/30">
+              <Play className="w-5 h-5 text-white ml-0.5" fill="white" />
+            </div>
+            <span className="text-white/60 text-[10px] font-medium">動画準備中</span>
+          </div>
+          <div className="absolute bottom-2 right-2 flex items-center gap-1 bg-black/60 rounded px-1.5 py-0.5">
+            <Clock className="w-2.5 h-2.5 text-white" />
+            <span className="text-white text-[9px]">{video.duration}</span>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
 
 export function IndustryCasesSection() {
-  const [expanded, setExpanded] = useState<string | null>("construction")
+  const [expanded, setExpanded] = useState<string | null>("common")
+  const [expandedVideos, setExpandedVideos] = useState<Record<string, Set<number>>>({})
+
+  const isVideoExpanded = (indId: string, idx: number) =>
+    expandedVideos[indId]?.has(idx) ?? false
+
+  const toggleVideo = (indId: string, idx: number) => {
+    setExpandedVideos((prev) => {
+      const set = new Set(prev[indId] ?? [])
+      if (set.has(idx)) set.delete(idx)
+      else set.add(idx)
+      return { ...prev, [indId]: set }
+    })
+  }
+
+  const expandAndScrollToVideo = (indId: string, idx: number) => {
+    setExpandedVideos((prev) => {
+      const set = new Set(prev[indId] ?? [])
+      set.add(idx)
+      return { ...prev, [indId]: set }
+    })
+    setTimeout(() => {
+      document
+        .getElementById(`video-${indId}-${idx}`)
+        ?.scrollIntoView({ behavior: "smooth", block: "start" })
+    }, 60)
+  }
 
   return (
     <div className="space-y-2">
@@ -415,9 +522,52 @@ export function IndustryCasesSection() {
                       {ind.videos.length}本
                     </span>
                   </div>
+
+                  {/* Chip index — quickly see all videos at a glance, click to play */}
+                  {ind.videos.length > 1 && (
+                    <div className="mb-3 p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+                      <p className="text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">
+                        収録動画 一覧（クリックでジャンプ＆再生）
+                      </p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {ind.videos.map((v, i) => {
+                          const active = isVideoExpanded(ind.id, i)
+                          return (
+                            <button
+                              key={i}
+                              onClick={() => expandAndScrollToVideo(ind.id, i)}
+                              className={`inline-flex items-center gap-1 text-[10px] font-bold pl-1 pr-2 py-1 rounded-full border transition-colors ${
+                                active
+                                  ? "bg-orange-500 text-white border-orange-500"
+                                  : "bg-white text-slate-600 border-slate-200 hover:bg-slate-100 hover:text-slate-800"
+                              }`}
+                              title={v.title}
+                            >
+                              <span
+                                className={`w-3.5 h-3.5 rounded-full text-[8px] font-bold flex items-center justify-center ${
+                                  active ? "bg-white text-orange-600" : "bg-slate-800 text-white"
+                                }`}
+                              >
+                                {i + 1}
+                              </span>
+                              <span className="truncate max-w-[160px] sm:max-w-[200px]">{v.title}</span>
+                            </button>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )}
+
                   <div className="space-y-3">
                     {ind.videos.map((video, i) => (
-                      <VideoPlaceholder key={i} video={video} index={i} />
+                      <VideoPlaceholder
+                        key={i}
+                        video={video}
+                        index={i}
+                        indId={ind.id}
+                        expanded={isVideoExpanded(ind.id, i)}
+                        onToggle={() => toggleVideo(ind.id, i)}
+                      />
                     ))}
                   </div>
                 </div>
