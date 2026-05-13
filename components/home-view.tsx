@@ -471,43 +471,6 @@ export function HomeView({ onNavigate }: HomeViewProps) {
         </motion.div>
       )}
 
-      {/* ===== PINNED SCRIPTS ===== */}
-      {pinnedKeys.length > 0 && (
-        <motion.div variants={fadeUp} className="px-4 lg:px-8 pt-4">
-          <div className="flex items-center gap-2 mb-2 px-1">
-            <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-              ピン留めスクリプト
-            </span>
-          </div>
-          <div className="space-y-2">
-            {pinnedKeys.map((key) => {
-              const s = scripts[key as keyof typeof scripts]
-              if (!s) return null
-              const PinIcon = s.icon
-              return (
-                <motion.button
-                  key={key}
-                  whileTap={{ scale: 0.97 }}
-                  whileHover={{ x: 3 }}
-                  onClick={() => onNavigate(2)}
-                  className="w-full flex items-center gap-3 px-3 py-3 bg-amber-50 border border-amber-100 rounded-xl text-left group hover:border-amber-200 transition-colors"
-                >
-                  <div className={cn("w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0", s.badgeBg)}>
-                    <PinIcon className={cn("w-4 h-4", s.badgeText)} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs font-bold text-slate-700">{s.title}</p>
-                    <p className="text-[10px] text-slate-400 truncate mt-0.5">{s.phases[0].variants.default.slice(0, 36)}…</p>
-                  </div>
-                  <ChevronRight className="w-4 h-4 text-amber-300 group-hover:text-amber-500 transition-colors" />
-                </motion.button>
-              )
-            })}
-          </div>
-        </motion.div>
-      )}
-
       {/* ===== QUICK ACTIONS (new feature) ===== */}
       <div className="px-4 lg:px-8 pt-5 lg:pt-6 pb-1">
         <motion.div variants={fadeUp} className="flex items-center gap-2 mb-3 px-1">
