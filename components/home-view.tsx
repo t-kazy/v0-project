@@ -26,7 +26,7 @@ import { useLocalStorage } from "@/hooks/use-local-storage"
 import { scripts } from "@/components/sections/talk-scripts"
 import { cn } from "@/lib/utils"
 
-const CLOSING_TOTAL = 5
+const CLOSING_TOTAL = scripts.standard.phases.length
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
@@ -34,21 +34,20 @@ const CLOSING_TOTAL = 5
 
 const sections = [
   { id: 0, icon: ClipboardCheck, label: "商談前チェック", timing: "商談10分前", phase: "before" as const },
-  { id: 7, icon: Dumbbell, label: "ロープレ(テスト/練習/参考)", timing: "商談前の実力確認＋実商談ログ", phase: "before" as const },
-  { id: 9, icon: CalendarDays, label: "稼働カレンダー", timing: "テスト合格後・稼働枠登録", phase: "before" as const },
-  { id: 1, icon: GitBranch, label: "クロージングフロー", timing: "商談中・流れの確認", phase: "during" as const },
-  { id: 2, icon: FileText, label: "トークスクリプト", timing: "言葉に詰まったとき", phase: "during" as const },
-  { id: 3, icon: Building2, label: "業種別事例", timing: "事例を見せたいとき", phase: "during" as const },
-  { id: 4, icon: MessageSquareWarning, label: "切り返しトーク集", timing: "懸念を出されたとき", phase: "during" as const },
-  { id: 5, icon: Calculator, label: "料金・ROI", timing: "お金の話になったとき", phase: "during" as const },
-  { id: 8, icon: Banknote, label: "助成金申請フォーム", timing: "クロージング→契約に進むとき", phase: "during" as const },
-  { id: 6, icon: CheckCircle2, label: "商談後チェック", timing: "商談終了直後", phase: "after" as const },
+  { id: 6, icon: Dumbbell, label: "ロープレ(テスト/練習/参考)", timing: "商談前の実力確認＋実商談ログ", phase: "before" as const },
+  { id: 8, icon: CalendarDays, label: "稼働カレンダー", timing: "テスト合格後・稼働枠登録", phase: "before" as const },
+  { id: 1, icon: GitBranch, label: "セールスフロー・スクリプト", timing: "商談中・流れの確認＋トークスクリプト", phase: "during" as const },
+  { id: 2, icon: Building2, label: "業種別事例", timing: "事例を見せたいとき", phase: "during" as const },
+  { id: 3, icon: MessageSquareWarning, label: "切り返しトーク集", timing: "懸念を出されたとき", phase: "during" as const },
+  { id: 4, icon: Calculator, label: "料金・ROI", timing: "お金の話になったとき", phase: "during" as const },
+  { id: 7, icon: Banknote, label: "助成金申請フォーム", timing: "クロージング→契約に進むとき", phase: "during" as const },
+  { id: 5, icon: CheckCircle2, label: "商談後チェック", timing: "商談終了直後", phase: "after" as const },
 ]
 
 const quickActions = [
-  { id: 4, icon: MessageSquareWarning, label: "切り返し", desc: "トーク集を確認", color: "from-orange-500 to-red-600", iconBg: "bg-orange-500/20" },
-  { id: 2, icon: FileText, label: "スクリプト", desc: "トーク確認", color: "from-blue-500 to-blue-700", iconBg: "bg-blue-500/20" },
-  { id: 5, icon: Calculator, label: "料金提示", desc: "ROI計算", color: "from-emerald-500 to-teal-700", iconBg: "bg-emerald-500/20" },
+  { id: 3, icon: MessageSquareWarning, label: "切り返し", desc: "トーク集を確認", color: "from-orange-500 to-red-600", iconBg: "bg-orange-500/20" },
+  { id: 1, icon: GitBranch, label: "フロー/スクリプト", desc: "セールスフロー", color: "from-blue-500 to-blue-700", iconBg: "bg-blue-500/20" },
+  { id: 4, icon: Calculator, label: "料金提示", desc: "ROI計算", color: "from-emerald-500 to-teal-700", iconBg: "bg-emerald-500/20" },
 ]
 
 /* ------------------------------------------------------------------ */
@@ -80,7 +79,7 @@ interface HomeViewProps {
 
 export function HomeView({ onNavigate }: HomeViewProps) {
   const [searchQuery, setSearchQuery] = useState("")
-  const [completedSteps] = useLocalStorage<number[]>("closing-progress", [])
+  const [completedSteps] = useLocalStorage<string[]>("closing-progress-13", [])
   const [pinnedKeys] = useLocalStorage<string[]>("pinned-scripts", [])
 
   const filteredSections = searchQuery
@@ -241,7 +240,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
           {/* ウリアゲAIX */}
           <motion.button
             variants={scaleIn}
-            onClick={() => onNavigate(2)}
+            onClick={() => onNavigate(1)}
             whileTap={{ scale: 0.95 }}
             whileHover={{ scale: 1.03, y: -3 }}
             className="relative overflow-hidden rounded-2xl flex flex-col items-center p-0 group"
@@ -416,14 +415,14 @@ export function HomeView({ onNavigate }: HomeViewProps) {
         </motion.div>
       </div>
 
-      {/* ===== CLOSING PROGRESS TRACKER ===== */}
+      {/* ===== SALES FLOW PROGRESS TRACKER ===== */}
       {completedSteps.length > 0 && (
         <motion.div variants={fadeUp} className="px-4 lg:px-8 pt-5 lg:pt-6">
           <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-4">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <GitBranch className="w-4 h-4 text-blue-500" />
-                <span className="text-sm font-bold text-slate-800">クロージング進捗</span>
+                <span className="text-sm font-bold text-slate-800">セールスフロー進捗</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-xs font-black text-slate-800">
@@ -445,27 +444,29 @@ export function HomeView({ onNavigate }: HomeViewProps) {
                   background:
                     completedSteps.length === CLOSING_TOTAL
                       ? "linear-gradient(90deg,#10b981,#34d399)"
-                      : "linear-gradient(90deg,#3b82f6,#8b5cf6)",
+                      : "linear-gradient(90deg,#f59e0b,#ec4899)",
                 }}
                 initial={{ width: 0 }}
                 animate={{ width: `${(completedSteps.length / CLOSING_TOTAL) * 100}%` }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
               />
             </div>
-            <div className="flex justify-between mt-2">
-              {["現状把握", "課題深掘", "影響", "理想", "決定"].map((label, i) => (
-                <div key={i} className="flex flex-col items-center gap-1">
-                  <div className={cn(
-                    "w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black transition-colors",
-                    completedSteps.includes(i + 1)
-                      ? "bg-blue-500 text-white shadow-sm"
-                      : "bg-slate-100 text-slate-300"
-                  )}>
-                    {completedSteps.includes(i + 1) ? "✓" : i + 1}
+            <div className="flex justify-between mt-2 gap-0.5">
+              {scripts.standard.phases.map((p, i) => {
+                const done = completedSteps.includes(p.id)
+                return (
+                  <div key={p.id} className="flex flex-col items-center gap-0.5 flex-1 min-w-0">
+                    <div className={cn(
+                      "w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-black transition-colors",
+                      done
+                        ? "bg-gradient-to-br from-amber-500 to-rose-500 text-white shadow-sm"
+                        : "bg-slate-100 text-slate-300"
+                    )}>
+                      {done ? "✓" : i + 1}
+                    </div>
                   </div>
-                  <span className="text-[8px] text-slate-300">{label}</span>
-                </div>
-              ))}
+                )
+              })}
             </div>
           </div>
         </motion.div>

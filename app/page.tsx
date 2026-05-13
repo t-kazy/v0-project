@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion"
 import {
   ClipboardCheck,
   GitBranch,
-  FileText,
   Building2,
   MessageSquareWarning,
   Calculator,
@@ -20,7 +19,6 @@ import {
 } from "lucide-react"
 import { PreMeetingSection } from "@/components/sections/pre-meeting"
 import { RoleplaySection } from "@/components/sections/roleplay"
-import { ClosingFlowSection } from "@/components/sections/closing-flow"
 import { TalkScriptsSection } from "@/components/sections/talk-scripts"
 import { IndustryCasesSection } from "@/components/sections/industry-cases"
 import { ObjectionsSection } from "@/components/sections/objections"
@@ -34,15 +32,14 @@ import { MeetingTimer } from "@/components/meeting-timer"
 
 const tabs = [
   { id: 0, icon: ClipboardCheck,       label: "商談前チェック",   shortLabel: "準備", phase: "before", activeText: "text-blue-600",   activeBorder: "border-blue-500",   activeBg: "bg-blue-600",   mobileBg: "bg-blue-50"   },
-  { id: 1, icon: GitBranch,            label: "クロージングフロー", shortLabel: "フロー", phase: "during", activeText: "text-blue-600",   activeBorder: "border-blue-500",   activeBg: "bg-blue-600",   mobileBg: "bg-blue-50"   },
-  { id: 2, icon: FileText,             label: "トークスクリプト", shortLabel: "スクリプト", phase: "during", activeText: "text-blue-600",   activeBorder: "border-blue-500",   activeBg: "bg-blue-600",   mobileBg: "bg-blue-50"   },
-  { id: 3, icon: Building2,            label: "業種別事例",       shortLabel: "事例", phase: "during", activeText: "text-blue-600",   activeBorder: "border-blue-500",   activeBg: "bg-blue-600",   mobileBg: "bg-blue-50"   },
-  { id: 4, icon: MessageSquareWarning, label: "切り返しトーク集", shortLabel: "切り返し", phase: "during", activeText: "text-orange-600", activeBorder: "border-orange-500", activeBg: "bg-orange-500", mobileBg: "bg-orange-50" },
-  { id: 5, icon: Calculator,           label: "料金・ROI",        shortLabel: "料金", phase: "during", activeText: "text-blue-600",   activeBorder: "border-blue-500",   activeBg: "bg-blue-600",   mobileBg: "bg-blue-50"   },
-  { id: 6, icon: CheckCircle2,         label: "商談後チェック",   shortLabel: "事後", phase: "after",  activeText: "text-green-600",  activeBorder: "border-green-500",  activeBg: "bg-green-600",  mobileBg: "bg-green-50"  },
-  { id: 7, icon: Dumbbell,             label: "ロープレ(テスト/練習/参考)", shortLabel: "ロープレ", phase: "before", activeText: "text-purple-600", activeBorder: "border-purple-500", activeBg: "bg-purple-600", mobileBg: "bg-purple-50" },
-  { id: 8, icon: Banknote,             label: "助成金申請フォーム", shortLabel: "助成金", phase: "during", activeText: "text-emerald-600", activeBorder: "border-emerald-500", activeBg: "bg-emerald-600", mobileBg: "bg-emerald-50" },
-  { id: 9, icon: CalendarDays,         label: "稼働カレンダー",   shortLabel: "稼働", phase: "before", activeText: "text-indigo-600", activeBorder: "border-indigo-500", activeBg: "bg-indigo-600", mobileBg: "bg-indigo-50" },
+  { id: 1, icon: GitBranch,            label: "セールスフロー・スクリプト", shortLabel: "フロー/スクリプト", phase: "during", activeText: "text-blue-600",   activeBorder: "border-blue-500",   activeBg: "bg-blue-600",   mobileBg: "bg-blue-50"   },
+  { id: 2, icon: Building2,            label: "業種別事例",       shortLabel: "事例", phase: "during", activeText: "text-blue-600",   activeBorder: "border-blue-500",   activeBg: "bg-blue-600",   mobileBg: "bg-blue-50"   },
+  { id: 3, icon: MessageSquareWarning, label: "切り返しトーク集", shortLabel: "切り返し", phase: "during", activeText: "text-orange-600", activeBorder: "border-orange-500", activeBg: "bg-orange-500", mobileBg: "bg-orange-50" },
+  { id: 4, icon: Calculator,           label: "料金・ROI",        shortLabel: "料金", phase: "during", activeText: "text-blue-600",   activeBorder: "border-blue-500",   activeBg: "bg-blue-600",   mobileBg: "bg-blue-50"   },
+  { id: 5, icon: CheckCircle2,         label: "商談後チェック",   shortLabel: "事後", phase: "after",  activeText: "text-green-600",  activeBorder: "border-green-500",  activeBg: "bg-green-600",  mobileBg: "bg-green-50"  },
+  { id: 6, icon: Dumbbell,             label: "ロープレ(テスト/練習/参考)", shortLabel: "ロープレ", phase: "before", activeText: "text-purple-600", activeBorder: "border-purple-500", activeBg: "bg-purple-600", mobileBg: "bg-purple-50" },
+  { id: 7, icon: Banknote,             label: "助成金申請フォーム", shortLabel: "助成金", phase: "during", activeText: "text-emerald-600", activeBorder: "border-emerald-500", activeBg: "bg-emerald-600", mobileBg: "bg-emerald-50" },
+  { id: 8, icon: CalendarDays,         label: "稼働カレンダー",   shortLabel: "稼働", phase: "before", activeText: "text-indigo-600", activeBorder: "border-indigo-500", activeBg: "bg-indigo-600", mobileBg: "bg-indigo-50" },
 ]
 
 const phaseGroups = [
@@ -66,15 +63,14 @@ export default function SalesControlPanel() {
   const renderSection = () => {
     switch (activeTab) {
       case 0: return <PreMeetingSection onNavigate={setActiveTab} />
-      case 1: return <ClosingFlowSection />
-      case 2: return <TalkScriptsSection />
-      case 3: return <IndustryCasesSection />
-      case 4: return <ObjectionsSection />
-      case 5: return <PricingROISection />
-      case 6: return <PostMeetingSection />
-      case 7: return <RoleplaySection />
-      case 8: return <SubsidyApplicationSection />
-      case 9: return <AvailabilityCalendarSection />
+      case 1: return <TalkScriptsSection />
+      case 2: return <IndustryCasesSection />
+      case 3: return <ObjectionsSection />
+      case 4: return <PricingROISection />
+      case 5: return <PostMeetingSection />
+      case 6: return <RoleplaySection />
+      case 7: return <SubsidyApplicationSection />
+      case 8: return <AvailabilityCalendarSection />
       default: return null
     }
   }

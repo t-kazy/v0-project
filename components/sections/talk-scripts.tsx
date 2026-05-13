@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { CopyButton } from "@/components/copy-button"
 import {
@@ -10,9 +10,95 @@ import {
   MessageCircle, Calculator, Quote, BookMarked, XCircle, Check, Search,
   Lightbulb, Building2, User as UserIcon,
   Wand2, RotateCcw, ArrowRight, Compass, Pencil,
+  Cpu, FileText as PaperIcon, MessageSquareQuote, ExternalLink, ArrowUpRight, CheckCircle2,
 } from "lucide-react"
 import { useLocalStorage } from "@/hooks/use-local-storage"
 import { cn } from "@/lib/utils"
+
+/* ------------------------------------------------------------------ */
+/*  Pre-call data (ITリテラシー / AI危機診断 / エスカレーション)        */
+/* ------------------------------------------------------------------ */
+
+type LiteracyLevel = "high" | "low"
+
+const escalationTriggers = [
+  {
+    category: "開発系",
+    examples: ["スクラッチ開発・カスタム機能要望", "既存システムとの特殊な連携", "独自AIモデルの構築要望", "技術的に踏み込んだPoC依頼"],
+  },
+  {
+    category: "マーケティング系",
+    examples: ["個別マーケ戦略の立案", "広告運用・MA設計の相談", "ブランディング・LP制作", "データ分析基盤の構築"],
+  },
+  {
+    category: "その他",
+    examples: ["当社標準サービス範囲外の要望", "他社サービスとの統合・置き換え", "特殊な契約形態(レベニューシェア等)"],
+  },
+]
+
+const ESCALATION_SCRIPT = `「ありがとうございます。〇〇というご相談、非常に重要なポイントですね。
+
+ただ、その領域は当社の標準的なサービス範囲を超える部分があり、私の判断だけで詳細をお約束することができません。
+
+最適な形でご提案させていただくため、一度社内に持ち帰らせてください。
+
+具体的にどのような〇〇をお考えか、もう少し詳しくお聞かせいただけますか？
+
+内容を整理のうえ、〇営業日以内に運営チームから最適な対応案と次のステップをご連絡いたします。」`
+
+const ESCALATION_HEARING = [
+  "ご要望の具体的な内容（何を / どこまで）",
+  "想定スケジュール（いつまでに）",
+  "想定予算規模",
+  "意思決定者・関与者",
+  "現在検討中の他社・他案",
+]
+
+const literacyGuides: Record<LiteracyLevel, {
+  label: string
+  sub: string
+  emoji: string
+  accent: string
+  bg: string
+  border: string
+  text: string
+  icon: typeof Cpu
+  approach: string
+  watchOuts: string[]
+}> = {
+  high: {
+    label: "ITリテラシー: 高い",
+    sub: "テック先行型（DX推進中・自社開発検討あり）",
+    emoji: "💻",
+    accent: "from-blue-500 to-indigo-600",
+    bg: "bg-blue-50",
+    border: "border-blue-200",
+    text: "text-blue-700",
+    icon: Cpu,
+    approach: "数値・データ重視で論理的に。技術仕様や連携性にも踏み込み、自社開発との比較を視野に入れて話す。",
+    watchOuts: [
+      "「自社で作れる」プライドを崩す論点を準備（経営的ROI / 機会損失）",
+      "技術質問への即答力が信頼に直結",
+      "話すペースは速め・抽象論より具体仕様",
+    ],
+  },
+  low: {
+    label: "ITリテラシー: 低い",
+    sub: "アナログ慣性型（紙・ハンコ・スマホ中心）",
+    emoji: "📄",
+    accent: "from-orange-500 to-red-500",
+    bg: "bg-orange-50",
+    border: "border-orange-200",
+    text: "text-orange-700",
+    icon: PaperIcon,
+    approach: "専門用語を封印し、成功事例の「物語」で語る。小さな第一歩を提示して心理的ハードルを下げる。",
+    watchOuts: [
+      "1度「分かりにくい」と思われると一気に冷める",
+      "成功事例は同業 or 同規模の具体例を用意",
+      "話すペースはゆっくり・図や紙でも示す",
+    ],
+  },
+}
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -1399,12 +1485,34 @@ export function TalkScriptsSection() {
   const [activePhase, setActivePhase] = useState(0)
   const [activeVariant, setActiveVariant] = useState<VariantKey>("default")
   const [openAux, setOpenAux] = useState<Set<string>>(new Set())
-  const [selectedConfirmIds, setSelectedConfirmIds] = useState<string[]>([
-    "burden",
-    "veteran_dep",
-    "succession",
-  ])
+  const [selectedConfirmIds, setSelectedConfirmIds] = useLocalStorage<string[]>(
+    "sales-flow-confirm-ids",
+    ["burden", "veteran_dep", "succession"]
+  )
   const [linkedEditorOpen, setLinkedEditorOpen] = useState(false)
+  const [completedPhaseIds, setCompletedPhaseIds] = useLocalStorage<string[]>(
+    "closing-progress-13",
+    []
+  )
+  const [literacyLevel, setLiteracyLevel] = useLocalStorage<LiteracyLevel | null>(
+    "closing-literacy-level",
+    null
+  )
+  const [escalationOpen, setEscalationOpen] = useState(false)
+
+  // Allow other sections (e.g. closing-flow) to deep-link into a specific phase
+  // by writing localStorage["sales-flow-target-phase"] = index before switching tabs.
+  useEffect(() => {
+    if (typeof window === "undefined") return
+    const raw = window.localStorage.getItem("sales-flow-target-phase")
+    if (raw === null) return
+    const idx = parseInt(raw, 10)
+    if (Number.isFinite(idx) && idx >= 0 && idx < scripts.standard.phases.length) {
+      setActivePhase(idx)
+      setActiveVariant("default")
+    }
+    window.localStorage.removeItem("sales-flow-target-phase")
+  }, [])
 
   const current = scripts.standard
   const Icon = current.icon
@@ -1451,6 +1559,21 @@ export function TalkScriptsSection() {
     ? buildFinalCloseScript(selectedConfirmIds)
     : baseScript
 
+  const currentPhaseId = current.phases[activePhase]?.id ?? ""
+  const isCurrentPhaseCompleted = completedPhaseIds.includes(currentPhaseId)
+  const completedCount = completedPhaseIds.length
+  const totalPhases = current.phases.length
+  const progressPct = (completedCount / totalPhases) * 100
+
+  const toggleCompletePhase = (id: string) => {
+    setCompletedPhaseIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    )
+  }
+  const resetProgress = () => setCompletedPhaseIds([])
+
+  const guide = literacyLevel ? literacyGuides[literacyLevel] : null
+
   const toggleConfirm = (id: string) => {
     setSelectedConfirmIds((prev) => {
       if (prev.includes(id)) return prev.filter((x) => x !== id)
@@ -1470,6 +1593,291 @@ export function TalkScriptsSection() {
 
   return (
     <div className="space-y-4">
+
+      {/* ===== AI危機診断 CARD ===== */}
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div className="h-1 bg-gradient-to-r from-orange-500 to-red-500" />
+        <div className="p-4 space-y-2.5">
+          <div>
+            <div className="flex items-center gap-1.5 mb-0.5">
+              <AlertTriangle className="w-3.5 h-3.5 text-orange-500" />
+              <span className="text-[9px] font-bold text-orange-600 uppercase tracking-widest">ニーズ喚起ツール</span>
+            </div>
+            <p className="text-sm font-bold text-slate-800 leading-tight">AI危機診断</p>
+            <p className="text-[10px] text-slate-500 mt-0.5 leading-relaxed">
+              理想は商談前に顧客側で実施。未診断の場合は商談中にこの画面を共有 / URLを送って一緒に進めてください
+            </p>
+          </div>
+          <a
+            href="https://aidiagnosis-wxpz59bh.manus.space/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-lg bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-bold shadow-sm hover:shadow-md transition-all"
+          >
+            <AlertTriangle className="w-4 h-4" />
+            AI危機診断を開く
+            <ExternalLink className="w-3.5 h-3.5 opacity-80" />
+          </a>
+        </div>
+      </div>
+
+      {/* ===== LITERACY BRANCH CARD ===== */}
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div className="h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-orange-500" />
+        <div className="p-4 space-y-3">
+          <div className="flex items-start justify-between gap-2">
+            <div>
+              <div className="flex items-center gap-1.5 mb-0.5">
+                <Sparkles className="w-3.5 h-3.5 text-purple-500" />
+                <span className="text-[9px] font-bold text-purple-600 uppercase tracking-widest">大前提</span>
+              </div>
+              <p className="text-sm font-bold text-slate-800 leading-tight">お客様のITリテラシーは？</p>
+              <p className="text-[10px] text-slate-400 mt-0.5">話し方・キーワード選びの方針が変わります</p>
+            </div>
+            {literacyLevel && (
+              <button
+                onClick={() => setLiteracyLevel(null)}
+                className="text-[10px] text-slate-400 hover:text-slate-600 flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-slate-100 transition-colors flex-shrink-0"
+              >
+                <XCircle className="w-3 h-3" />
+                変更
+              </button>
+            )}
+          </div>
+
+          <div className="grid grid-cols-2 gap-2.5">
+            {(["high", "low"] as LiteracyLevel[]).map((lv) => {
+              const g = literacyGuides[lv]
+              const LIcon = g.icon
+              const selected = literacyLevel === lv
+              return (
+                <button
+                  key={lv}
+                  onClick={() => setLiteracyLevel(lv)}
+                  className={cn(
+                    "relative p-3 rounded-xl border-2 transition-all duration-200 text-left",
+                    selected
+                      ? `${g.border} ${g.bg}`
+                      : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50"
+                  )}
+                >
+                  {selected && (
+                    <div className={cn(
+                      "absolute top-2 right-2 w-4 h-4 rounded-full flex items-center justify-center",
+                      `bg-gradient-to-br ${g.accent}`
+                    )}>
+                      <CheckCircle2 className="w-3 h-3 text-white" />
+                    </div>
+                  )}
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <LIcon className={cn("w-4 h-4", selected ? g.text : "text-slate-400")} />
+                    <span className={cn("text-[9px] font-black uppercase tracking-wider", selected ? g.text : "text-slate-400")}>
+                      {lv === "high" ? "高い" : "低い"}
+                    </span>
+                  </div>
+                  <p className={cn("text-xs font-bold leading-tight", selected ? "text-slate-800" : "text-slate-700")}>
+                    {lv === "high" ? "テック先行型" : "アナログ慣性型"}
+                  </p>
+                  <p className="text-[10px] text-slate-500 mt-0.5 leading-tight">
+                    {lv === "high" ? "DX推進中・自社開発検討" : "紙・ハンコ・スマホ中心"}
+                  </p>
+                </button>
+              )
+            })}
+          </div>
+
+          <AnimatePresence mode="wait">
+            {guide && (
+              <motion.div
+                key={literacyLevel}
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="space-y-2.5"
+              >
+                <div className={cn("p-2.5 rounded-lg border", guide.border, guide.bg)}>
+                  <p className={cn("text-[10px] font-bold uppercase tracking-wider mb-1", guide.text)}>
+                    アプローチ基本方針
+                  </p>
+                  <p className="text-[11px] text-slate-700 leading-relaxed">{guide.approach}</p>
+                </div>
+                <div className="p-2.5 rounded-lg border border-amber-200 bg-amber-50">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-amber-700 mb-1.5 flex items-center gap-1">
+                    <AlertTriangle className="w-3 h-3" />
+                    商談の進め方・注意点
+                  </p>
+                  <ul className="space-y-1">
+                    {guide.watchOuts.map((w, i) => (
+                      <li key={i} className="text-[11px] text-slate-700 leading-relaxed flex gap-1.5">
+                        <span className="text-amber-500 flex-shrink-0">•</span>
+                        <span>{w}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.div>
+            )}
+            {!guide && (
+              <p className="text-[10px] text-slate-400 text-center py-1">
+                選択するとアプローチ方針が表示されます
+              </p>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+
+      {/* ===== ESCALATION CARD (high literacy only) ===== */}
+      <AnimatePresence>
+        {literacyLevel === "high" && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25 }}
+            className="bg-white rounded-2xl border-2 border-rose-200 shadow-sm overflow-hidden"
+          >
+            <div className="h-1 bg-gradient-to-r from-rose-500 to-orange-500" />
+            <button
+              onClick={() => setEscalationOpen((v) => !v)}
+              className="w-full flex items-center gap-3 p-4 text-left hover:bg-rose-50/40 transition-colors"
+            >
+              <div className="w-9 h-9 rounded-xl bg-rose-100 flex items-center justify-center flex-shrink-0">
+                <AlertTriangle className="w-4 h-4 text-rose-600" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5 mb-0.5">
+                  <ArrowUpRight className="w-3 h-3 text-rose-500" />
+                  <span className="text-[9px] font-bold text-rose-600 uppercase tracking-widest">
+                    テック先行型 限定 / 必要時のみ
+                  </span>
+                </div>
+                <p className="text-sm font-bold text-slate-800 leading-tight">
+                  こんな相談が出たら…？
+                </p>
+                <p className="text-[10px] text-slate-500 mt-0.5 leading-tight">
+                  開発 / マーケの個別相談 → クローザー判断不可・持ち帰り対応
+                </p>
+              </div>
+              {escalationOpen
+                ? <ChevronUp className="w-4 h-4 text-slate-400 flex-shrink-0" />
+                : <ChevronDown className="w-4 h-4 text-slate-400 flex-shrink-0" />}
+            </button>
+
+            <AnimatePresence>
+              {escalationOpen && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.22, ease: "easeOut" }}
+                  className="overflow-hidden"
+                >
+                  <div className="px-4 pb-4 space-y-3 border-t border-rose-100">
+                    <p className="text-[11px] text-slate-600 leading-relaxed pt-3">
+                      テック先行型のお客様からは、現場DX以外に<span className="font-bold text-rose-700">開発・マーケの個別相談</span>が
+                      来ることがあります。クローザーの一存で進めず、必ず一度持ち帰って運営判断を仰いでください。
+                    </p>
+                    <div className="bg-rose-50 border border-rose-200 rounded-xl p-3 space-y-2">
+                      <p className="text-[10px] font-bold text-rose-700 uppercase tracking-wider">
+                        エスカレーション対象（こんな相談が出たら持ち帰り）
+                      </p>
+                      <div className="space-y-2">
+                        {escalationTriggers.map((t) => (
+                          <div key={t.category} className="bg-white border border-rose-100 rounded-lg p-2">
+                            <p className="text-[11px] font-bold text-rose-700 mb-1 flex items-center gap-1">
+                              <Building2 className="w-3 h-3" />
+                              {t.category}
+                            </p>
+                            <ul className="space-y-0.5">
+                              {t.examples.map((ex, i) => (
+                                <li key={i} className="text-[11px] text-slate-700 flex gap-1.5 leading-snug">
+                                  <span className="text-rose-400 flex-shrink-0">•</span>
+                                  <span>{ex}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <p className="text-[10px] font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1">
+                          <MessageSquareQuote className="w-3 h-3 text-rose-500" />
+                          持ち帰りトークスクリプト
+                        </p>
+                        <CopyButton text={ESCALATION_SCRIPT} />
+                      </div>
+                      <div className="rounded-xl p-3 border-l-4 border-rose-300 bg-slate-50">
+                        <p className="font-mono text-xs text-slate-700 whitespace-pre-wrap leading-relaxed">
+                          {ESCALATION_SCRIPT}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="bg-amber-50 border border-amber-200 rounded-xl p-3">
+                      <p className="text-[10px] font-bold text-amber-700 uppercase tracking-wider mb-1.5">
+                        持ち帰る前にヒアリングする項目
+                      </p>
+                      <ul className="space-y-1">
+                        {ESCALATION_HEARING.map((item, i) => (
+                          <li key={i} className="text-[11px] text-slate-700 flex gap-1.5 leading-snug">
+                            <span className="inline-flex items-center justify-center w-3.5 h-3.5 rounded bg-amber-200 text-amber-800 text-[8px] font-black flex-shrink-0">
+                              {i + 1}
+                            </span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ===== PROGRESS BAR ===== */}
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-3">
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-2">
+            <p className="text-xs font-bold text-slate-800">セールスフロー進捗</p>
+            <p className="text-[10px] text-slate-400">
+              {completedCount === totalPhases
+                ? "🎉 全フェーズ完了！"
+                : `残り ${totalPhases - completedCount} フェーズ`}
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <p className="text-xl font-black text-slate-800 leading-none">
+              {completedCount}
+              <span className="text-xs font-bold text-slate-300">/{totalPhases}</span>
+            </p>
+            <button
+              onClick={resetProgress}
+              className="w-7 h-7 rounded-lg bg-slate-100 flex items-center justify-center hover:bg-slate-200 transition-colors"
+              title="進捗をリセット"
+            >
+              <RotateCcw className="w-3 h-3 text-slate-400" />
+            </button>
+          </div>
+        </div>
+        <div className="relative h-2 bg-slate-100 rounded-full overflow-hidden">
+          <motion.div
+            className="absolute inset-y-0 left-0 rounded-full"
+            style={{
+              background:
+                progressPct === 100
+                  ? "linear-gradient(90deg, #10b981, #34d399)"
+                  : "linear-gradient(90deg, #f59e0b, #ec4899)",
+            }}
+            initial={{ width: 0 }}
+            animate={{ width: `${progressPct}%` }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+          />
+        </div>
+      </div>
 
       {/* Sticky wrapper: PHASE NAV + SCRIPT CARD だけが対象。
           下の AUX (テンプレ/数字/例え話) に入ったらナビは追随しない */}
@@ -1564,18 +1972,19 @@ export function TalkScriptsSection() {
             <div className="flex items-start gap-1.5">
               {sections.map((sec) => {
                 const phasesInSec = current.phases.slice(sec.range[0], sec.range[1])
-                const localActive =
-                  activePhase >= sec.range[1]
-                    ? phasesInSec.length - 1
-                    : activePhase >= sec.range[0]
-                    ? activePhase - sec.range[0]
-                    : -1
+                // Progress line fills based on completed phases within this section
+                const completedLocalIdx = phasesInSec
+                  .map((p, idx) => (completedPhaseIds.includes(p.id) ? idx : -1))
+                  .filter((x) => x >= 0)
+                const maxCompletedIdx = completedLocalIdx.length
+                  ? Math.max(...completedLocalIdx)
+                  : -1
                 const progressFraction =
                   phasesInSec.length <= 1
-                    ? localActive >= 0
+                    ? maxCompletedIdx >= 0
                       ? 1
                       : 0
-                    : Math.max(0, localActive) / (phasesInSec.length - 1)
+                    : Math.max(0, maxCompletedIdx) / (phasesInSec.length - 1)
                 return (
                   <div
                     key={sec.label}
@@ -1603,7 +2012,7 @@ export function TalkScriptsSection() {
                     {phasesInSec.map((p, idx) => {
                       const i = sec.range[0] + idx
                       const isActive = activePhase === i
-                      const isPassed = activePhase > i
+                      const isCompleted = completedPhaseIds.includes(p.id)
                       return (
                         <motion.button
                           key={p.id}
@@ -1622,19 +2031,19 @@ export function TalkScriptsSection() {
                               "flex items-center justify-center w-7 h-7 rounded-full text-[10px] font-black transition-all",
                               isActive
                                 ? `bg-gradient-to-br ${sec.active} text-white shadow-lg ${sec.glow} ring-2 ring-offset-2 ring-offset-white ${sec.ring}`
-                                : isPassed
+                                : isCompleted
                                 ? `bg-gradient-to-br ${sec.passed} text-white shadow-sm`
                                 : "bg-white border-2 border-slate-300 text-slate-400 group-hover:border-slate-400 group-hover:text-slate-600"
                             )}
                           >
-                            {i + 1}
+                            {isCompleted && !isActive ? "✓" : i + 1}
                           </motion.span>
                           <span
                             className={cn(
                               "text-[9px] font-bold leading-none whitespace-nowrap transition-colors",
                               isActive
                                 ? sec.text
-                                : isPassed
+                                : isCompleted
                                 ? "text-slate-600"
                                 : "text-slate-400"
                             )}
@@ -1966,25 +2375,41 @@ export function TalkScriptsSection() {
             <MetaRow icon={Mic} color="purple" label="トーンの目安" text={phase.meta.tone} />
           </div>
 
-          {/* Navigation between phases */}
-          <div className="px-4 pb-3 flex items-center justify-between border-t border-slate-100 pt-2">
-            <button
-              onClick={() => { setActivePhase((i) => Math.max(0, i - 1)); setActiveVariant("default") }}
-              disabled={activePhase === 0}
-              className="flex items-center gap-1 text-[11px] text-slate-400 hover:text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+          {/* Phase completion + Navigation */}
+          <div className="px-4 pb-3 border-t border-slate-100 pt-2 space-y-2">
+            <motion.button
+              whileTap={{ scale: 0.97 }}
+              onClick={() => toggleCompletePhase(currentPhaseId)}
+              className={cn(
+                "w-full py-2 rounded-xl inline-flex items-center justify-center gap-1.5 text-[12px] font-bold transition-all",
+                isCurrentPhaseCompleted
+                  ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+              )}
             >
-              ← 前
-            </button>
-            <p className="text-[10px] text-slate-300">
-              {activePhase + 1} / {current.phases.length}
-            </p>
-            <button
-              onClick={() => { setActivePhase((i) => Math.min(current.phases.length - 1, i + 1)); setActiveVariant("default") }}
-              disabled={activePhase === current.phases.length - 1}
-              className="flex items-center gap-1 text-[11px] text-slate-400 hover:text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-            >
-              次 →
-            </button>
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              {isCurrentPhaseCompleted ? "このフェーズ完了（取消）" : "このフェーズを完了"}
+            </motion.button>
+
+            <div className="flex items-center justify-between">
+              <button
+                onClick={() => { setActivePhase((i) => Math.max(0, i - 1)); setActiveVariant("default") }}
+                disabled={activePhase === 0}
+                className="flex items-center gap-1 text-[11px] text-slate-400 hover:text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+              >
+                ← 前
+              </button>
+              <p className="text-[10px] text-slate-300">
+                {activePhase + 1} / {current.phases.length}
+              </p>
+              <button
+                onClick={() => { setActivePhase((i) => Math.min(current.phases.length - 1, i + 1)); setActiveVariant("default") }}
+                disabled={activePhase === current.phases.length - 1}
+                className="flex items-center gap-1 text-[11px] text-slate-400 hover:text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+              >
+                次 →
+              </button>
+            </div>
           </div>
         </motion.div>
       </AnimatePresence>

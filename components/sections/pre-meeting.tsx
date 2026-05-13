@@ -568,7 +568,7 @@ export function PreMeetingSection({ onNavigate }: PreMeetingSectionProps = {}) {
             {/* Link to full flow */}
             {onNavigate && (
               <button
-                onClick={() => onNavigate(8)}
+                onClick={() => onNavigate(7)}
                 className="flex items-center justify-center gap-1.5 w-full py-2 px-3 rounded-lg bg-white border border-amber-300 text-amber-700 text-[11px] font-bold hover:bg-amber-50 transition-colors"
               >
                 詳細な対応フローを「助成金申請フォーム」タブで見る
