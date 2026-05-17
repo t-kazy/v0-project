@@ -17,7 +17,7 @@ const GROUP_NAME_TEMPLATE = "【AIX研修】株式会社〇〇様"
 const PAYMENT_TIMING_SCRIPT = `ご契約後は2週間以内のお振込みをお願いしておりますが、御社の規定上、問題ございませんでしょうか？
 もし難しい場合は、いつ頃のお振込みであれば可能か教えていただけますか？`
 
-const COMPLETION_REPORT_TEMPLATE = `・面談実施済み
+const COMPLETION_REPORT_TEMPLATE = `・商談成立済み
 ・助成金要件確認済み
 ・Googleフォーム入力完了`
 
@@ -25,7 +25,7 @@ const formPages = [
   { num: 1, label: "説明 / 企業様名" },
   { num: 2, label: "助成金対象チェック" },
   { num: 3, label: "申込・企業情報入力" },
-  { num: 4, label: "紹介者（クローザー）情報入力", note: "※個別面談の担当者(クローザー)と紹介元が違うときは両方記入" },
+  { num: 4, label: "紹介者（クローザー）情報入力", note: "※個別商談の担当者(クローザー)と紹介元が違うときは両方記入" },
 ]
 
 export function SubsidyApplicationSection() {
@@ -43,19 +43,19 @@ export function SubsidyApplicationSection() {
         </CardHeader>
         <CardContent className="pt-0 pb-4 space-y-2">
           <p className="text-xs text-slate-700 leading-relaxed">
-            助成金案件の面談において、<span className="font-bold text-amber-700">要件確認および社内連携・助成金案内開始まで</span>をスムーズに行うためのフローです。
+            助成金案件の商談において、<span className="font-bold text-amber-700">要件確認および社内連携・助成金案内開始まで</span>をスムーズに行うためのフローです。
           </p>
           <div className="grid grid-cols-3 gap-1.5 pt-1">
             <div className="bg-white border border-amber-200 rounded-lg p-2 text-center">
-              <p className="text-[9px] font-bold text-amber-600 uppercase">面談前</p>
+              <p className="text-[9px] font-bold text-amber-600 uppercase">商談前</p>
               <p className="text-[10px] text-slate-600 mt-0.5">準備</p>
             </div>
             <div className="bg-white border border-amber-200 rounded-lg p-2 text-center">
-              <p className="text-[9px] font-bold text-amber-600 uppercase">面談時</p>
+              <p className="text-[9px] font-bold text-amber-600 uppercase">商談成立時</p>
               <p className="text-[10px] text-slate-600 mt-0.5">ヒアリング</p>
             </div>
             <div className="bg-white border border-amber-200 rounded-lg p-2 text-center">
-              <p className="text-[9px] font-bold text-amber-600 uppercase">面談後</p>
+              <p className="text-[9px] font-bold text-amber-600 uppercase">商談成立後</p>
               <p className="text-[10px] text-slate-600 mt-0.5">社内連携</p>
             </div>
           </div>
@@ -68,7 +68,7 @@ export function SubsidyApplicationSection() {
         <CardHeader className="pb-2 pt-4">
           <CardTitle className="text-sm font-bold text-slate-800 flex items-center gap-2">
             <ClipboardList className="w-4 h-4 text-blue-600" />
-            面談前に必ず行うこと
+            商談前に必ず行うこと
           </CardTitle>
         </CardHeader>
         <CardContent className="pt-0 pb-4 space-y-3">
@@ -81,7 +81,7 @@ export function SubsidyApplicationSection() {
             <div className="flex-1 min-w-0 pt-0.5">
               <p className="text-xs font-bold text-slate-800 leading-snug">Googleフォームを開いておく</p>
               <p className="text-[11px] text-slate-600 mt-0.5 leading-relaxed">
-                面談中にヒアリングしながら入力します
+                商談成立時にヒアリングしながら入力します
               </p>
               <a
                 href={FORM_SHORT_URL}
@@ -123,7 +123,7 @@ export function SubsidyApplicationSection() {
         <CardHeader className="pb-2 pt-4">
           <CardTitle className="text-sm font-bold text-slate-800 flex items-center gap-2">
             <FileCheck className="w-4 h-4 text-orange-600" />
-            面談時の対応
+            商談成立時の対応
           </CardTitle>
           <p className="text-[10px] text-slate-500 mt-1">
             助成金説明後、申請希望された場合
@@ -225,7 +225,7 @@ export function SubsidyApplicationSection() {
         <CardHeader className="pb-2 pt-4">
           <CardTitle className="text-sm font-bold text-slate-800 flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-green-600" />
-            面談後の対応
+            商談成立後の対応
           </CardTitle>
         </CardHeader>
         <CardContent className="pt-0 pb-4 space-y-3">
