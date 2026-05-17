@@ -1,7 +1,7 @@
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Banknote, ExternalLink, AlertCircle, UserPlus, MessageCircle, ClipboardList, CheckCircle2, FileCheck, Users } from "lucide-react"
+import { Banknote, ExternalLink, AlertCircle, UserPlus, MessageCircle, ClipboardList, CheckCircle2, FileCheck, Users, CalendarClock } from "lucide-react"
 import { CopyButton } from "@/components/copy-button"
 
 const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSesav2xsIoGN7X5wi8qXhjN1AuvBsWHA5Ds_PWmtAyuxrUGkw/viewform"
@@ -13,6 +13,9 @@ const LINE_HADA_URL = "https://line.me/ti/p/CVFCgU7gF8"
 const LINE_OHNO_URL = "https://line.me/ti/p/LgTkPmbUxu"
 
 const GROUP_NAME_TEMPLATE = "【AIX研修】株式会社〇〇様"
+
+const PAYMENT_TIMING_SCRIPT = `ご契約後は2週間以内のお振込みをお願いしておりますが、御社の規定上、問題ございませんでしょうか？
+もし難しい場合は、いつ頃のお振込みであれば可能か教えていただけますか？`
 
 const COMPLETION_REPORT_TEMPLATE = `・面談実施済み
 ・助成金要件確認済み
@@ -177,6 +180,39 @@ export function SubsidyApplicationSection() {
               </p>
               <p className="text-[11px] text-slate-600 mt-0.5 leading-relaxed">
                 受講企業の担当者様・受講生を、その場でグループへ招待する
+              </p>
+            </div>
+          </div>
+
+          {/* STEP 3 - Payment timing confirmation */}
+          <div className="flex gap-3">
+            <div className="flex-shrink-0 w-6 h-6 rounded-full bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-sm">
+              <span className="text-white text-[11px] font-black">3</span>
+            </div>
+            <div className="flex-1 min-w-0 pt-0.5">
+              <p className="text-xs font-bold text-slate-800 leading-snug flex items-center gap-1.5">
+                <CalendarClock className="w-3 h-3 text-slate-500" />
+                振込タイミングの確認（必須）
+              </p>
+              <p className="text-[11px] text-slate-600 mt-0.5 leading-relaxed">
+                商談成立後、今後のステップをご案内する流れの中で必ず確認する。
+              </p>
+              <div className="mt-2 p-2 bg-amber-50 border border-amber-200 rounded-lg">
+                <p className="text-[10px] text-amber-800 leading-relaxed">
+                  <span className="font-bold">理由：</span>
+                  会社の規定により「契約後2週間以内の振込ができない」ケースがあるため、
+                  事前に振込可能時期を把握しておく必要があります。
+                </p>
+              </div>
+              <div className="mt-2 bg-slate-50 border border-slate-200 rounded-lg p-2">
+                <div className="flex items-center justify-between mb-1">
+                  <p className="text-[10px] font-bold text-slate-500">確認トーク例</p>
+                  <CopyButton text={PAYMENT_TIMING_SCRIPT} />
+                </div>
+                <pre className="text-[11px] text-slate-800 leading-relaxed font-sans whitespace-pre-wrap">{PAYMENT_TIMING_SCRIPT}</pre>
+              </div>
+              <p className="text-[10px] text-slate-500 mt-1.5 leading-relaxed">
+                ※ 2週間以内が難しい場合は、振込可能時期をヒアリングしLINEグループ／社内に共有
               </p>
             </div>
           </div>
